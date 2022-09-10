@@ -18,6 +18,9 @@ class SelectLoginPage extends React.Component {
                 <div className="logo">
                     Orderaholic
                 </div>
+                <div>
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </div>
 
             </div>
         );
