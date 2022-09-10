@@ -1,0 +1,10 @@
+.backgorund-card{
+    position: absolute;
+    min-width: 960px;
+    min-height: 540px;
+    width: 50%;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    border-radius: 100px 0px 0px 100px;
+}

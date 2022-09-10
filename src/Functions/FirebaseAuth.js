@@ -1,4 +1,4 @@
-import { Firebaseapp } from "../Config/Firebase";
+import Firebaseapp from "../Config/Firebase";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
