@@ -13,9 +13,12 @@ class SelectLoginPage extends React.Component {
 
     render() {
         return (
-            <div className="main">
-                <div className="main-background"/>
+            <div className="main-background">
                 <div className="backgorund-card"/>
+                <div className="logo">
+                    Orderaholic
+                </div>
+
             </div>
         );
     }
