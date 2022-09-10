@@ -1,7 +1,8 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
+import { InputBase } from '@mui/material';
+import { Paper } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -18,8 +19,10 @@ class SelectLoginPage extends React.Component {
                 <div className="logo">
                     Orderaholic
                 </div>
-                <div>
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                <div className="main">
+                    <Paper style={{padding: "2px 4px"}}>
+                        <InputBase/>
+                    </Paper>
                 </div>
 
             </div>
