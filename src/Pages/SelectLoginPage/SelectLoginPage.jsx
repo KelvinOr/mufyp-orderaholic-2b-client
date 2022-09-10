@@ -20,11 +20,12 @@ class SelectLoginPage extends React.Component {
                     Orderaholic
                 </div>
                 <div className="main">
-                    <Paper style={{padding: "2px 4px"}}>
-                        <InputBase/>
-                    </Paper>
+                    <div className="JoinUs">
+                        <Paper style={{padding: "2px 4px"}}>
+                            <InputBase/>
+                        </Paper>
+                    </div>
                 </div>
-
             </div>
         );
     }
