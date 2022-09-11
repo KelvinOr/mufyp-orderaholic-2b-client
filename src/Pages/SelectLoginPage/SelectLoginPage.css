@@ -21,7 +21,16 @@
     position:absolute;
     top: 0px;
     left: 0px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 150px;
+    padding-right: 50px;
+    width: 43%;
+}
+
+.SignIn{
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    padding-left: 50px;
+    padding-right: 150px;
     width: 43%;
 }
