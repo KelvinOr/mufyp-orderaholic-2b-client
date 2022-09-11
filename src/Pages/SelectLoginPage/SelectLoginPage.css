@@ -34,3 +34,9 @@
     padding-right: 150px;
     width: 43%;
 }
+
+.JoinUsFormControl{
+    background-color: #607EAA;
+    border: none;
+    box-shadow: 3px;
+}
