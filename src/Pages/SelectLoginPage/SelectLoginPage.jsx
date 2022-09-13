@@ -1,8 +1,7 @@
 import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
-import { Paper, InputBase, ThemeProvider } from '@mui/material';
-import CustomTheme from '../../Functions/CustomTheme';
+import { InputBase } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -21,11 +20,9 @@ class SelectLoginPage extends React.Component {
                 </div>
                 <div className="main">
                     <div className="JoinUs">
-                        <ThemeProvider theme={CustomTheme}>
-                        <Paper>
+                        <div className='input'>
                             <InputBase />
-                        </Paper>
-                        </ ThemeProvider>
+                        </div>
                     </div>
                 </div>
             </div>
