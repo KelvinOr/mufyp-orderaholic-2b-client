@@ -23,7 +23,13 @@
     left: 0px;
     padding-left: 150px;
     padding-right: 50px;
-    width: 43%;
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .SignIn{

@@ -8,6 +8,7 @@ class SelectLoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
         };
     }
 
@@ -20,8 +21,9 @@ class SelectLoginPage extends React.Component {
                 </div>
                 <div className="main">
                     <div className="JoinUs">
+                        
                         <div className='input'>
-                            <InputBase />
+                            <InputBase style={{color: "#ffffff"}} />
                         </div>
                     </div>
                 </div>
