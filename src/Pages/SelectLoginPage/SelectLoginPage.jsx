@@ -19,7 +19,7 @@ class SelectLoginPage extends React.Component {
                 </div>
                 <div className="main">
                     <div className="JoinUs">
-                        
+                        <Paper></Paper>
                     </div>
                 </div>
             </div>
