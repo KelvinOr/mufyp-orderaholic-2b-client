@@ -2,6 +2,7 @@ import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
 import { InputBase } from '@mui/material';
+import { Input } from '@douyinfe/semi-ui';
 
 class SelectLoginPage extends React.Component {
 
@@ -10,9 +11,13 @@ class SelectLoginPage extends React.Component {
         this.state = {
 
         };
+        this.customStyle = {
+            background: "#1C3879"
+        }
     }
 
     render() {
+        
         return (
             <div className="main-background">
                 <div className="backgorund-card"/>
@@ -25,6 +30,8 @@ class SelectLoginPage extends React.Component {
                         <div className='input'>
                             <InputBase style={{color: "#ffffff"}} />
                         </div>
+                        <br/>
+                        <Input style={this.customStyle}/> 
                     </div>
                 </div>
             </div>
