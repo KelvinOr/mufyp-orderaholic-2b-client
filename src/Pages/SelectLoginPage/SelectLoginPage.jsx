@@ -9,12 +9,14 @@ class SelectLoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            JoinUsEmail: '',
         };
         this.customStyle = {
-            background: "#1C3879"
+            background: "#1C3879",
+            color: "#ffffff",
         }
     }
+
 
     render() {
         
@@ -31,7 +33,9 @@ class SelectLoginPage extends React.Component {
                             <InputBase style={{color: "#ffffff"}} />
                         </div>
                         <br/>
-                        <Input style={this.customStyle}/> 
+                        <Input style={this.customStyle}  onChange={(value, e) => {
+                            this.setState({JoinUsEmail: value}); 
+                        }}/> 
                     </div>
                 </div>
             </div>
