@@ -1,17 +1,27 @@
 import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
-import { InputBase } from '@mui/material';
-import { Input } from '@douyinfe/semi-ui';
+import { Input, Button } from '@douyinfe/semi-ui';
 
 class SelectLoginPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            JoinUsEmail: '',
+            
         };
-        this.customStyle = {
+        this.JoinUsForm = {
+            JoinUsEmail: '',
+            JoinUsPassword: '',
+            JoinUsConfirmPassword: '',
+        }
+        this.buttonSecoundryColor = {
+            background: "#1C3879",
+            color: "#ffffff",
+            width: "100%",
+            height: "40px",
+        }
+        this.InputSecoundryColor = {
             background: "#1C3879",
             color: "#ffffff",
         }
@@ -28,16 +38,35 @@ class SelectLoginPage extends React.Component {
                 </div>
                 <div className="main">
                     <div className="JoinUs">
-                        
-                        <div className='input'>
-                            <InputBase style={{color: "#ffffff"}} />
-                        </div>
+                        <font>Join Us</font>
                         <br/>
-                        <Input style={this.customStyle}  onChange={(value, e) => {
-                            this.setState({JoinUsEmail: value}); 
+                        <div className='text'>Input Your Email:</div>
+                        <Input style={this.InputSecoundryColor} size='large' placeholder="Inpupt Your Email" onChange={(value, e) => {
+                            this.JoinUsForm.JoinUsEmail = value;
                         }}/> 
+                        <br/>
+                        <div className='text'>Input Your Password:</div>
+                        <Input style={this.InputSecoundryColor} size='large' placeholder="Inpupt Your Password" onChange={(value, e) => {
+                            this.JoinUsForm.JoinUsPassword = value;
+                        }}/>
+                        <br/>
+                        <div className='text'>Confirm Your Password:</div>
+                        <Input style={this.InputSecoundryColor} size='large' placeholder="Confirm Your Password" onChange={(value, e) => {
+                            this.JoinUsForm.JoinUsConfirmPassword = value;
+                        }}/>
+                        <br/><br/>
+                        <Button theme='solid' style={this.buttonSecoundryColor}>
+                            Join Us
+                        </Button>
+                    </div>
+
+                    <div className='SignIn'>
+                        <font>Sign In</font>
+                        <br/>
+                        <div className='text'>Input Your Email:</div>
                     </div>
                 </div>
+                
             </div>
         );
     }

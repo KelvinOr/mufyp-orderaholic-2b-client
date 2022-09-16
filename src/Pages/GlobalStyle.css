@@ -27,11 +27,3 @@
     font-family: 'Verdana';
     font-weight: 700;
 }
-
-div > .input{
-    background-color: #1C3879;
-    border: none;
-    border-radius: 5px;
-    height: 30px;
-    padding: 3px 5px;
-}

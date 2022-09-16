@@ -26,21 +26,16 @@ Sign up
 Return user
 @param {string} email
 @param {string} password
-@param {string} confirm password
 @returns {object} user or error message
 */
 function CreateUserWithEmailAndPassword(email, password, confirmPassword){
-    if(password === confirmPassword){
-        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-            const user = userCredential.user;
-            return user;
-        }).catch((error) => {
-            const errorMessage = error.message;
-            return errorMessage;
-        });
-    } else {
-        alert("Passwords do not match");
-    }
+    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        const user = userCredential.user;
+        return user;
+    }).catch((error) => {
+        const errorMessage = error.message;
+        return errorMessage;
+    });
 }
 
 /*
