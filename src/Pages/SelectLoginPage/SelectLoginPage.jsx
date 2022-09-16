@@ -7,22 +7,43 @@ class SelectLoginPage extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             
         };
+
         this.JoinUsForm = {
             JoinUsEmail: '',
             JoinUsPassword: '',
             JoinUsConfirmPassword: '',
         }
+
+        this.SignUpForm = {
+            SignUpEmail: '',
+            SignUpPassword: '',
+        }
+
+        this.buttonPrimaryColor = {
+            background: "#607EAA",
+            color: "#ffffff",
+            width: "100%",
+            height: "40px",
+        }
+
         this.buttonSecoundryColor = {
             background: "#1C3879",
             color: "#ffffff",
             width: "100%",
             height: "40px",
         }
+
         this.InputSecoundryColor = {
             background: "#1C3879",
+            color: "#ffffff",
+        }
+
+        this.InputPrimaryColor = {
+            background: '#607EAA',
             color: "#ffffff",
         }
     }
@@ -64,6 +85,18 @@ class SelectLoginPage extends React.Component {
                         <font>Sign In</font>
                         <br/>
                         <div className='text'>Input Your Email:</div>
+                        <Input style={this.InputPrimaryColor} size='large' placeholder="Inpupt Your Email" onChange={(value, e) => {
+                            this.SignUpForm.SignUpEmail = value;
+                        }}/>
+                        <br/>
+                        <div className='text'>Input Your Password:</div>
+                        <Input style={this.InputPrimaryColor} size='large' placeholder="Inpupt Your Password" onChange={(value, e) => {
+                            this.SignUpForm.SignUpPassword = value;
+                        }}/>
+                        <br/><br/>
+                        <Button theme='solid' style={this.buttonPrimaryColor}>
+                            Login
+                        </Button>
                     </div>
                 </div>
                 
