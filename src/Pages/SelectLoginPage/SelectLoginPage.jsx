@@ -53,8 +53,9 @@ class SelectLoginPage extends React.Component {
     btn_SignUp_onClick() {
         if(this.JoinUsForm.JoinUsPassword === this.JoinUsForm.JoinUsConfirmPassword){
             CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsEmail).then((userCredential) => {
-                console.log("Singup")
-                console.log(userCredential);
+                switch(userCredential){
+                    
+                }
             }).catch((error) => {
                 console.log("Error")
                 console.log(error);
