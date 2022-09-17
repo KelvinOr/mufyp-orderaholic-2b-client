@@ -1,7 +1,7 @@
 import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
-import { Input, Button } from '@douyinfe/semi-ui';
+import { Input, Button, Notification } from '@douyinfe/semi-ui';
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword } from '../../Functions/FirebaseAuth';
 
@@ -11,7 +11,9 @@ class SelectLoginPage extends React.Component {
         super(props);
 
         this.state = {
-            
+            NotificationIsShowed: false,
+            NotificationMessage: "",
+            NotificationType: "",
         };
 
         this.JoinUsForm = {
@@ -62,7 +64,12 @@ class SelectLoginPage extends React.Component {
             });
             
         } else {
-            alert("Password not match");
+            Notification.error({
+                title: 'Error',
+                content: 'Password and Confirm Password is not same',
+                duration: 3,    
+                backgroundColor: CustomTheme.primary,
+            })
         }
     }
 
