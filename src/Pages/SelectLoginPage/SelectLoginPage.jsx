@@ -2,6 +2,8 @@ import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
 import { Input, Button } from '@douyinfe/semi-ui';
+import { CustomTheme } from '../../Config/Color';
+import { CreateUserWithEmailAndPassword } from '../../Functions/FirebaseAuth';
 
 class SelectLoginPage extends React.Component {
 
@@ -24,27 +26,43 @@ class SelectLoginPage extends React.Component {
         }
 
         this.buttonPrimaryColor = {
-            background: "#607EAA",
+            background: CustomTheme.primary,
             color: "#ffffff",
             width: "100%",
             height: "40px",
         }
 
         this.buttonSecoundryColor = {
-            background: "#1C3879",
+            background: CustomTheme.secondary,
             color: "#ffffff",
             width: "100%",
             height: "40px",
         }
 
         this.InputSecoundryColor = {
-            background: "#1C3879",
+            background: CustomTheme.secondary,
             color: "#ffffff",
         }
 
         this.InputPrimaryColor = {
-            background: '#607EAA',
+            background: CustomTheme.primary,
             color: "#ffffff",
+        }
+    }
+
+    btn_SignUp_onClick() {
+        console.log(this.JoinUsForm);
+        if(this.JoinUsForm.SignUpPassword === this.JoinUsForm.SignUpConfirmPassword){
+            CreateUserWithEmailAndPassword(this.JoinUsForm.SignUpEmail, this.JoinUsForm.SignUpPassword).then((userCredential) => {
+                console.log("Singup")
+                console.log(userCredential);
+            }).catch((error) => {
+                console.log("Error")
+                console.log(error);
+            });
+            
+        } else {
+            alert("Password not match");
         }
     }
 
@@ -76,7 +94,7 @@ class SelectLoginPage extends React.Component {
                             this.JoinUsForm.JoinUsConfirmPassword = value;
                         }}/>
                         <br/><br/>
-                        <Button theme='solid' style={this.buttonSecoundryColor}>
+                        <Button theme='solid' style={this.buttonSecoundryColor}  onClick={() => this.btn_SignUp_onClick()}>
                             Join Us
                         </Button>
                     </div>

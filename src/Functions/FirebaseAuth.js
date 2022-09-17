@@ -1,8 +1,9 @@
-import Firebaseapp from "../Config/Firebase";
+import app from '../Config/FirebaseConfig';
+
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
-const auth = getAuth(Firebaseapp);
+const auth = getAuth(app);
 
 /*
 Sign in
@@ -26,16 +27,10 @@ Sign up
 Return user
 @param {string} email
 @param {string} password
-@returns {object} user or error message
+@returns {object} json
 */
-function CreateUserWithEmailAndPassword(email, password, confirmPassword){
-    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        const user = userCredential.user;
-        return user;
-    }).catch((error) => {
-        const errorMessage = error.message;
-        return errorMessage;
-    });
+function CreateUserWithEmailAndPassword(email, password){
+    return createUserWithEmailAndPassword(auth, email, password)
 }
 
 /*
