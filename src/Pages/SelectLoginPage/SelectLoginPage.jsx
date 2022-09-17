@@ -1,9 +1,9 @@
 import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
-import { Input, Button, Notification } from '@douyinfe/semi-ui';
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword } from '../../Functions/FirebaseAuth';
+import { Button, InputBase, Paper } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -43,12 +43,12 @@ class SelectLoginPage extends React.Component {
 
         this.InputSecoundryColor = {
             background: CustomTheme.secondary,
-            color: "#ffffff",
+            width: "100%",
         }
 
         this.InputPrimaryColor = {
             background: CustomTheme.primary,
-            color: "#ffffff",
+            width: "100%",
         }
     }
 
@@ -64,12 +64,6 @@ class SelectLoginPage extends React.Component {
             });
             
         } else {
-            Notification.error({
-                title: 'Error',
-                content: 'Password and Confirm Password is not same',
-                duration: 3,    
-                backgroundColor: CustomTheme.primary,
-            })
         }
     }
 
@@ -87,21 +81,21 @@ class SelectLoginPage extends React.Component {
                         <font>Join Us</font>
                         <br/>
                         <div className='text'>Input Your Email:</div>
-                        <Input style={this.InputSecoundryColor} size='large' placeholder="Inpupt Your Email" onChange={(value, e) => {
-                            this.JoinUsForm.JoinUsEmail = value;
-                        }}/> 
+                        <Paper variant='none' style={this.InputSecoundryColor}>
+                            <InputBase size='large' placeholder="Input Your Email" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.JoinUsForm.JoinUsEmail = event.target.value}} />
+                        </Paper>
                         <br/>
                         <div className='text'>Input Your Password:</div>
-                        <Input style={this.InputSecoundryColor} size='large' placeholder="Inpupt Your Password" onChange={(value, e) => {
-                            this.JoinUsForm.JoinUsPassword = value;
-                        }}/>
+                        <Paper variant='none' style={this.InputSecoundryColor}>
+                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.JoinUsForm.JoinUsPassword = event.target.value}} />
+                        </Paper>
                         <br/>
                         <div className='text'>Confirm Your Password:</div>
-                        <Input style={this.InputSecoundryColor} size='large' placeholder="Confirm Your Password" onChange={(value, e) => {
-                            this.JoinUsForm.JoinUsConfirmPassword = value;
-                        }}/>
+                        <Paper variant='none' style={this.InputSecoundryColor}>
+                            <InputBase size='large' placeholder="Confirm Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.JoinUsForm.JoinUsConfirmPassword = event.target.value;}}/>
+                        </Paper>
                         <br/><br/>
-                        <Button theme='solid' style={this.buttonSecoundryColor}  onClick={() => this.btn_SignUp_onClick()}>
+                        <Button variant='contained' style={this.buttonSecoundryColor} onClick={() => this.btn_SignUp_onClick()}>
                             Join Us
                         </Button>
                     </div>
@@ -110,17 +104,17 @@ class SelectLoginPage extends React.Component {
                         <font>Sign In</font>
                         <br/>
                         <div className='text'>Input Your Email:</div>
-                        <Input style={this.InputPrimaryColor} size='large' placeholder="Inpupt Your Email" onChange={(value, e) => {
-                            this.SignUpForm.SignUpEmail = value;
-                        }}/>
+                        <Paper variant='none' style={this.InputPrimaryColor}>
+                            <InputBase size='large' placeholder="Input Your Email" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.SignUpForm.SignUpEmail = event.target.value}} />
+                        </Paper>
                         <br/>
                         <div className='text'>Input Your Password:</div>
-                        <Input style={this.InputPrimaryColor} size='large' placeholder="Inpupt Your Password" onChange={(value, e) => {
-                            this.SignUpForm.SignUpPassword = value;
-                        }}/>
+                        <Paper variant='none' style={this.InputPrimaryColor}>
+                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.SignUpForm.SignUpPassword = event.target.value}} />
+                        </Paper>
                         <br/><br/>
-                        <Button theme='solid' style={this.buttonPrimaryColor}>
-                            Login
+                        <Button variant='contained' style={this.buttonPrimaryColor}>
+                            Sign In
                         </Button>
                     </div>
                 </div>
