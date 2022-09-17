@@ -30,6 +30,7 @@ Return user
 @returns {object} json
 */
 function CreateUserWithEmailAndPassword(email, password){
+    console.log({email: email, password: password});
     return createUserWithEmailAndPassword(auth, email, password)
 }
 
