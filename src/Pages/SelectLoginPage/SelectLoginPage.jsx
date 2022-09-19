@@ -70,6 +70,22 @@ class SelectLoginPage extends React.Component {
                         });
                         break;
 
+                    case "auth/invalid-email":
+                        this.setState({
+                            NotificationIsShowed: true,
+                            NotificationMessage: "Invalid email.",
+                            NotificationType: "warning",
+                        });
+                        break;
+
+                    case "auth/weak-password":
+                        this.setState({
+                            NotificationIsShowed: true,
+                            NotificationMessage: "Weak password.",
+                            NotificationType: "warning",
+                        });
+                        break;
+
                     default:
                         this.setState({
                             NotificationIsShowed: true,
@@ -82,6 +98,11 @@ class SelectLoginPage extends React.Component {
             });
             
         } else {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationMessage: "Passwords are not same.",
+                NotificationType: "error",
+            });
         }
     }
 
