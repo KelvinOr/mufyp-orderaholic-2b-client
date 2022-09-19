@@ -3,7 +3,7 @@ import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword } from '../../Functions/FirebaseAuth';
-import { Button, InputBase, Paper } from '@mui/material';
+import { Button, InputBase, Paper, Snackbar, Alert } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -50,6 +50,7 @@ class SelectLoginPage extends React.Component {
             background: CustomTheme.primary,
             width: "100%",
         }
+
     }
 
     btn_SignUp_onClick() {
@@ -59,8 +60,25 @@ class SelectLoginPage extends React.Component {
                     
                 }
             }).catch((error) => {
-                console.log("Error")
-                console.log(error);
+                console.log(error.code);
+                switch(error.code){
+                    case "auth/email-already-in-use":
+                        this.setState({
+                            NotificationIsShowed: true,
+                            NotificationMessage: "Email already in use.",
+                            NotificationType: "warning",
+                        });
+                        break;
+
+                    default:
+                        this.setState({
+                            NotificationIsShowed: true,
+                            NotificationMessage: "Unknown error.",
+                            NotificationType: "error",
+                        });
+                        break;
+                }
+
             });
             
         } else {
@@ -69,9 +87,17 @@ class SelectLoginPage extends React.Component {
 
 
     render() {
-        
+
+        const vertical = "top";
+        const horizontal = "center";
+
         return (
             <div className="main-background">
+                <Snackbar open={this.state.NotificationIsShowed} autoHideDuration={6000} onClose={() => { this.setState({ NotificationIsShowed: false }) }} message={this.state.NotificationMessage} anchorOrigin={{ vertical, horizontal }}>
+                    <Alert onClose={() => { this.setState({ NotificationIsShowed: false }) }} severity={this.state.NotificationType} sx={{ width: '100%' }} variant="filled">
+                        {this.state.NotificationMessage}
+                    </Alert>
+                </Snackbar>
                 <div className="backgorund-card"/>
                 <div className="logo">
                     Orderaholic
