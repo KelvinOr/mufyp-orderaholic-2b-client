@@ -19,6 +19,9 @@ export default class CreateInfoPage extends React.Component {
           Orderaholic
         </div>
         <div className={styles.backgroundCard} style={{background: CustomTheme.secondary}} />
+        <div className={styles.main}>
+          
+        </div>
       </div>
     );
     
