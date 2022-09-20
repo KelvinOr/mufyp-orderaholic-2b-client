@@ -1,4 +1,4 @@
-.backgorund-card{
+.backgroundCard{
     position: absolute;
     min-width: 653px;
     min-height: 720px;
@@ -7,6 +7,7 @@
     right: 0px;
     top: 0px;   
     border-radius: 50px 0px 0px 50px;
+    z-index: -1;
 }
 
 .main{

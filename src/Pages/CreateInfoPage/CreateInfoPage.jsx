@@ -1,6 +1,7 @@
 import React from "react";
 import "../GlobalStyle.css";
-import style from "./create-info-page.model.css";
+import styles from "./CreateInfoPage.module.css";
+import { CustomTheme } from '../../Config/Color';
 
 export default class CreateInfoPage extends React.Component {
 
@@ -11,11 +12,16 @@ export default class CreateInfoPage extends React.Component {
     }
 
   render() {
+
     return (
       <div className="main-background">
-        <div className="backgorund-card"/>
+        <div className="logo">
+          Orderaholic
+        </div>
+        <div className={styles.backgroundCard} style={{background: CustomTheme.secondary}} />
       </div>
     );
+    
   }
 }
 

@@ -1,8 +1,3 @@
-.backgorund-card{
-    background-color: #1C3879;
-    z-index: -1;
-}
-
 .main-background{
     position: absolute;
     min-width: 1280px;
