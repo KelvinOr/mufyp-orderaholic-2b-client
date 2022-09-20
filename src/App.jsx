@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SelectLoginPage from "./Pages/SelectLoginPage/SelectLoginPage";
+import CreateInfoPage from "./Pages/CreateInfoPage/CreateInfoPage";
 
 function App() {
 
@@ -8,6 +9,10 @@ function App() {
       path: "/",
       element: <SelectLoginPage />
     },
+    {
+      path: "/create-info",
+      element: <CreateInfoPage />
+    }
   ]);
 
   return (

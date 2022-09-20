@@ -1,6 +1,6 @@
 import React from 'react';
 import '../GlobalStyle.css';
-import "./SelectLoginPage.css";
+import styles from './select-login-page.model.css';
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword, SignInWithEmail } from '../../Functions/FirebaseAuth';
 import { getRestaurantData } from '../../Functions/FireStoreController';
@@ -167,9 +167,9 @@ class SelectLoginPage extends React.Component {
         console.log("isFirstLogin is called");
         await getRestaurantData(restaurantId).then((data) => {
             if(data.exists()){
-                console.log("Already have data");
+                window.location.href = "#CreateInfoPage"; 
             } else {
-                console.log("First login");
+                // TODO: Pass restaurantId to Page
             }
         }).catch((error) => {
             console.log(error);
