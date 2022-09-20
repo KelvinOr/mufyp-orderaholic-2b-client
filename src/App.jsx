@@ -1,9 +1,21 @@
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SelectLoginPage from "./Pages/SelectLoginPage/SelectLoginPage";
 
 function App() {
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <SelectLoginPage />
+      ),
+    },
+  ]);
+
   return (
     <div className="App">
-        <SelectLoginPage />
+        <RouterProvider router={router} />
+        {/* <SelectLoginPage /> */}
     </div>
   );
 }
