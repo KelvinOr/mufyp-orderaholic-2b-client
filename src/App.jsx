@@ -6,16 +6,13 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <SelectLoginPage />
-      ),
+      element: <SelectLoginPage />
     },
   ]);
 
   return (
     <div className="App">
         <RouterProvider router={router} />
-        {/* <SelectLoginPage /> */}
     </div>
   );
 }
