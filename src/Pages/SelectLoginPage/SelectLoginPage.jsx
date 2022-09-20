@@ -114,7 +114,7 @@ class SelectLoginPage extends React.Component {
         SignInWithEmail(this.LoginForm.LoginEmail, this.LoginForm.LoginPassword).then((userCredential) => {
             console.log(userCredential.user.uid);
             this.isFirstLogin(userCredential.user.uid);
-            
+
         }).catch((error) => {
             console.log("Login Error:" + error.code);
             switch(error.code){
@@ -163,15 +163,16 @@ class SelectLoginPage extends React.Component {
     }
 
     //function
-    isFirstLogin(restaurantId) {
-        getRestaurantData(restaurantId).then((data) => {
+    async isFirstLogin(restaurantId) {
+        console.log("isFirstLogin is called");
+        await getRestaurantData(restaurantId).then((data) => {
             if(data.exists()){
                 console.log("Already have data");
             } else {
                 console.log("First login");
             }
         }).catch((error) => {
-            console.log(error.code);
+            console.log(error);
         })
     }
     

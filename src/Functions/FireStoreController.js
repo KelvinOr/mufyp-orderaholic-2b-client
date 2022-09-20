@@ -1,10 +1,12 @@
 import app from '../Config/FirebaseConfig';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-const db = app.firetore();
+const db = getFirestore(app);
 
 
-function getRestaurantData(restaurantId){
-    return db.collection('restaurants').doc(restaurantId).get();
+async function getRestaurantData(restaurantId){
+    const RestaurantRef = doc(db, "restaurants", restaurantId);
+    return await getDoc(RestaurantRef);
 }
 
 
