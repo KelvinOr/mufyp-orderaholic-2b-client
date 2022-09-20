@@ -1,5 +1,4 @@
 import app from '../Config/FirebaseConfig';
-
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
@@ -10,16 +9,11 @@ Sign in
 Return user
 @param {string} email
 @param {string} password
-@returns {object} user or error message
+@returns {object} json
 */
 function SignInWithEmail(email, password){
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        const user = userCredential.user;
-        return user;
-    }).catch((error) => {
-        const errorMessage = error.message; 
-        return errorMessage;
-    });
+    console.log({email: email, password: password});
+    return signInWithEmailAndPassword(auth, email, password)
 }
 
 /*

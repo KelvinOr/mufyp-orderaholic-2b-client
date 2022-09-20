@@ -2,7 +2,8 @@ import React from 'react';
 import '../GlobalStyle.css';
 import "./SelectLoginPage.css";
 import { CustomTheme } from '../../Config/Color';
-import { CreateUserWithEmailAndPassword } from '../../Functions/FirebaseAuth';
+import { CreateUserWithEmailAndPassword, SignInWithEmail } from '../../Functions/FirebaseAuth';
+import { getRestaurantData } from '../../Functions/FireStoreController';
 import { Button, InputBase, Paper, Snackbar, Alert } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
@@ -16,17 +17,19 @@ class SelectLoginPage extends React.Component {
             NotificationType: "",
         };
 
+        // Form 
         this.JoinUsForm = {
             JoinUsEmail: '',
             JoinUsPassword: '',
             JoinUsConfirmPassword: '',
         }
 
-        this.SignUpForm = {
-            SignUpEmail: '',
-            SignUpPassword: '',
+        this.LoginForm = {
+            LoginEmail: '',
+            LoginPassword: '',
         }
 
+        // Style
         this.buttonPrimaryColor = {
             background: CustomTheme.primary,
             color: "#ffffff",
@@ -53,14 +56,15 @@ class SelectLoginPage extends React.Component {
 
     }
 
+    //button Click Action
     btn_SignUp_onClick() {
         if(this.JoinUsForm.JoinUsPassword === this.JoinUsForm.JoinUsConfirmPassword){
-            CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsEmail).then((userCredential) => {
+            CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsPassword).then((userCredential) => {
                 switch(userCredential){
                     
                 }
             }).catch((error) => {
-                console.log(error.code);
+                console.log("Sign up Error:" + error.code);
                 switch(error.code){
                     case "auth/email-already-in-use":
                         this.setState({
@@ -105,6 +109,72 @@ class SelectLoginPage extends React.Component {
             });
         }
     }
+
+    btn_Login_onClick() {
+        SignInWithEmail(this.LoginForm.LoginEmail, this.LoginForm.LoginPassword).then((userCredential) => {
+            console.log(userCredential.user.uid);
+            this.isFirstLogin(userCredential.user.uid);
+            
+        }).catch((error) => {
+            console.log("Login Error:" + error.code);
+            switch(error.code){
+                case "auth/invalid-email":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "Invalid email.",
+                        NotificationType: "warning",
+                    }); 
+                    break;
+
+                case "auth/user-disabled":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "User disabled.",
+                        NotificationType: "error",
+                    });
+                    break;
+
+                case "auth/user-not-found":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "User not found.",
+                        NotificationType: "error",
+                    });
+                    break;
+                
+                case "auth/wrong-password":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "Wrong password.",
+                        NotificationType: "warning",
+                    });
+                    break;
+                
+                default:
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "Unknown error.",
+                        NotificationType: "error",
+                    }); 
+                    break;
+            }
+
+        });
+    }
+
+    //function
+    isFirstLogin(restaurantId) {
+        getRestaurantData(restaurantId).then((data) => {
+            if(data.exists()){
+                console.log("Already have data");
+            } else {
+                console.log("First login");
+            }
+        }).catch((error) => {
+            console.log(error.code);
+        })
+    }
+    
 
 
     render() {
@@ -152,16 +222,16 @@ class SelectLoginPage extends React.Component {
                         <br/>
                         <div className='text'>Input Your Email:</div>
                         <Paper variant='none' style={this.InputPrimaryColor}>
-                            <InputBase size='large' placeholder="Input Your Email" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.SignUpForm.SignUpEmail = event.target.value}} />
+                            <InputBase size='large' placeholder="Input Your Email" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.LoginForm.LoginEmail = event.target.value}} />
                         </Paper>
                         <br/>
                         <div className='text'>Input Your Password:</div>
                         <Paper variant='none' style={this.InputPrimaryColor}>
-                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.SignUpForm.SignUpPassword = event.target.value}} />
+                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.LoginForm.LoginPassword = event.target.value}} />
                         </Paper>
                         <br/><br/>
-                        <Button variant='contained' style={this.buttonPrimaryColor}>
-                            Sign In
+                        <Button variant='contained' style={this.buttonPrimaryColor} onClick={() => this.btn_Login_onClick()}>
+                            Login
                         </Button>
                     </div>
                 </div>
