@@ -20,11 +20,9 @@
 
 .JoinUs{
     position:absolute;
-    top: 0px;
-    left: 0px;
-    padding-left: 13%;
-    padding-top: 5%;
-    
+    top: 5%;
+    left: 13%;
+
     width: 20%;
     max-width: 550px;
 
@@ -37,10 +35,8 @@
 
 .SignIn{
     position:absolute;
-    top: 0px;
-    right: 0px;
-    padding-right: 13%; 
-    padding-top: 7%;
+    right: 13%; 
+    top: 7%;
 
     width: 20%;
     max-width: 550px;
