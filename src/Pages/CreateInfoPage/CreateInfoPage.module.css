@@ -16,3 +16,20 @@
     margin-left: 5%;
     margin-right: 5%;
 }
+
+.image{
+    min-width: 150px;
+    min-height: 100px;
+    width: 300px;
+    height: 250px;
+    border-radius: 50px;
+
+}
+
+.text{
+    width: 100%;
+    padding-bottom: 10px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 18px;
+}
