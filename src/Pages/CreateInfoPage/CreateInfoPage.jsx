@@ -3,6 +3,8 @@ import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
 import { Button, Grid } from "@mui/material";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileToBase64 from "../../Functions/FileToBase64";
 
 export default class CreateInfoPage extends React.Component {
 
@@ -14,6 +16,14 @@ export default class CreateInfoPage extends React.Component {
         this.CreateInfoForm = {
           defaultImage: "https://protkd.com/wp-content/uploads/2017/04/default-image.jpg",
         };
+    }
+
+    btn_UploadImage(event) {
+      const file = event.target.files[0];
+      FileToBase64(file).then((result) => {
+        this.CreateInfoForm.defaultImage = result;
+        console.log(this.CreateInfoForm.defaultImage);
+      });
     }
 
   render() {
@@ -31,7 +41,10 @@ export default class CreateInfoPage extends React.Component {
               <div className={styles.text} >This image is using to show restaurant.</div>
             </Grid>
             <Grid item xs={2}>
-              <Button>test</Button>
+              <Button variant="contained" component="label"> 
+                Upload Image
+                <input hidden accept="image/*" multiple type="file" onChange={(event) => this.btn_UploadImage(event)} />
+              </Button>
             </Grid>
           </Grid>
           
