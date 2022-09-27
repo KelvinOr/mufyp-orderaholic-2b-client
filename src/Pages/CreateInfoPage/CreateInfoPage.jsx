@@ -2,7 +2,7 @@ import React from "react";
 import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
-import { Button, InputBase, Paper, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Button, InputBase, Paper, NativeSelect } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 
@@ -80,14 +80,12 @@ export default class CreateInfoPage extends React.Component {
                 <div className={styles.text} >
                   Restaurant Type:
                 </div>
-                <FormControl style={{
-                  border: "none",
-                }}>
-                  <InputLabel>Resturant Type</InputLabel>
-                  <Select>
-                    <MenuItem value={1}>Jan</MenuItem>
-                  </Select>
-                </FormControl>
+
+                <Paper style={this.InputPrimaryColor} sx={{p: '5px'}}>
+                  <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline>
+                    
+                  </NativeSelect>
+                </Paper>
 
               </div>
             </div>
