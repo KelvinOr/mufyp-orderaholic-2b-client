@@ -81,7 +81,7 @@ export default class CreateInfoPage extends React.Component {
                   Restaurant Type:
                 </div>
 
-                <Paper style={this.InputPrimaryColor} sx={{p: '5px'}}>
+                <Paper style={{...this.InputPrimaryColor, width: "97%", padding: "5px"}}>
                   <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline>
                     
                   </NativeSelect>
