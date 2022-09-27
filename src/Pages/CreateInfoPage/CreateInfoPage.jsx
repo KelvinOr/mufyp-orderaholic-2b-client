@@ -2,7 +2,7 @@ import React from "react";
 import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
-import { Button, InputBase, Paper } from "@mui/material";
+import { Button, InputBase, Paper, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 
@@ -76,7 +76,18 @@ export default class CreateInfoPage extends React.Component {
                 </div>
                 <Paper style={this.InputPrimaryColor} >
                   <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value;}}/>
-                </Paper>
+                </Paper><br/>
+                <div className={styles.text} >
+                  Restaurant Type:
+                </div>
+                <FormControl style={{
+                  border: "none",
+                }}>
+                  <InputLabel>Resturant Type</InputLabel>
+                  <Select>
+                    <MenuItem value={1}>Jan</MenuItem>
+                  </Select>
+                </FormControl>
 
               </div>
             </div>
