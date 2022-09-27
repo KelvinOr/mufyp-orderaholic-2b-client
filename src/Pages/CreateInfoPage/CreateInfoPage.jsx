@@ -2,7 +2,7 @@ import React from "react";
 import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
-import { Button } from "@mui/material";
+import { Button, InputBase, Paper } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 
@@ -16,13 +16,19 @@ export default class CreateInfoPage extends React.Component {
         };
 
         this.CreateInfoForm = {
-          defaultImage: "https://protkd.com/wp-content/uploads/2017/04/default-image.jpg",
+          Image: "https://protkd.com/wp-content/uploads/2017/04/default-image.jpg",
+          Name: "",
         };
 
         this.buttonPrimaryColor = {
           background: CustomTheme.primary,
           color: "#ffffff",          
           height: "40px",
+      }
+
+      this.InputPrimaryColor = {
+        background: CustomTheme.primary,
+        width: "100%",
       }
 
     }
@@ -48,7 +54,7 @@ export default class CreateInfoPage extends React.Component {
           <div className={styles.gridRow}>
 
             <div>
-              {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.defaultImage} className={styles.image} alt="Restaurant"/>: <img src={this.CreateInfoForm.defaultImage} className={styles.image} alt="Restaurant"/>}
+              {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>: <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>}
               <br/><br/>
               <div className={styles.text} >This image is using to show restaurant.</div>
             </div>
@@ -63,8 +69,20 @@ export default class CreateInfoPage extends React.Component {
                 </Button>
             </div>
 
-            <div>
+            <div style={{height: "100%", width:"40%", display: "flex", alignItems: "center"}}>
+              <div style={{display: "flex", flexDirection:"column", width: "100%"}}>
+                <div className={styles.text} >
+                  Restaurant Name:
+                </div>
+                <Paper style={this.InputPrimaryColor} >
+                  <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value;}}/>
+                </Paper>
 
+              </div>
+            </div>
+
+            <div>
+              
             </div>
 
           </div>
