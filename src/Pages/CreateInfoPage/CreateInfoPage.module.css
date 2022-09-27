@@ -36,6 +36,6 @@
 
 .gridRow{
     display: grid; 
-    grid-template-columns: 25% 25% 50%;
+    grid-template-columns: 27% 23% 50%;
     grid-gap: 10px;
 }
