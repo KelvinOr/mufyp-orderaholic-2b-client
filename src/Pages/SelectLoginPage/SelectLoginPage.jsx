@@ -166,9 +166,9 @@ class SelectLoginPage extends React.Component {
         console.log("isFirstLogin is called");
         await getRestaurantData(restaurantId).then((data) => {
             if(data.exists()){
-                window.location.href = "#CreateInfoPage"; 
+                //TODO
             } else {
-                // TODO: Pass restaurantId to Page
+                window.location.href = "create-info"; 
             }
         }).catch((error) => {
             console.log(error);
