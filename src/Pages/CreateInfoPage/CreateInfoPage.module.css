@@ -34,8 +34,15 @@
     font-size: 18px;
 }
 
-.gridRow{
+.gridRow1{
     display: grid; 
     grid-template-columns: 27% 23% 50%;
+    grid-gap: 10px;
+    padding-bottom: 20px;
+}
+
+.gridRow2{
+    display: grid; 
+    grid-template-columns: 50% 50%;
     grid-gap: 10px;
 }
