@@ -86,8 +86,8 @@ export default class CreateInfoPage extends React.Component {
     const vertical = "top";
     const horizontal = "center";
 
+    checkAuth();
     return (
-      checkAuth(),
       <div className="main-background">
         <Snackbar open={this.state.NotificationIsShowed} autoHideDuration={6000} onClose={() => { this.setState({ NotificationIsShowed: false }) }} message={this.state.NotificationMessage} anchorOrigin={{ vertical, horizontal }}>
           <Alert onClose={() => { this.setState({ NotificationIsShowed: false }) }} severity={this.state.NotificationType} sx={{ width: '100%' }} variant="filled">
