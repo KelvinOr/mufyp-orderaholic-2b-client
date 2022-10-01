@@ -1,5 +1,5 @@
 import app from '../Config/FirebaseConfig';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 
 
 const auth = getAuth(app);
@@ -12,8 +12,7 @@ Return user
 @returns {object} json
 */
 function SignInWithEmail(email, password){
-    console.log({email: email, password: password});
-    return signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(auth, email, password);
 }
 
 /*
@@ -24,8 +23,7 @@ Return user
 @returns {object} json
 */
 function CreateUserWithEmailAndPassword(email, password){
-    console.log({email: email, password: password});
-    return createUserWithEmailAndPassword(auth, email, password)
+    return createUserWithEmailAndPassword(auth, email, password);
 }
 
 /*
