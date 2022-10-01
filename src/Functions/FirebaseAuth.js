@@ -1,5 +1,5 @@
 import app from '../Config/FirebaseConfig';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 const auth = getAuth(app);
