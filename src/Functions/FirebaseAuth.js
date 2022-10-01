@@ -37,6 +37,14 @@ function GetUserInfo(){
 }
 
 /*
+Check if user is logged in
+@returns {boolean} true if user is logged in
+*/
+function isLogin(){
+    return auth.currentUser ? true : false;
+}
+
+/*
 Sign out 
 No return value
 */
@@ -45,4 +53,4 @@ function Signout(){
 }
 
 
-export { SignInWithEmail, CreateUserWithEmailAndPassword, GetUserInfo, Signout };
+export { SignInWithEmail, CreateUserWithEmailAndPassword, GetUserInfo, Signout, isLogin };

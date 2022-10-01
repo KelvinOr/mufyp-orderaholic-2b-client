@@ -4,17 +4,6 @@ import CreateInfoPage from "./Pages/CreateInfoPage/CreateInfoPage";
 
 function App() {
 
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <SelectLoginPage />
-  //   },
-  //   {
-  //     path: "/create-info",
-  //     element: <CreateInfoPage />
-  //   }
-  // ]);
-
   return (
     <div className="App">
         {/* <RouterProvider router={router} /> */}

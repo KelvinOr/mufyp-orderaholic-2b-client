@@ -2,10 +2,11 @@ import React from "react";
 import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
-import { Button, InputBase, Paper, NativeSelect } from "@mui/material";
+import { Button, InputBase, Paper, NativeSelect, Snackbar, Alert } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { newRestaurantData } from "../../Functions/FireStoreController";
+import { checkAuth } from "../../Functions/CheckAuth";
 
 export default class CreateInfoPage extends React.Component {
 
@@ -13,7 +14,9 @@ export default class CreateInfoPage extends React.Component {
         super(props);
         this.state = {
           imageIsUpdate: false,
-
+          NotificationIsShowed: false,
+          NotificationType: "",
+          NotificationMessage: "",
         };
 
         this.CreateInfoForm = {
@@ -47,13 +50,50 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_CreateInfo() {
-      newRestaurantData({test: "test"});
+      // newRestaurantData({test: "test"});
+
+      if (this.CreateInfoForm.Name === "") {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please enter the name of the restaurant.",
+        });
+        return;
+      }
+
+      if (this.CreateInfoForm.ContectNumber === "") {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please enter the contect number of the restaurant.",
+        });
+        return;
+      }
+
+      if (this.CreateInfoForm.Location === "") {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please enter the location of the restaurant.",
+        });
+        return;
+      }
+
     }
 
   render() {
 
+    const vertical = "top";
+    const horizontal = "center";
+
     return (
+      checkAuth(),
       <div className="main-background">
+        <Snackbar open={this.state.NotificationIsShowed} autoHideDuration={6000} onClose={() => { this.setState({ NotificationIsShowed: false }) }} message={this.state.NotificationMessage} anchorOrigin={{ vertical, horizontal }}>
+          <Alert onClose={() => { this.setState({ NotificationIsShowed: false }) }} severity={this.state.NotificationType} sx={{ width: '100%' }} variant="filled">
+            {this.state.NotificationMessage}
+          </Alert>
+        </Snackbar>
         <div className="logo">
           Orderaholic
         </div>
@@ -91,7 +131,13 @@ export default class CreateInfoPage extends React.Component {
                 </div>
 
                 <Paper style={{...this.InputPrimaryColor, width: "68%", padding: "5px"}}>
-                  <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline>
+                  <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value;}}>
+                    <option value="Chinese Restaurant">Chinese Restaurant</option>
+                    <option value="Western Restaurant">Western Restaurant</option>
+                    <option value="Asian restaurant">Asian Restaurant</option>
+                    <option value="Fast Food">Fast Food</option>
+                    <option value="Bar">Bar</option>
+                    <option value="Cafe">Cafe</option>
                     <option value="Other">Other</option>
                   </NativeSelect>
                 </Paper>
