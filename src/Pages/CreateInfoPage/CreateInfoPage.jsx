@@ -7,6 +7,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { newRestaurantData } from "../../Functions/FireStoreController";
 import { isLogin } from "../../Functions/FirebaseAuth";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 export default class CreateInfoPage extends React.Component {
 
@@ -100,13 +101,10 @@ export default class CreateInfoPage extends React.Component {
       }
     }, 200);
 
-
     if(this.state.isLoading === true) {
 
       return (
-        <div>
-          <h1>Loading...</h1>
-        </div>
+        <LoadingPage />
       );
 
     } else{
