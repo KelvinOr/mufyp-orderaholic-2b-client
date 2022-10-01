@@ -86,14 +86,6 @@ export default class CreateInfoPage extends React.Component {
 
     const vertical = "top";
     const horizontal = "center";
-    
-    // if (checkAuth() === true){
-    //   console.log(true);
-    //   this.setState({isLoading: false});
-    // } else {
-    //   console.log(false);
-    //     //window.location.href = "/";
-    // }
 
     var counter = 20;
     var interval = setInterval(() => {
