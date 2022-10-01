@@ -211,7 +211,7 @@ class SelectLoginPage extends React.Component {
                         <Paper variant='none' style={this.InputSecoundryColor}>
                             <InputBase size='large' placeholder="Confirm Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.JoinUsForm.JoinUsConfirmPassword = event.target.value;}}/>
                         </Paper>
-                        <br/><br/>
+                        <div style={{height: "25px"}}/>
                         <Button variant='contained' style={this.buttonSecoundryColor} onClick={() => this.btn_SignUp_onClick()}>
                             Join Us
                         </Button>
@@ -229,7 +229,7 @@ class SelectLoginPage extends React.Component {
                         <Paper variant='none' style={this.InputPrimaryColor}>
                             <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.LoginForm.LoginPassword = event.target.value}} />
                         </Paper>
-                        <br/><br/>
+                        <div style={{height: "25px"}}/>
                         <Button variant='contained' style={this.buttonPrimaryColor} onClick={() => this.btn_Login_onClick()}>
                             Login
                         </Button>

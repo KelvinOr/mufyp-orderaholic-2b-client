@@ -33,9 +33,7 @@ Get user information
 @returns {object} auth.currentUser
 */
 function GetUserInfo(){
-    if (auth.currentUser) {
-        return auth.currentUser;
-    }
+    return auth.currentUser;
 }
 
 /*

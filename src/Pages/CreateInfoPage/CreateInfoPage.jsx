@@ -5,6 +5,7 @@ import { CustomTheme } from '../../Config/Color';
 import { Button, InputBase, Paper, NativeSelect } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
+import { newRestaurantData } from "../../Functions/FireStoreController";
 
 export default class CreateInfoPage extends React.Component {
 
@@ -45,6 +46,10 @@ export default class CreateInfoPage extends React.Component {
       });
     }
 
+    btn_CreateInfo() {
+      newRestaurantData({test: "test"});
+    }
+
   render() {
 
     return (
@@ -58,11 +63,11 @@ export default class CreateInfoPage extends React.Component {
 
             <div>
               {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>: <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>}
-              <br/><br/>
+              <div style={{height: "20px"}} />
               <div className={styles.text} >This image is using to show restaurant.</div>
             </div>
 
-            <div style={{height: "100%", width:"fit-content", display: "flex", alignItems: "center"}}>
+            <div style={{height: "100%", width:"fit-content", display: "flex", alignItems: "center", justifyItems: "center"}}>
                 <Button variant="contained" component="Label" style={this.buttonPrimaryColor} >
                     <FileUploadIcon/>
                     &nbsp;
@@ -72,21 +77,22 @@ export default class CreateInfoPage extends React.Component {
                 </Button>
             </div>
 
-            <div style={{height: "100%", width:"40%", display: "flex", alignItems: "center"}}>
-              <div style={{display: "flex", flexDirection:"column", width: "100%"}}>
+            <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", flexDirection: "row"}}>
+              <div style={{display: "flex", flexDirection:"column", width: "100%", alignItems: "center"}}>
                 <div className={styles.text} >
                   Restaurant Name:
                 </div>
-                <Paper style={this.InputPrimaryColor} >
+                <Paper style={{...this.InputPrimaryColor, width: "70%"}} >
                   <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value;}}/>
-                </Paper><br/>
+                </Paper>
+                <div style={{height: "20px"}} />
                 <div className={styles.text} >
                   Restaurant Type:
                 </div>
 
-                <Paper style={{...this.InputPrimaryColor, width: "97%", padding: "5px"}}>
+                <Paper style={{...this.InputPrimaryColor, width: "68%", padding: "5px"}}>
                   <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline>
-                    
+                    <option value="Other">Other</option>
                   </NativeSelect>
                 </Paper>
 
@@ -97,16 +103,17 @@ export default class CreateInfoPage extends React.Component {
 
           <div className={styles.gridRow2}>
 
-            <div style={{height: "100%", width:"40%", display: "flex", alignItems: "center", marginLeft: "20px"}}>
-              <div style={{display: "flex", flexDirection:"column", width: "100%"}}>
+            <div style={{height: "100%", width:"100%", display: "flex", flexDirection:"column", alignItems: "center"}}>
+              <div style={{display: "flex", flexDirection:"column", width: "68%"}}>
                 <div className={styles.text}>
                   Contect Number:
                 </div>
                 <Paper style={this.InputPrimaryColor}>
                   <InputBase size='large' placeholder="Input Contect Number" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.ContectNumber = event.target.value}}/>
                 </Paper>
+                <div style={{height: "20px"}} />
                 <div className={styles.text}>
-                  Restaurant Location
+                  Restaurant Location:
                 </div>
                 <Paper style={this.InputPrimaryColor}>
                   <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}}/>
@@ -114,15 +121,33 @@ export default class CreateInfoPage extends React.Component {
               </div>
             </div>
 
-            <div style={{height: "100%", width:"40%", display: "flex", alignItems: "center", marginRight: "20px"}}>
-              <div style={{display: "flex", flexDirection:"column", width: "100%"}}>
+            <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", flexDirection: "column"}}>
+              <div style={{display: "flex", flexDirection:"column", width: "68%", height: "100%"}}>
                 <div className={styles.text}>
                   Discription:
                 </div>
-                <Paper style={{...this.InputPrimaryColor, height: "10%"}}>
-                  <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Discription = event.target.value}}/>
+                <Paper style={{...this.InputPrimaryColor, height: "100%"}}>
+                  <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff"}} rows={6} multiline fullWidth onChange={(event) => {this.CreateInfoForm.Discription = event.target.value}}/>
                 </Paper>
               </div>
+            </div>
+
+          </div>
+
+          <div style={{height: "50px"}} />
+
+          <div className={styles.gridRow3}>
+
+            <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <Button variant="contained" style={this.buttonPrimaryColor} >
+                Cancel
+              </Button>
+            </div>
+
+            <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <Button variant="contained" style={this.buttonPrimaryColor} onClick={() => this.btn_CreateInfo()}>
+                Create
+              </Button>
             </div>
 
           </div>
