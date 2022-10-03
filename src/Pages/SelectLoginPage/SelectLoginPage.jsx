@@ -14,7 +14,8 @@ import { Button,
         DialogContent, 
         DialogContentText, 
         DialogActions, 
-        TextField, } from '@mui/material';
+        TextField,
+        withStyles, } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -38,6 +39,10 @@ class SelectLoginPage extends React.Component {
         this.LoginForm = {
             LoginEmail: '',
             LoginPassword: '',
+        }
+
+        this.ForgetPasswordForm= {
+            ForgetPasswordEmail: '',
         }
 
         // Style
@@ -69,9 +74,11 @@ class SelectLoginPage extends React.Component {
             width: "100%",
             color: "#ffffff",
         }
+
+
     }
 
-    //button Click Action
+    //Action
     btn_SignUp_onClick() {
         if(this.JoinUsForm.JoinUsPassword === this.JoinUsForm.JoinUsConfirmPassword){
             CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsPassword).then((userCredential) => {
@@ -199,9 +206,7 @@ class SelectLoginPage extends React.Component {
         }).catch((error) => {
             console.log(error);
         })
-    }
-    
-
+    } 
 
     render() {
 
@@ -223,7 +228,25 @@ class SelectLoginPage extends React.Component {
                                 Please enter your email address. We will send you a link to reset your password.
                             </div>
                         </DialogContentText>
+                        <TextField
+                            fullWidth
+                            variant="standard"
+                            label="Email"
+                            sx={{
+                                '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                                '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
+                                '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
+                                '& .MuiInputBase-input': { color: 'white' },
+                                '& .MuiInputLabel-root': { color: 'white' },
+                                '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
+                                '& .MuiInputLabel-root.Mui-disabled': { color: 'white' },
+
+                            }}
+                            value={this.LoginForm.LoginEmail}
+                        />
+                        
                         <DialogActions>
+                            
                             <Button style={{...this.buttonSecoundryColor, width: "fit-contect"}} onClick={() => this.btn_DialogOnClose_onClick()}>Cancel</Button>
                         </DialogActions>
                     </DialogContent>    
