@@ -4,7 +4,17 @@ import styles from './SelectLoginPage.module.css';
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword, SignInWithEmail } from '../../Functions/FirebaseAuth';
 import { getRestaurantData } from '../../Functions/FireStoreController';
-import { Button, InputBase, Paper, Snackbar, Alert } from '@mui/material';
+import { Button, 
+        InputBase, 
+        Paper, 
+        Snackbar, 
+        Alert, 
+        Dialog, 
+        DialogTitle, 
+        DialogContent, 
+        DialogContentText, 
+        DialogActions, 
+        TextField, } from '@mui/material';
 
 class SelectLoginPage extends React.Component {
 
@@ -15,6 +25,7 @@ class SelectLoginPage extends React.Component {
             NotificationIsShowed: false,
             NotificationMessage: "",
             NotificationType: "",
+            DialogOpen: false,
         };
 
         // Form 
@@ -164,6 +175,18 @@ class SelectLoginPage extends React.Component {
         });
     }
 
+    btn_ForgetPassword_onClick() {
+        this.setState({
+            DialogOpen: true,
+        })
+    }
+
+    btn_DialogOnClose_onClick() {
+        this.setState({
+            DialogOpen: false,
+        })
+    }
+
     //function
     async isFirstLogin(restaurantId) {
         console.log("isFirstLogin is called");
@@ -187,11 +210,31 @@ class SelectLoginPage extends React.Component {
 
         return (
             <div className="main-background">
+
+                <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary }}}>
+                    <DialogTitle>
+                        <div className={styles.text}>
+                            Forget Password
+                        </div>
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <div className={styles.text}>
+                                Please enter your email address. We will send you a link to reset your password.
+                            </div>
+                        </DialogContentText>
+                        <DialogActions>
+                            <Button style={{...this.buttonSecoundryColor, width: "fit-contect"}} onClick={() => this.btn_DialogOnClose_onClick()}>Cancel</Button>
+                        </DialogActions>
+                    </DialogContent>    
+                </Dialog>
+
                 <Snackbar open={this.state.NotificationIsShowed} autoHideDuration={6000} onClose={() => { this.setState({ NotificationIsShowed: false }) }} message={this.state.NotificationMessage} anchorOrigin={{ vertical, horizontal }}>
                     <Alert onClose={() => { this.setState({ NotificationIsShowed: false }) }} severity={this.state.NotificationType} sx={{ width: '100%' }} variant="filled">
                         {this.state.NotificationMessage}
                     </Alert>
                 </Snackbar>
+                
                 <div className={styles.backgroundCard} style={{background: CustomTheme.secondary}}/>
                 <div className="logo">
                     Orderaholic
@@ -236,6 +279,10 @@ class SelectLoginPage extends React.Component {
                         <Button variant='contained' style={this.buttonPrimaryColor} onClick={() => this.btn_Login_onClick()}>
                             Login
                         </Button>
+                        <div style={{height: "10px"}} />
+                        <button style={{color: "#FFFFFF", backgroundColor: "transparent", backgroundRepeat: "no-repeat", border: "none", cursor: "pointer"}} onClick={() => this.btn_ForgetPassword_onClick()}>
+                            <u>Forget Password</u>
+                        </button>
                     </div>
                 </div>
                 
