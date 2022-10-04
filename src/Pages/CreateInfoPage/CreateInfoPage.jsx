@@ -52,7 +52,6 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_CreateInfo() {
-      // newRestaurantData({test: "test"});
 
       if (this.CreateInfoForm.Name === "") {
         this.setState({
@@ -81,6 +80,7 @@ export default class CreateInfoPage extends React.Component {
         return;
       }
 
+      newRestaurantData(this.CreateInfoForm)
     }
 
   render() {
