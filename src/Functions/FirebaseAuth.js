@@ -1,5 +1,5 @@
 import app from '../Config/FirebaseConfig';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 
 const auth = getAuth(app);
@@ -50,5 +50,14 @@ function Signout(){
     auth.signOut();
 }
 
+/*
+Reset password
+@param {string} email
+@returns {object} json 
+*/
+function SendResetPasswordEmail(email){
+    return sendPasswordResetEmail(auth, email);
+}
 
-export { SignInWithEmail, CreateUserWithEmailAndPassword, GetUserInfo, Signout, isLogin };
+
+export { SignInWithEmail, CreateUserWithEmailAndPassword, GetUserInfo, Signout, isLogin, SendResetPasswordEmail };

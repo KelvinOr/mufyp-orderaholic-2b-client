@@ -2,7 +2,7 @@ import React from 'react';
 import '../GlobalStyle.css';
 import styles from './SelectLoginPage.module.css';
 import { CustomTheme } from '../../Config/Color';
-import { CreateUserWithEmailAndPassword, SignInWithEmail } from '../../Functions/FirebaseAuth';
+import { CreateUserWithEmailAndPassword, SignInWithEmail, SendResetPasswordEmail } from '../../Functions/FirebaseAuth';
 import { getRestaurantData } from '../../Functions/FireStoreController';
 import { Button, 
         InputBase, 
@@ -26,6 +26,7 @@ class SelectLoginPage extends React.Component {
             NotificationMessage: "",
             NotificationType: "",
             DialogOpen: false,
+            DialogInputValue: "",
         };
 
         // Form 
@@ -38,10 +39,6 @@ class SelectLoginPage extends React.Component {
         this.LoginForm = {
             LoginEmail: '',
             LoginPassword: '',
-        }
-
-        this.ForgetPasswordForm= {
-            ForgetPasswordEmail: '',
         }
 
         // Style
@@ -184,6 +181,7 @@ class SelectLoginPage extends React.Component {
     btn_ForgetPassword_onClick() {
         this.setState({
             DialogOpen: true,
+            DialogInputValue: this.LoginForm.LoginEmail,
         })
     }
 
@@ -191,6 +189,44 @@ class SelectLoginPage extends React.Component {
         this.setState({
             DialogOpen: false,
         })
+    }
+
+    btn_DialogOnSend_onClick() {
+        SendResetPasswordEmail(this.state.DialogInputValue).then(() => {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationMessage: "Reset password email sent.",
+                NotificationType: "success",
+                DialogOpen: false,
+            });
+        }).catch((error) => {
+            console.log("Reset password error:" + error.code);
+            switch(error.code){
+                case "auth/invalid-email":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "Invalid email.",
+                        NotificationType: "warning",
+                    }); 
+                    break;
+
+                case "auth/user-not-found":
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "User not found.",
+                        NotificationType: "error",
+                    });
+                    break;
+
+                default:
+                    this.setState({
+                        NotificationIsShowed: true,
+                        NotificationMessage: "Unknown error.",
+                        NotificationType: "error",
+                    }); 
+                    break;
+            }
+        });
     }
 
     //function
@@ -239,13 +275,12 @@ class SelectLoginPage extends React.Component {
                                 '& .MuiInputLabel-root': { color: 'white' },
                                 '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
                                 '& .MuiInputLabel-root.Mui-disabled': { color: 'white' },
-
                             }}
-                            value={this.LoginForm.LoginEmail}
+                            onChange={(event) => { this.setState({ DialogInputValue: event.target.value }) }}
                         />
                         
                         <DialogActions>
-                            
+                            <Button style={{...this.buttonSecoundryColor, width: "fit-contect"}} onClick={() => this.btn_DialogOnSend_onClick()}>Send</Button>
                             <Button style={{...this.buttonSecoundryColor, width: "fit-contect"}} onClick={() => this.btn_DialogOnClose_onClick()}>Cancel</Button>
                         </DialogActions>
                     </DialogContent>    

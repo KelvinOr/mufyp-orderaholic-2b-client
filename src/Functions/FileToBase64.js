@@ -1,3 +1,9 @@
+/*
+Change image to base64
+@param {string} file
+@returns {string} base64
+*/
+
 export default async function FileToBase64(file) {
     //return base64
     return new Promise(resolve => {
