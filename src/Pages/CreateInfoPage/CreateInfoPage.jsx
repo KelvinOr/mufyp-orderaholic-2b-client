@@ -134,6 +134,11 @@ export default class CreateInfoPage extends React.Component {
       });
     }
 
+    btn_DeleteImage_onClick(e, value) {
+      this.CreateInfoForm.Image.splice(value, 1);
+      console.log(this.CreateInfoForm.Image);
+    }
+
   render() {
 
     const vertical = "top";
@@ -213,7 +218,7 @@ export default class CreateInfoPage extends React.Component {
                     this.CreateInfoForm.Image.map((item, index) => {
                       return(
                         <div>
-                          <Chip label={item.name} variant="outlined"/>
+                          <Chip label={item.name} sx={{ bgcolor: CustomTheme.primary, color: "white" }} onDelete={(e) => this.btn_DeleteImage_onClick(e, index)}/>
                           <br/>
                         </div>
                       );
