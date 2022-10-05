@@ -17,7 +17,9 @@ import { Button,
          DialogTitle, 
          DialogContent, 
          DialogContentText, 
-         DialogActions,  } from "@mui/material";
+         DialogActions, 
+         Chip,
+         TextField,} from "@mui/material";
 
 export default class CreateInfoPage extends React.Component {
 
@@ -30,11 +32,14 @@ export default class CreateInfoPage extends React.Component {
           NotificationMessage: "",
           isLoading: true,
           DialogOpen: false,
+          DialogType: "",
+          ImagePreView: "",
+          ImageTitle: "",
         };
 
         //Form
         this.CreateInfoForm = {
-          Image: "https://firebasestorage.googleapis.com/v0/b/orderaholic-f387d.appspot.com/o/DefaultImage%2FdefaultImage.jpg?alt=media&token=a46adb26-1142-4e76-94f5-e18f25109b85",
+          Image: [{name: "Default Image", source:"https://firebasestorage.googleapis.com/v0/b/orderaholic-f387d.appspot.com/o/DefaultImage%2FdefaultImage.jpg?alt=media&token=a46adb26-1142-4e76-94f5-e18f25109b85"}, ],
           Name: "",
           Type: "",
           ContectNumber: "",
@@ -107,15 +112,26 @@ export default class CreateInfoPage extends React.Component {
       newRestaurantData(this.CreateInfoForm).then((result) => {
         this.DialogForm.Title = "Success";
         this.DialogForm.Content = "Restaurant information has been created successfully.";
-        this.setState({DialogOpen: true});
+        this.setState({DialogOpen: true, DialogType: "success"});
       }).catch((error) => {
         console.log(error);
       });
+
     }
 
     btn_Cencal_onClick() {
       Signout();
       window.location.href = "/";
+    }
+
+    btn_showUploadDialog_onClick() {
+      this.DialogForm.Title = "Upload Image";
+      this.DialogForm.Content = "Please select the image you want to upload.";
+      
+      this.setState({
+        DialogOpen: true, 
+        DialogType: "ImageUpload"
+      });
     }
 
   render() {
@@ -151,13 +167,35 @@ export default class CreateInfoPage extends React.Component {
             </Alert>
           </Snackbar>
 
-          <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary }}}>
+          <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" } }}>
             <DialogTitle><div className={styles.text}>{this.DialogForm.Title}</div></DialogTitle>
             <DialogContent>
               <DialogContentText><div className={styles.text}>{this.DialogForm.Content}</div></DialogContentText>
             </DialogContent>
+            {this.state.DialogType === "ImageUpload" ? 
+              <div style={{ margin: "20px" }}>
+                <TextField 
+                  fullWidth
+                  variant="standard"
+                  label="Image Title"
+                  sx={{
+                    '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                    '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
+                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
+                    '& .MuiInputBase-input': { color: 'white' },
+                    '& .MuiInputLabel-root': { color: 'white' },
+                    '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
+                    '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
+                  }} 
+                  onChange={(event) => { this.setState({ DialogInputValue: event.target.value }) }} />
+                <div style={{padding: "10px"}}/>
+                <input type="file" accept="image/*" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
+                <div style={{padding: "10px"}}/>
+                <div className={styles.text} style={{width: "100%"}}>There only one image can be uploaded each time.</div>
+              </div>
+            : null }
             <DialogActions>
-              <Button onClick={() => { this.setState({ DialogOpen: false }); window.location.href = "/main"; }} style={this.buttonSecoundryColor}>OK</Button>
+              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/main"; }; }} style={this.buttonSecoundryColor}>OK</Button>
             </DialogActions>
           </Dialog>
 
@@ -169,21 +207,33 @@ export default class CreateInfoPage extends React.Component {
             <div className={styles.gridRow1}>
 
               <div>
-                {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/> : <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>}
                 <div>
-                  
+                  {
+                    //TODO: Clip Display
+                    this.CreateInfoForm.Image.map((item, index) => {
+                      return(
+                        <div>
+                          <Chip label={item.name} variant="outlined"/>
+                          <br/>
+                        </div>
+                      );
+                    })
+                  }                  
                 </div>
                 <div style={{height: "20px"}} />
                 <div className={styles.text} >This image is using to show the restaurant.</div>
               </div>
 
               <div style={{height: "100%", width:"fit-content", display: "flex", alignItems: "center", justifyItems: "center"}}>
-                  <Button variant="contained" component="Label" style={this.buttonPrimaryColor} >
+                  {/* <Button variant="contained" component="Label" style={this.buttonPrimaryColor} >
                       <FileUploadIcon/>
                       &nbsp;
-                      Upload Image
+                      Add Image
                       &nbsp;
                     <input hidden accept="image/*" multiple type="file" onChange={(event) => this.btn_UploadImage_onClick(event)} />
+                  </Button> */}
+                  <Button variant="contained" component="Label" style={this.buttonPrimaryColor} startIcon={ <FileUploadIcon/> } onClick={() => this.btn_showUploadDialog_onClick()}>
+                    Add Image
                   </Button>
               </div>
 
