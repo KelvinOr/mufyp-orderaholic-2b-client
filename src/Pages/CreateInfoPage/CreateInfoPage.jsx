@@ -2,16 +2,26 @@ import React from "react";
 import "../GlobalStyle.css";
 import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
-import { Button, InputBase, Paper, NativeSelect, Snackbar, Alert } from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { newRestaurantData } from "../../Functions/FireStoreController";
-import { isLogin } from "../../Functions/FirebaseAuth";
+import { isLogin, Signout } from "../../Functions/FirebaseAuth";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { Button,
+         InputBase,
+         Paper, 
+         NativeSelect, 
+         Snackbar, 
+         Alert,
+         Dialog, 
+         DialogTitle, 
+         DialogContent, 
+         DialogContentText, 
+         DialogActions,  } from "@mui/material";
 
 export default class CreateInfoPage extends React.Component {
 
-    constructor(props) {
+  constructor(props) {
         super(props);
         this.state = {
           imageIsUpdate: false,
@@ -19,39 +29,53 @@ export default class CreateInfoPage extends React.Component {
           NotificationType: "",
           NotificationMessage: "",
           isLoading: true,
+          DialogOpen: false,
         };
 
+        //Form
         this.CreateInfoForm = {
-          Image: "https://protkd.com/wp-content/uploads/2017/04/default-image.jpg",
+          Image: "https://firebasestorage.googleapis.com/v0/b/orderaholic-f387d.appspot.com/o/DefaultImage%2FdefaultImage.jpg?alt=media&token=a46adb26-1142-4e76-94f5-e18f25109b85",
           Name: "",
           Type: "",
           ContectNumber: "",
           Location: "",
         };
 
+        this.DialogForm = {
+          Title: "",
+          Content: "",
+        }
+
+        //Style
         this.buttonPrimaryColor = {
           background: CustomTheme.primary,
           color: "#ffffff",          
           height: "40px",
-      }
+        }
 
-      this.InputPrimaryColor = {
-        background: CustomTheme.primary,
-        width: "100%",
-      }
+        this.buttonSecoundryColor = {
+          background: CustomTheme.secondary,
+          color: "#ffffff",
+          width: "fit-content",
+          height: "40px",
+        }
 
+        this.InputPrimaryColor = {
+          background: CustomTheme.primary,
+          width: "100%",
+        }
     }
 
-    btn_UploadImage(event) {
+    btn_UploadImage_onClick(event) {
       const file = event.target.files[0];
       FileToBase64(file).then((result) => {
         this.CreateInfoForm.defaultImage = result;
+        this.setState({ImageSorce: result});
         console.log(this.CreateInfoForm.defaultImage);
-        this.setState({imageIsUpdate: true});
       });
     }
 
-    btn_CreateInfo() {
+    btn_CreateInfo_onClick() {
 
       if (this.CreateInfoForm.Name === "") {
         this.setState({
@@ -80,7 +104,18 @@ export default class CreateInfoPage extends React.Component {
         return;
       }
 
-      newRestaurantData(this.CreateInfoForm)
+      newRestaurantData(this.CreateInfoForm).then((result) => {
+        this.DialogForm.Title = "Success";
+        this.DialogForm.Content = "Restaurant information has been created successfully.";
+        this.setState({DialogOpen: true});
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+
+    btn_Cencal_onClick() {
+      Signout();
+      window.location.href = "/";
     }
 
   render() {
@@ -103,19 +138,29 @@ export default class CreateInfoPage extends React.Component {
 
     if(this.state.isLoading === true) {
 
-      return (
-        <LoadingPage />
-      );
+      return <LoadingPage />;
 
     } else{
     
       return (
         <div className="main-background">
+
           <Snackbar open={this.state.NotificationIsShowed} autoHideDuration={6000} onClose={() => { this.setState({ NotificationIsShowed: false }) }} message={this.state.NotificationMessage} anchorOrigin={{ vertical, horizontal }}>
             <Alert onClose={() => { this.setState({ NotificationIsShowed: false }) }} severity={this.state.NotificationType} sx={{ width: '100%' }} variant="filled">
               {this.state.NotificationMessage}
             </Alert>
           </Snackbar>
+
+          <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary }}}>
+            <DialogTitle><div className={styles.text}>{this.DialogForm.Title}</div></DialogTitle>
+            <DialogContent>
+              <DialogContentText><div className={styles.text}>{this.DialogForm.Content}</div></DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => { this.setState({ DialogOpen: false }); window.location.href = "/main"; }} style={this.buttonSecoundryColor}>OK</Button>
+            </DialogActions>
+          </Dialog>
+
           <div className="logo">
             Orderaholic
           </div>
@@ -124,9 +169,12 @@ export default class CreateInfoPage extends React.Component {
             <div className={styles.gridRow1}>
 
               <div>
-                {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>: <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>}
+                {this.state.imageIsUpdate?  <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/> : <img src={this.CreateInfoForm.Image} className={styles.image} alt="Restaurant"/>}
+                <div>
+                  
+                </div>
                 <div style={{height: "20px"}} />
-                <div className={styles.text} >This image is using to show restaurant.</div>
+                <div className={styles.text} >This image is using to show the restaurant.</div>
               </div>
 
               <div style={{height: "100%", width:"fit-content", display: "flex", alignItems: "center", justifyItems: "center"}}>
@@ -135,7 +183,7 @@ export default class CreateInfoPage extends React.Component {
                       &nbsp;
                       Upload Image
                       &nbsp;
-                    <input hidden accept="image/*" multiple type="file" onChange={(event) => this.btn_UploadImage(event)} />
+                    <input hidden accept="image/*" multiple type="file" onChange={(event) => this.btn_UploadImage_onClick(event)} />
                   </Button>
               </div>
 
@@ -153,7 +201,7 @@ export default class CreateInfoPage extends React.Component {
                   </div>
 
                   <Paper style={{...this.InputPrimaryColor, width: "68%", padding: "5px"}}>
-                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value;}}>
+                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value;}} sx={{'& option': { color: 'black' },}}>
                       <option value="Chinese Restaurant">Chinese Restaurant</option>
                       <option value="Western Restaurant">Western Restaurant</option>
                       <option value="Asian restaurant">Asian Restaurant</option>
@@ -207,13 +255,13 @@ export default class CreateInfoPage extends React.Component {
             <div className={styles.gridRow3}>
 
               <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Button variant="contained" style={this.buttonPrimaryColor} >
+                <Button variant="contained" style={this.buttonPrimaryColor} onClick={() => this.btn_Cencal_onClick()}>
                   Cancel
                 </Button>
               </div>
 
               <div style={{height: "100%", width:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Button variant="contained" style={this.buttonPrimaryColor} onClick={() => this.btn_CreateInfo()}>
+                <Button variant="contained" style={this.buttonPrimaryColor} onClick={() => this.btn_CreateInfo_onClick()}>
                   Create
                 </Button>
               </div>
