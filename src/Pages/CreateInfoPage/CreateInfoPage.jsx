@@ -35,6 +35,7 @@ export default class CreateInfoPage extends React.Component {
           DialogType: "",
           ImagePreView: "",
           ImageTitle: "",
+          ImageIndex: null,
         };
 
         //Form
@@ -145,7 +146,8 @@ export default class CreateInfoPage extends React.Component {
       
       this.setState({
         DialogOpen: true, 
-        DialogType: "ImageUpload"
+        DialogType: "ImageUpload",
+        ImageIndex: null,
       });
     }
 
@@ -155,7 +157,14 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_ChipImage_onClick(e, value) {
-      this.setState({ImagePreView: this.CreateInfoForm.Image[value].source, ImageTitle: this.CreateInfoForm.Image[value].name, DialogOpen: true, DialogType: "ImageUpload"});
+      this.setState({ImagePreView: this.CreateInfoForm.Image[value].source, ImageTitle: this.CreateInfoForm.Image[value].name, DialogOpen: true, DialogType: "ImageUpload", ImageIndex: value});
+    }
+
+    btn_OkToUpdateImage_onClick() {
+      if(this.state.ImageTitle !== "" && this.state.ImagePreView !== "") {
+        this.CreateInfoForm.Image[this.state.ImageIndex] = {name: this.state.ImageTitle, source: this.state.ImagePreView};
+      } 
+      this.setState({DialogOpen: false, ImagePreView: "", ImageTitle: "", ImageIndex: null});
     }
 
   render() {
@@ -227,8 +236,11 @@ export default class CreateInfoPage extends React.Component {
             </DialogContent>
             <DialogActions>
               {
-                this.state.DialogType === "ImageUpload" ?
+                this.state.DialogType === "ImageUpload" && this.state.ImageIndex === null ?
                   <Button onClick={() => this.btn_OkToAddImage_onClick()} style={this.buttonSecoundryColor}>Upload</Button> : null
+              }
+              {
+                this.state.ImageIndex !== null ? <Button onClick={() => this.btn_OkToUpdateImage_onClick()} style={this.buttonSecoundryColor}>Update</Button> : null
               }
               <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/main"; }; }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
             </DialogActions>
