@@ -9,6 +9,7 @@ export default class MainPage extends React.Component {
         super(props);
         this.state = {
             isLoading: true,
+            Page: "Menu Management",
         }
     }
 
