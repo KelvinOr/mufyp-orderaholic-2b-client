@@ -75,7 +75,6 @@ export default class CreateInfoPage extends React.Component {
       const file = event.target.files[0];
       FileToBase64(file).then((result) => {
         this.setState({ImagePreView: result});
-        console.log(this.CreateInfoForm.defaultImage);
       });
     }
 
@@ -131,6 +130,16 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_showUploadDialog_onClick() {
+
+      if(this.CreateInfoForm.Image.length >= 5) {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "The maximum number of images is 5.",
+        });
+        return;
+      }
+
       this.DialogForm.Title = "Upload Image";
       this.DialogForm.Content = "Please select the image you want to upload.";
       
@@ -143,6 +152,10 @@ export default class CreateInfoPage extends React.Component {
     btn_DeleteImage_onClick(e, value) {
       this.CreateInfoForm.Image.splice(value, 1);
       console.log(this.CreateInfoForm.Image);
+    }
+
+    btn_ChipImage_onClick(e, value) {
+      this.setState({ImagePreView: this.CreateInfoForm.Image[value].source, ImageTitle: this.CreateInfoForm.Image[value].name, DialogOpen: true, DialogType: "ImageUpload"});
     }
 
   render() {
@@ -178,7 +191,7 @@ export default class CreateInfoPage extends React.Component {
             </Alert>
           </Snackbar>
 
-          <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" } }}>
+          <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, minWidth: "fit-contect", maxWidth: "50%" } }}>
             <DialogTitle><div className={styles.text}>{this.DialogForm.Title}</div></DialogTitle>
             <DialogContent>
               <DialogContentText><div className={styles.text}>{this.DialogForm.Content}</div></DialogContentText>
@@ -199,9 +212,16 @@ export default class CreateInfoPage extends React.Component {
                     }} 
                     onChange={(event) => { this.setState({ ImageTitle: event.target.value }) }} />
                   <div style={{padding: "10px"}}/>
-                  <input type="file" accept="image/*" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
+                  <input type="file" accept="image/jpeg" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
                   <div style={{padding: "10px"}}/>
-                  <div className={styles.text} style={{width: "100%"}}>There only one image can be uploaded each time.</div>
+                  {
+                    this.state.ImagePreView !== "" ?
+                    <div>
+                      <img src={this.state.ImagePreView} alt="preview"/>
+                      <div style={{padding: "10px"}}/>
+                    </div> : null
+                  }
+                  <div className={styles.text} style={{width: "100%"}}>There only one image can be uploaded each time. Only accept jpeg here.</div>
                 </div>
               : null }
             </DialogContent>
@@ -223,30 +243,26 @@ export default class CreateInfoPage extends React.Component {
 
               <div>
                 <div>
+                  <div style={{height: "20px"}} />
+                  <div className={styles.text} style={{ width: "100%" }} >This image is using to show the restaurant.</div>
+                  <div style={{height: "5px"}} />
+                  <div className={styles.text} >There already have {this.CreateInfoForm.Image.length}/5 image.</div>
+                  <div style={{height: "20px"}} />
                   {
                     //TODO: Clip Display
                     this.CreateInfoForm.Image.map((item, index) => {
                       return(
                         <div>
-                          <Chip label={item.name} sx={{ bgcolor: CustomTheme.primary, color: "white" }} onDelete={(e) => this.btn_DeleteImage_onClick(e, index)}/>
-                          <br/>
+                          <Chip label={item.name} sx={{ bgcolor: CustomTheme.primary, color: "white" }} onDelete={(e) => this.btn_DeleteImage_onClick(e, index)} onClick={(e) => this.btn_ChipImage_onClick(e, index)}/>
+                          <div style={{padding: "5px"}}/>
                         </div>
                       );
                     })
                   }                  
                 </div>
-                <div style={{height: "20px"}} />
-                <div className={styles.text} >This image is using to show the restaurant.</div>
               </div>
 
               <div style={{height: "100%", width:"fit-content", display: "flex", alignItems: "center", justifyItems: "center"}}>
-                  {/* <Button variant="contained" component="Label" style={this.buttonPrimaryColor} >
-                      <FileUploadIcon/>
-                      &nbsp;
-                      Add Image
-                      &nbsp;
-                    <input hidden accept="image/*" multiple type="file" onChange={(event) => this.btn_UploadImage_onClick(event)} />
-                  </Button> */}
                   <Button variant="contained" component="Label" style={this.buttonPrimaryColor} startIcon={ <FileUploadIcon/> } onClick={() => this.btn_showUploadDialog_onClick()}>
                     Add Image
                   </Button>

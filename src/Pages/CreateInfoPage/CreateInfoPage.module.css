@@ -41,8 +41,8 @@
 
 .gridRow1{
     display: grid; 
-    width: 1000px;
-    grid-template-columns: 34% 20% 46%;
+    width: 1050px;
+    grid-template-columns: 37% 20% 43%;
     grid-gap: 10px;
     padding-bottom: 20px;
 }
