@@ -74,10 +74,16 @@ export default class CreateInfoPage extends React.Component {
     btn_UploadImage_onClick(event) {
       const file = event.target.files[0];
       FileToBase64(file).then((result) => {
-        this.CreateInfoForm.defaultImage = result;
-        this.setState({ImageSorce: result});
+        this.setState({ImagePreView: result});
         console.log(this.CreateInfoForm.defaultImage);
       });
+    }
+
+    btn_OkToAddImage_onClick() {
+      if(this.state.ImageTitle !== "" && this.state.ImagePreView !== "") {
+        this.CreateInfoForm.Image.push({name: this.state.ImageTitle, source: this.state.ImagePreView});
+      } 
+      this.setState({DialogOpen: false, ImagePreView: "", ImageTitle: ""});
     }
 
     btn_CreateInfo_onClick() {
@@ -176,31 +182,35 @@ export default class CreateInfoPage extends React.Component {
             <DialogTitle><div className={styles.text}>{this.DialogForm.Title}</div></DialogTitle>
             <DialogContent>
               <DialogContentText><div className={styles.text}>{this.DialogForm.Content}</div></DialogContentText>
+              {this.state.DialogType === "ImageUpload" ? 
+                <div>
+                  <TextField 
+                    fullWidth
+                    variant="standard"
+                    label="Image Title"
+                    sx={{
+                      '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                      '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
+                      '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
+                      '& .MuiInputBase-input': { color: 'white' },
+                      '& .MuiInputLabel-root': { color: 'white' },
+                      '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
+                      '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
+                    }} 
+                    onChange={(event) => { this.setState({ ImageTitle: event.target.value }) }} />
+                  <div style={{padding: "10px"}}/>
+                  <input type="file" accept="image/*" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
+                  <div style={{padding: "10px"}}/>
+                  <div className={styles.text} style={{width: "100%"}}>There only one image can be uploaded each time.</div>
+                </div>
+              : null }
             </DialogContent>
-            {this.state.DialogType === "ImageUpload" ? 
-              <div style={{ margin: "20px" }}>
-                <TextField 
-                  fullWidth
-                  variant="standard"
-                  label="Image Title"
-                  sx={{
-                    '& .MuiInput-underline:before': { borderBottomColor: 'white' },
-                    '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
-                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
-                    '& .MuiInputBase-input': { color: 'white' },
-                    '& .MuiInputLabel-root': { color: 'white' },
-                    '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
-                    '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
-                  }} 
-                  onChange={(event) => { this.setState({ DialogInputValue: event.target.value }) }} />
-                <div style={{padding: "10px"}}/>
-                <input type="file" accept="image/*" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
-                <div style={{padding: "10px"}}/>
-                <div className={styles.text} style={{width: "100%"}}>There only one image can be uploaded each time.</div>
-              </div>
-            : null }
             <DialogActions>
-              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/main"; }; }} style={this.buttonSecoundryColor}>OK</Button>
+              {
+                this.state.DialogType === "ImageUpload" ?
+                  <Button onClick={() => this.btn_OkToAddImage_onClick()} style={this.buttonSecoundryColor}>Upload</Button> : null
+              }
+              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/main"; }; }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
             </DialogActions>
           </Dialog>
 
@@ -248,7 +258,7 @@ export default class CreateInfoPage extends React.Component {
                     Restaurant Name:
                   </div>
                   <Paper style={{...this.InputPrimaryColor, width: "70%"}} >
-                    <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value;}}/>
+                    <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.setState({ ImageTitle: event.target.value })}}/>
                   </Paper>
                   <div style={{height: "20px"}} />
                   <div className={styles.text} >
