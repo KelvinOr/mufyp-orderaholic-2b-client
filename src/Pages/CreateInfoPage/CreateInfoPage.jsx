@@ -182,12 +182,12 @@ export default class CreateInfoPage extends React.Component {
       if(isLogin() === true){
         if(GetUserInfo() !== null) {
           getRestaurantData(GetUserInfo().uid).then((result) => {
-            if(result !== null) {
+            if(result.exists()) {
               window.location.href = "/disboard";
+            } else{
+              this.setState({isLoading: false});
             }
           });
-        } else{
-          this.setState({isLoading: false});
         }
         clearInterval(interval);
       }
@@ -307,7 +307,7 @@ export default class CreateInfoPage extends React.Component {
                   </div>
 
                   <Paper style={{...this.InputPrimaryColor, width: "68%", padding: "5px"}}>
-                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value;}} sx={{'& option': { color: 'black' },}}>
+                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value.toString(); }} sx={{'& option': { color: 'black' },}}>
                       <option value="Chinese Restaurant">Chinese Restaurant</option>
                       <option value="Western Restaurant">Western Restaurant</option>
                       <option value="Asian restaurant">Asian Restaurant</option>

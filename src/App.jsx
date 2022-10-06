@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SelectLoginPage from "./Pages/SelectLoginPage/SelectLoginPage";
 import CreateInfoPage from "./Pages/CreateInfoPage/CreateInfoPage";
