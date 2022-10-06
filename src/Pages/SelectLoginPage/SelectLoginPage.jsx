@@ -16,7 +16,7 @@ import { Button,
         DialogActions, 
         TextField, } from '@mui/material';
 
-class SelectLoginPage extends React.Component {
+export default class SelectLoginPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -345,5 +345,3 @@ class SelectLoginPage extends React.Component {
         );
     }
 }
-
-export default SelectLoginPage;
