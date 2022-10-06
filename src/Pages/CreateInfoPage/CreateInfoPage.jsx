@@ -4,8 +4,8 @@ import styles from "./CreateInfoPage.module.css";
 import { CustomTheme } from '../../Config/Color';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
-import { newRestaurantData } from "../../Functions/FireStoreController";
-import { isLogin, Signout } from "../../Functions/FirebaseAuth";
+import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreController";
+import { isLogin, Signout, GetUserInfo } from "../../Functions/FirebaseAuth";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { Button,
          InputBase,
@@ -72,6 +72,8 @@ export default class CreateInfoPage extends React.Component {
         }
     }
 
+
+    //Action
     btn_UploadImage_onClick(event) {
       const file = event.target.files[0];
       FileToBase64(file).then((result) => {
@@ -173,10 +175,20 @@ export default class CreateInfoPage extends React.Component {
     const horizontal = "center";
 
     var counter = 20;
+
+    //Check Login && First Login
     var interval = setInterval(() => {
       counter--;
       if(isLogin() === true){
-        this.setState({isLoading: false});
+        if(GetUserInfo() !== null) {
+          getRestaurantData(GetUserInfo().uid).then((result) => {
+            if(result !== null) {
+              window.location.href = "/disboard";
+            }
+          });
+        } else{
+          this.setState({isLoading: false});
+        }
         clearInterval(interval);
       }
       if (counter === 0) {
@@ -219,6 +231,7 @@ export default class CreateInfoPage extends React.Component {
                       '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
                       '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
                     }} 
+                    value={this.state.ImageTitle}
                     onChange={(event) => { this.setState({ ImageTitle: event.target.value }) }} />
                   <div style={{padding: "10px"}}/>
                   <input type="file" accept="image/jpeg" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
@@ -242,7 +255,7 @@ export default class CreateInfoPage extends React.Component {
               {
                 this.state.ImageIndex !== null ? <Button onClick={() => this.btn_OkToUpdateImage_onClick()} style={this.buttonSecoundryColor}>Update</Button> : null
               }
-              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/main"; }; }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
+              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/disboard"; }; }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
             </DialogActions>
           </Dialog>
 
@@ -286,7 +299,7 @@ export default class CreateInfoPage extends React.Component {
                     Restaurant Name:
                   </div>
                   <Paper style={{...this.InputPrimaryColor, width: "70%"}} >
-                    <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.setState({ ImageTitle: event.target.value })}}/>
+                    <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value}}/>
                   </Paper>
                   <div style={{height: "20px"}} />
                   <div className={styles.text} >
@@ -318,14 +331,14 @@ export default class CreateInfoPage extends React.Component {
                     Contect Number:
                   </div>
                   <Paper style={this.InputPrimaryColor}>
-                    <InputBase size='large' placeholder="Input Contect Number" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.ContectNumber = event.target.value}}/>
+                    <InputBase size='large' placeholder="Input Contect Number" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} type="number" onChange={(event) => {this.CreateInfoForm.ContectNumber = event.target.value}}/>
                   </Paper>
                   <div style={{height: "20px"}} />
                   <div className={styles.text}>
                     Restaurant Location:
                   </div>
                   <Paper style={this.InputPrimaryColor}>
-                    <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}}/>
+                    <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}}/>
                   </Paper>
                 </div>
               </div>
@@ -336,7 +349,7 @@ export default class CreateInfoPage extends React.Component {
                     Discription:
                   </div>
                   <Paper style={{...this.InputPrimaryColor, height: "100%"}}>
-                    <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff"}} rows={6} multiline fullWidth onChange={(event) => {this.CreateInfoForm.Discription = event.target.value}}/>
+                    <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} rows={6} multiline fullWidth onChange={(event) => {this.CreateInfoForm.Discription = event.target.value}}/>
                   </Paper>
                 </div>
               </div>

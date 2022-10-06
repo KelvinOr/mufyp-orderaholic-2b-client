@@ -78,9 +78,7 @@ class SelectLoginPage extends React.Component {
     btn_SignUp_onClick() {
         if(this.JoinUsForm.JoinUsPassword === this.JoinUsForm.JoinUsConfirmPassword){
             CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsPassword).then((userCredential) => {
-                switch(userCredential){
-                    
-                }
+                window.location.href = "/create-info";
             }).catch((error) => {
                 console.log("Sign up Error:" + error.code);
                 switch(error.code){
@@ -234,7 +232,7 @@ class SelectLoginPage extends React.Component {
         console.log("isFirstLogin is called");
         await getRestaurantData(restaurantId).then((data) => {
             if(data.exists()){
-                //TODO
+                window.location.href = "/disboard";
             } else {
                 window.location.href = "create-info";
             }
@@ -307,7 +305,7 @@ class SelectLoginPage extends React.Component {
                         <br/>
                         <div className={styles.text}>Input Your Password:</div>
                         <Paper variant='none' style={this.InputSecoundryColor}>
-                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={this.InputbaseStyle} onChange={(event) => {this.JoinUsForm.JoinUsPassword = event.target.value}} />
+                            <InputBase size='large' placeholder="Input Your Password" sx={{p: '5px'}} style={this.InputbaseStyle} type="password" onChange={(event) => {this.JoinUsForm.JoinUsPassword = event.target.value}} />
                         </Paper>
                         <br/>
                         <div className={styles.text}>Confirm Your Password:</div>

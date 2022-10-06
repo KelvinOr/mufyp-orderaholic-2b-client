@@ -1,16 +1,16 @@
 import React from "react";
 import { isLogin } from "../../Functions/FirebaseAuth";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 export default class MainPage extends React.Component {
 
     constructor(props) {
-
+        super(props);
+        this.state = {
+            isLoading: true,
+        }
     }
-
-
 
     render() {
 
