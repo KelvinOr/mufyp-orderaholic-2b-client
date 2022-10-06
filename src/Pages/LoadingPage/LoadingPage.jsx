@@ -1,7 +1,5 @@
 import React from "react";
-import CircularProgress from '@mui/material/CircularProgress';
-import { CustomTheme } from "../../Config/Color";
-
+import DecodeAnimation from "react-decode-animation";
 
 
 export default class LoadingPage extends React.Component {
@@ -12,7 +10,7 @@ export default class LoadingPage extends React.Component {
             color: "#ffffff",
             paddingTop: "20px",
             FontFamily: "Tahoma",
-            fontSize: "20px",
+            fontSize: "50px",
         }
     }
 
@@ -23,10 +21,9 @@ export default class LoadingPage extends React.Component {
                     Orderaholic
                 </div>
                 <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center",  alignContent: "center", flexWrap: "wrap"}}>
-                    <CircularProgress  style={{color: CustomTheme.secondary }}/>
-                    <div style={{width: "30px"}}/>
-                    <div style={this.textStyle}>Loading...</div>
+                    <DecodeAnimation autoplay text="Loading..." style={this.textStyle} interval={170}/>
                 </div>
+                
             </div>
         )
     };
