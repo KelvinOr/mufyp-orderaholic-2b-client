@@ -1,0 +1,25 @@
+.mainBackground{
+    position: absolute;
+    /* min-width: 1280px;
+    min-height: 720px; */
+    min-width: 1920px;
+    height: 100%;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #1C3879;
+    z-index: -2;
+}
+
+.logo{
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    width: auto;
+    height: auto;
+    font-size: 40px;
+    color: #607EAA;
+    font-family: 'Verdana';
+    font-weight: 700;
+}

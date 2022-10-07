@@ -42,7 +42,7 @@ export default class CreateInfoPage extends React.Component {
         this.CreateInfoForm = {
           Image: [{name: "Default Image", source:"https://firebasestorage.googleapis.com/v0/b/orderaholic-f387d.appspot.com/o/DefaultImage%2FdefaultImage.jpg?alt=media&token=a46adb26-1142-4e76-94f5-e18f25109b85"}, ],
           Name: "",
-          Type: "",
+          Type: "Chinese Restaurant",
           ContectNumber: "",
           Location: "",
         };
@@ -118,12 +118,14 @@ export default class CreateInfoPage extends React.Component {
       }
 
       newRestaurantData(this.CreateInfoForm).then((result) => {
-        this.DialogForm.Title = "Success";
+        console.log(result);
+        this.DialogForm.Title = "success";
         this.DialogForm.Content = "Restaurant information has been created successfully.";
         this.setState({DialogOpen: true, DialogType: "success"});
       }).catch((error) => {
         console.log(error);
       });
+
 
     }
 
@@ -174,30 +176,35 @@ export default class CreateInfoPage extends React.Component {
     const vertical = "top";
     const horizontal = "center";
 
-    var counter = 20;
-
     //Check Login && First Login
-    var interval = setInterval(() => {
-      counter--;
-      if(isLogin() === true){
+    if(this.state.isLoading) {
+
+      var counter = 20;
+
+      var interval = setInterval(() => {
+        counter--;
+        console.log("counter" + counter);
+        if(isLogin() === true){
         if(GetUserInfo() !== null) {
-          getRestaurantData(GetUserInfo().uid).then((result) => {
-            if(result.exists()) {
+            getRestaurantData(GetUserInfo().uid).then((result) => {
+            if(result.exists()) { 
               window.location.href = "/disboard";
             } else{
               this.setState({isLoading: false});
             }
-          });
+            });
         }
-        clearInterval(interval);
-      }
-      if (counter === 0) {
-        clearInterval(interval);
-        window.location.href = "/";
-      }
-    }, 200);
+            clearInterval(interval);
+        }
+        if (counter === 0) {
+            clearInterval(interval);
+            window.location.href = "/";
+        }
+      }, 200);
 
-    if(this.state.isLoading === true) {
+    }
+
+    if(this.state.isLoading) {
 
       return <LoadingPage />;
 
@@ -255,7 +262,7 @@ export default class CreateInfoPage extends React.Component {
               {
                 this.state.ImageIndex !== null ? <Button onClick={() => this.btn_OkToUpdateImage_onClick()} style={this.buttonSecoundryColor}>Update</Button> : null
               }
-              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/disboard"; }; }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
+              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/disboard" } }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
             </DialogActions>
           </Dialog>
 
@@ -307,7 +314,7 @@ export default class CreateInfoPage extends React.Component {
                   </div>
 
                   <Paper style={{...this.InputPrimaryColor, width: "68%", padding: "5px"}}>
-                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline onChange={(event) => {this.CreateInfoForm.Type = event.target.value.toString(); }} sx={{'& option': { color: 'black' },}}>
+                    <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.primary }} disableUnderline value={this.CreateInfoForm.Type} onChange={(e) => { this.CreateInfoForm.Type = e.target.value; } } sx={{'& option': { color: 'black' },}}>
                       <option value="Chinese Restaurant">Chinese Restaurant</option>
                       <option value="Western Restaurant">Western Restaurant</option>
                       <option value="Asian restaurant">Asian Restaurant</option>
