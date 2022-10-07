@@ -55,7 +55,9 @@ export default class MainPage extends React.Component {
                 <div className={styles.mainBackground}>
 
                     <div className={styles.logo}>Orderaholic</div>
+                    <div className={styles.container}>
 
+                    </div>
                 </div>
 
             );
