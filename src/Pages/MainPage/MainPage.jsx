@@ -3,6 +3,8 @@ import styles from "./MainPage.module.css";
 import { isLogin, Signout, GetUserInfo } from "../../Functions/FirebaseAuth";
 import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreController";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { CustomTheme } from "../../Config/Color";
+import { Button } from "@mui/material";
 
 
 export default class MainPage extends React.Component {
@@ -13,6 +15,45 @@ export default class MainPage extends React.Component {
             isLoading: true,
             Page: "Menu Management",
         }
+
+        //Form
+
+        //Style
+        this.buttonPrimaryColor = {
+            background: CustomTheme.primary,
+            color: "#ffffff",          
+            height: "40px",
+            width: "100%",
+        }
+
+        this.buttonDisabledColor = {
+            background: CustomTheme.disabled,
+            color: "#ffffff",
+            height: "40px",
+            width: "100%",
+        }
+    }
+
+    btn_SignOut_onClick(){
+        Signout();
+        window.location.href = "/";
+    }
+
+    switchPage(){
+            
+            switch(this.state.Page) {
+                case "Menu Management":
+                    console.log("Menu Management");
+                    return;
+                
+                case "Order Management":
+                    console.log("Order Management");
+                    return;
+                
+                default:
+                    return;   
+            }
+    
     }
 
     render() {
@@ -55,8 +96,21 @@ export default class MainPage extends React.Component {
                 <div className={styles.mainBackground}>
 
                     <div className={styles.logo}>Orderaholic</div>
-                    <div className={styles.container}>
+                    <div className={styles.navBar}>
+                        <Button style={ this.state.Page === "Menu Management"? this.buttonDisabledColor : this.buttonPrimaryColor } onClick={() => {this.setState({Page: "Menu Management"})}} disabled={this.state.Page === "Menu Management"}>
+                            Menu Management
+                        </Button>
+                        <div className={styles.navBarSpace}></div>
+                        <Button style={ this.state.Page === "Order Management"? this.buttonDisabledColor : this.buttonPrimaryColor } onClick={() => {this.setState({Page: "Order Management"})}} disabled={this.state.Page === "Order Management"}>
+                            Order Management
+                        </Button>
 
+                        <Button style={{...this.buttonPrimaryColor, position: "absolute", bottom: "20px"}} onClick={() => this.btn_SignOut_onClick()}>
+                            Sign Out
+                        </Button>
+                    </div>
+                    <div className={styles.container}>
+                        {this.switchPage()}
                     </div>
                 </div>
 

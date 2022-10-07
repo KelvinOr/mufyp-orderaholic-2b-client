@@ -1,8 +1,7 @@
 .mainBackground{
     position: absolute;
-    /* min-width: 1280px;
-    min-height: 720px; */
     min-width: 1920px;
+    min-height: 1080px;
     height: 100%;
     width: 100%;
     height: 100%;
@@ -28,8 +27,23 @@
     position: absolute;
     right: 0%;
     bottom: 0%;
-    height: 93%;
+    height: 92%;
     width: 87%;
     border-radius: 50px 0px 0px 0px;
     background-color: #607EAA;
+}
+
+.navBar{
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    width: 12%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.navBarSpace{
+    height: 20px;
 }
