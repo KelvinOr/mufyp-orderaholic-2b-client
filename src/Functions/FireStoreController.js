@@ -1,6 +1,11 @@
 import app from '../Config/FirebaseConfig';
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { GetUserInfo } from './FirebaseAuth';
+import { getFirestore, 
+         doc,
+         getDoc,
+         setDoc,
+         updateDoc, } from "firebase/firestore";
+
 
 const db = getFirestore(app);
 
@@ -18,11 +23,36 @@ async function getRestaurantData(restaurantId){
 /*
 Create new restaurant data by id
 @param {object} restaurantData
-@returns {object} Restaurant data
+@returns {object} add result
 */
 async function newRestaurantData(restaurantData){
     const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
     return await setDoc(RestaurantRef, restaurantData);
 }
 
-export { getRestaurantData, newRestaurantData };
+/*
+Add new menu data by id
+@param {object} menuData
+@returns {object} update result
+*/
+async function createMenu(menuData){
+    const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
+    return await updateDoc(RestaurantRef, menuData);
+}
+
+/*
+Get menu data by id
+@returns {object} menu data
+*/
+async function getMenu(){
+    const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
+    const docSnap = await getDoc(RestaurantRef);
+    
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
+
+export { getRestaurantData, newRestaurantData, createMenu, getMenu };

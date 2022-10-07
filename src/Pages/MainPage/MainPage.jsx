@@ -5,6 +5,7 @@ import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreC
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
+import MenuManagementPage from "../MenuManagementPage/MenuManagementPage";
 
 
 export default class MainPage extends React.Component {
@@ -43,9 +44,7 @@ export default class MainPage extends React.Component {
             
             switch(this.state.Page) {
                 case "Menu Management":
-                    console.log("Menu Management");
-                    return;
-                
+                    return <MenuManagementPage />;
                 case "Order Management":
                     console.log("Order Management");
                     return;
@@ -110,7 +109,9 @@ export default class MainPage extends React.Component {
                         </Button>
                     </div>
                     <div className={styles.container}>
-                        {this.switchPage()}
+                        <div style={{margin: "20px" , width: "97%", height: "97%"}}>
+                            {this.switchPage()}
+                        </div>
                     </div>
                 </div>
 
