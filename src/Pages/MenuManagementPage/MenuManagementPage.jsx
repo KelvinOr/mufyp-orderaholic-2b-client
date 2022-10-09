@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React from "react";
 import styles from "./MenuManagementPage.module.css";
 import { CustomTheme } from "../../Config/Color";
-import { createMenu, getMenu } from "../../Functions/FireStoreController";
+import EditMenuPage from "../EditMenuPage/EditMenuPage";
 
 export default class MenuManagementPage extends React.Component {
 
@@ -12,14 +12,7 @@ export default class MenuManagementPage extends React.Component {
             isEdit: false,
         }
 
-        //Form
-        this.menuForm = {
-            menu: {
-                breakfast: [],
-                lunch: [],
-                dinner: [],
-            }
-        }
+  
 
         //Style
         this.buttonSecondaryColor = {
@@ -51,17 +44,12 @@ export default class MenuManagementPage extends React.Component {
     //Component
     EditorView(){
 
-        const menudata = getMenu();
-        menudata.then((data) => {
-            console.log(data.menu);
-        })
-
         if (this.state.isEdit){
             
             //Edit Menu Page
             return (
                 <div className={styles.container}>
-                    Edit
+                    <EditMenuPage />
                 </div>
             );
         } else {
