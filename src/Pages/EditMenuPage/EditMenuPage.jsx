@@ -13,6 +13,7 @@ export default class EditMenuPage extends React.Component {
         this.state = {
             isEdit: false,
             CheckMenu: false,
+            time: "breakfast",
             breakfast: [],
             lunch: [],
             dinner: [],
@@ -62,9 +63,21 @@ export default class EditMenuPage extends React.Component {
 
             return (
                 <div className={styles.mainContainer}>
-                    <Paper >
-                        
-                    </Paper>
+                    <div className={styles.wapper}>
+
+                        <div className={styles.time}>
+
+                        </div>
+
+                        <div className={styles.classtify}>
+
+                        </div>
+
+                        <div className={styles.menu}>
+
+                        </div>
+
+                    </div>
                 </div>
             );
 
