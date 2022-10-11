@@ -14,6 +14,8 @@ export default class EditMenuPage extends React.Component {
             isEdit: false,
             CheckMenu: false,
             time: "breakfast",
+            classtify: null,
+            menuList: null,
             breakfast: [],
             lunch: [],
             dinner: [],
@@ -57,6 +59,64 @@ export default class EditMenuPage extends React.Component {
 
     }
 
+    //compoment
+    Item(item, index){
+        return (
+            <div style={{width: "100%"}}>
+                <Button style={this.buttonPrimaryStyle} onClick={() => {
+                    this.setState({ classtify: true });
+                    switch (this.state.time) {
+                        case "breakfast":
+                            this.setState({ menuList: this.state.breakfast[index] });
+                            break;
+                        case "lunch":
+                            this.setState({ menuList: this.state.lunch[index] });
+                            break;
+                        case "dinner":
+                            this.setState({ menuList: this.state.dinner[index] });
+                            break;
+                        default:
+                            break;
+                    }
+                }} >{item}</Button>
+            </div>
+        );
+    }
+
+    //TODO
+    DisplayClasstify() {
+        switch(this.state.time){
+            case "breakfast":
+                if (this.state.breakfast.length !== 0) {
+                    return this.state.breakfast.map((item, index) => {
+                        console.log(item, index);
+                        this.Item(item, index);
+                    });
+                }
+                break;
+            // case "lunch":
+            //     if (this.state.lunch.length !== 0) {
+            //         this.state.lunch.map((item, index) => {
+            //             return this.Item(index);
+            //         });
+            //     } else {
+            //         return <div className={styles.text}>No Menu</div>
+            //     }
+            //     break;
+            // case "dinner":
+            //     if (this.state.dinner.length !== 0) {
+            //         this.state.dinner.map((item, index) => {
+            //             return this.Item(index);
+            //         });
+            //     } else {
+            //         return <div className={styles.text}>No Menu</div>
+            //     }
+            //     break;
+            default:
+                break;
+        }
+    }
+
     render() {
 
 
@@ -77,11 +137,10 @@ export default class EditMenuPage extends React.Component {
                     })
                 }
             })
-
+            
             return <LoadingPage/>;
 
         } else {
-
             return (
                 <div className={styles.mainContainer}>
                     <h1 style={{color: "#ffffff"}}>Edit Menu</h1>
@@ -96,9 +155,12 @@ export default class EditMenuPage extends React.Component {
                         </div>
 
                         <div className={styles.classtify}>
-                            {
-                                
-                            }
+                            {/* 
+                            //TODO
+                            <this.DisplayClasstify /> 
+                            */}
+                            <div style={{height: "20px"}} />
+                            <Button style={this.buttonPrimaryStyle} onClick={() => this.setState({ isEdit: true })} >Edit</Button>
                         </div>
 
                         <div className={styles.menu}>
