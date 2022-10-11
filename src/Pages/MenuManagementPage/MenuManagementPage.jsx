@@ -68,8 +68,8 @@ export default class MenuManagementPage extends React.Component {
             <div className={styles.container}>
                 
                 <div className={styles.navBar}>
-                    <Button style={this.state.isEdit? {...this.navButtonStyle, right: "50px"} : {...this.navButtonDisabledStyle, right: "50px"}} onClick={() => this.setState({isEdit: false}) } >View Menu</Button>
-                    <Button style={this.state.isEdit? {...this.navButtonDisabledStyle, left: "50px"} : {...this.navButtonStyle, left: "50px"}} onClick={() => this.setState({isEdit: true}) } >Edit Menu</Button>
+                    <Button style={this.state.isEdit? {...this.navButtonStyle, right: "50px"} : {...this.navButtonDisabledStyle, right: "50px"}} onClick={() => this.setState({isEdit: false})} disabled={this.state.isEdit !== true} >View Menu</Button>
+                    <Button style={this.state.isEdit? {...this.navButtonDisabledStyle, left: "50px"} : {...this.navButtonStyle, left: "50px"}} onClick={() => this.setState({isEdit: true}) } disabled={this.state.isEdit === true}>Edit Menu</Button>
                 </div>
                 <div style={{height: "75px"}} />              
                 {this.EditorView()}
