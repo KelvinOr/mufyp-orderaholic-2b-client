@@ -55,4 +55,9 @@ async function getMenu(){
     }
 }
 
+async function updateMenu(menuData){
+    const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
+    return await updateDoc(RestaurantRef, {menu: menuData});
+}
+
 export { getRestaurantData, newRestaurantData, createMenu, getMenu };

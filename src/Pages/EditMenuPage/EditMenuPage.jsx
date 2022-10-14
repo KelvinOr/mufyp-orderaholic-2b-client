@@ -3,7 +3,7 @@ import styles from "./EditMenuPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { getMenu } from "../../Functions/FireStoreController";
-import { Button } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 
 
 export default class EditMenuPage extends React.Component {
@@ -11,22 +11,29 @@ export default class EditMenuPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isEdit: false,
             CheckMenu: false,
             time: "breakfast",
+            DialogOpen: false,
+            DialogType: "",
+            DialogInputClasstifyName: "",
             menuList: null,
-            breakfast: [],
-            lunch: [],
-            dinner: [],
+            breakfast: {},
+            lunch: {},
+            dinner: {},
         }
 
         //Form
         this.menuForm = {
             menu: {
-                breakfast: [],
-                lunch: [],
-                dinner: [],
+                breakfast: {},
+                lunch: {},
+                dinner: {},
             }
+        }
+
+        this.DialogForm = {
+            title: "",
+            content: "",
         }
 
         //Style
@@ -55,6 +62,12 @@ export default class EditMenuPage extends React.Component {
             ...this.buttonBase,
             background: CustomTheme.disabled,
         }
+
+    }
+
+    //Action
+    btn_ClasstifityEdit_onClicked(){
+        this.setState({ DialogOpen: true, DialogType: "classtify" });
 
     }
 
@@ -160,6 +173,44 @@ export default class EditMenuPage extends React.Component {
         } else {
             return (
                 <div className={styles.mainContainer}>
+
+                    <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary }}}>
+                        <DialogTitle>
+                            <div className={styles.text}>{this.DialogForm.title}</div>
+                        </DialogTitle>
+                        {this.state.DialogType === "classtify" ? <DialogContent>
+                            <TextField fullWidth
+                                variant="standard"
+                                value={this.state.DialogInputClasstifyName}
+                                onChange={(e) => {
+                                    this.setState({ DialogInputClasstifyName: e.target.value });
+                                }}
+                                sx={{
+                                '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                                '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
+                                '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
+                                '& .MuiInputBase-input': { color: 'white' },
+                                '& .MuiInputLabel-root': { color: 'white' },
+                                '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
+                                '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
+                            }} />
+                        </DialogContent> : null}
+                        <DialogActions>
+                            {this.state.DialogType === "classtify" ? <Button style={this.buttonSecondaryStyle} onClick={() => {
+                                this.setState({ DialogOpen: false, });
+                                switch (this.state.time) {
+                                    case "breakfast":
+                                        this.setState({ breakfast: { ...this.state.breakfast, [this.state.DialogInputClasstifyName]: {} } });
+                                        break;
+
+                                    default: 
+                                        break;
+                                }
+                            } }>Add</Button> : null}
+                            <Button style={this.buttonSecondaryStyle} onClick={() => { this.setState({ DialogOpen: false }) }}>Cancel</Button>
+                        </DialogActions>
+                    </Dialog>
+
                     <h1 style={{color: "#ffffff"}}>Edit Menu</h1>
                     <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
 
@@ -177,7 +228,7 @@ export default class EditMenuPage extends React.Component {
                                 {this.state.time === "lunch"? this.lunchClassify() : null}
                                 {this.state.time === "dinner"? this.dinnerClassify() : null}
                             </div>
-                            <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.setState({ isEdit: true })} >Edit</Button>
+                            <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.btn_ClasstifityEdit_onClicked()} >Edit</Button>
                         </div>
 
                         <div className={styles.menu}>

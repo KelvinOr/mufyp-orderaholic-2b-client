@@ -45,6 +45,12 @@ export default class CreateInfoPage extends React.Component {
           Type: "Chinese Restaurant",
           ContectNumber: "",
           Location: "",
+          Discription: "",
+          menu: {
+            breakfast: {},
+            lunch: {},
+            dinner: {},
+          },
         };
 
         this.DialogForm = {
