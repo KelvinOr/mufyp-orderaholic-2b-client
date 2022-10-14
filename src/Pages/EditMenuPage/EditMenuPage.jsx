@@ -59,13 +59,14 @@ export default class EditMenuPage extends React.Component {
     }
 
     //compoment
-    breakfastClassify(){
-        if (this.state.breakfast.length !== 0) {
-            
-            var result = [];
-            for(let x in this.state.breakfast){
-                result.push(x);
-            }
+    breakfastClassify(){            
+
+        var result = [];
+        for(let x in this.state.breakfast){
+            result.push(x);
+        }
+
+        if (result.length !== 0) {
 
             return result.map((item, index) => {
                 return (
@@ -84,12 +85,13 @@ export default class EditMenuPage extends React.Component {
     }
 
     lunchClassify(){
-        if (this.state.lunch.length !== 0) {
+        
+        var result = [];
+        for(let x in this.state.lunch){
+            result.push(x);
+        }
 
-            var result = [];
-            for(let x in this.state.lunch){
-                result.push(x);
-            }
+        if (result.length !== 0) {
 
             return result.map((item, index) => {
                 return (
@@ -101,20 +103,20 @@ export default class EditMenuPage extends React.Component {
                     </div>
                 )
             });
-            
+
         } else {
             return <div className={styles.text}>No Menu</div>
         }
     }
 
     dinnerClassify(){
-        if (this.state.dinner.length !== 0) {
 
-            var result = [];
-            for(let x in this.state.dinner){
-                result.push(x);
-            }
+        var result = [];
+        for(let x in this.state.dinner){
+            result.push(x);
+        }
 
+        if (result.length !== 0) {
 
             return result.map((item, index) => {
                 return (
