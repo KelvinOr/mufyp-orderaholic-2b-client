@@ -61,7 +61,13 @@ export default class EditMenuPage extends React.Component {
     //compoment
     breakfastClassify(){
         if (this.state.breakfast.length !== 0) {
-            return this.state.breakfast.map((item, index) => {
+            
+            var result = [];
+            for(let x in this.state.breakfast){
+                result.push(x);
+            }
+
+            return result.map((item, index) => {
                 return (
                     <div>
                         <Button style={this.buttonSecondaryStyle} onClick={() => {
@@ -71,6 +77,7 @@ export default class EditMenuPage extends React.Component {
                     </div>
                 );    
             });
+
         } else {
             return <div className={styles.text}>No Menu</div>
         }
@@ -78,7 +85,13 @@ export default class EditMenuPage extends React.Component {
 
     lunchClassify(){
         if (this.state.lunch.length !== 0) {
-            return this.state.lunch.map((item, index) => {
+
+            var result = [];
+            for(let x in this.state.lunch){
+                result.push(x);
+            }
+
+            return result.map((item, index) => {
                 return (
                     <div>
                         <Button style={this.buttonSecondaryStyle} onClick={() => {
@@ -88,6 +101,7 @@ export default class EditMenuPage extends React.Component {
                     </div>
                 )
             });
+            
         } else {
             return <div className={styles.text}>No Menu</div>
         }
@@ -95,7 +109,14 @@ export default class EditMenuPage extends React.Component {
 
     dinnerClassify(){
         if (this.state.dinner.length !== 0) {
-            return this.state.dinner.map((item, index) => {
+
+            var result = [];
+            for(let x in this.state.dinner){
+                result.push(x);
+            }
+
+
+            return result.map((item, index) => {
                 return (
                     <div>
                         <Button style={this.buttonSecondaryStyle} onClick={() => {
@@ -105,6 +126,7 @@ export default class EditMenuPage extends React.Component {
                     </div>
                 )
             });
+
         } else {
             return <div className={styles.text}>No Menu</div>
         }
