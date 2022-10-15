@@ -16,12 +16,13 @@
 }
 
 .wapper{
-    width: 75%;
+    width: 50%;
     height: fit-content;
+    max-height: 60%;
     padding: 50px;
     
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-gap: 25px;
 
 }

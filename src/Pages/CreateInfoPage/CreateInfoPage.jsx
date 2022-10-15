@@ -47,9 +47,9 @@ export default class CreateInfoPage extends React.Component {
           Location: "",
           Discription: "",
           menu: {
-            breakfast: {},
-            lunch: {},
-            dinner: {},
+            breakfast: [],
+            lunch: [],
+            dinner: [],
           },
         };
 

@@ -3,7 +3,7 @@ import styles from "./EditMenuPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { getMenu, updateMenu } from "../../Functions/FireStoreController";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Chip, createTheme, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextField, ThemeProvider } from "@mui/material";
 
 
 export default class EditMenuPage extends React.Component {
@@ -16,7 +16,6 @@ export default class EditMenuPage extends React.Component {
             DialogOpen: false,
             DialogType: "",
             DialogInputClasstifyName: "",
-            menuList: [],
             breakfast: {},
             lunch: {},
             dinner: {},
@@ -63,6 +62,30 @@ export default class EditMenuPage extends React.Component {
             background: CustomTheme.disabled,
         }
 
+        this.PaperStyle = {
+            background: CustomTheme.secondary,
+            width: "100%",
+        }
+
+        // this.chipCoustomColor = createTheme({
+        //     components: {
+        //         MuiChip: {
+        //             styleOverrides: {
+        //                 colorPrimary: {
+        //                     backgroundColor: CustomTheme.secondary,
+        //                     color: "#ffffff",
+        //                 },
+        //             }
+        //         }
+        //     }
+        // });
+
+        // this.chipCustomStyle = {
+        //     width: "100%",
+        //     height: "40px",
+        //     fontSize: "17px",
+        // }
+
     }
 
     //Action
@@ -77,22 +100,45 @@ export default class EditMenuPage extends React.Component {
     //compoment
     breakfastClassify(){            
 
-        var result = [];
-        for(let x in this.state.breakfast){
-            result.push(x);
-        }
+       console.log(this.state.breakfast);
 
-        if (result.length !== 0) {
+        if (this.state.breakfast.length !== 0) {
 
-            return result.map((item, index) => {
+            // return result.map((item, index) => {
+            //     return (
+            //         <div>
+            //             <ThemeProvider theme={this.chipCoustomColor}>
+            //                 <Chip 
+            //                     label={item}
+            //                     style={this.chipCustomStyle}
+            //                     onClick={() => {
+            //                         this.setState({ menuList: this.state.breakfast[index] });
+            //                     }} 
+            //                     color="primary" />
+            //             </ThemeProvider>
+                        
+            //             <div style={{ height: "10px" }}></div>
+            //         </div>
+            //     );    
+            // });
+            return this.state.breakfast.map((item, index) => {
+                
                 return (
                     <div>
-                        <Button style={this.buttonSecondaryStyle} onClick={() => {
-                            this.setState({ menuList: this.state.breakfast[result[index]] });
-                        }} >{item}</Button>
-                        <div style={{ height: "10px" }}></div>
+                        <Paper variant='none' style={this.PaperStyle}>
+                            <div style={{
+                                position: "absolute",
+                                left: "5px",
+                                top: "5px",
+
+                            }}>
+                                {item.name}
+                            </div>
+                        </Paper>
+                        <div style={{ height: "10px" }}/>
                     </div>
-                );    
+                );
+
             });
 
         } else {
@@ -149,24 +195,6 @@ export default class EditMenuPage extends React.Component {
             return <div className={styles.text}>No Menu</div>
         }
     }
-
-    menuList(){
-        if (this.state.menuList.length !== 0) {
-            return this.state.menuList.map((item, index) => {
-                return (
-                    <div>
-                        <Button style={this.buttonSecondaryStyle} onClick={() => {
-                            
-                        }} >{item.name}</Button>
-                        <div style={{ height: "10px" }}></div>
-                    </div>
-                )
-            });
-        } else {
-            return <div className={styles.text}>No Menu</div>
-        }
-    }
-
 
     render() {
 
@@ -246,20 +274,18 @@ export default class EditMenuPage extends React.Component {
                         <div className={styles.Item} style={{background: CustomTheme.primary}}>
                             <div style={{width: "100%"}}>
                                 {this.state.time === "breakfast"? this.breakfastClassify() : null}
-                                {this.state.time === "lunch"? this.lunchClassify() : null}
-                                {this.state.time === "dinner"? this.dinnerClassify() : null}
+                                {/* {this.state.time === "lunch"? this.lunchClassify() : null}
+                                {this.state.time === "dinner"? this.dinnerClassify() : null} */}
                             </div>
                             <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.btn_ClasstifityAdd_onClicked()} >Add</Button>
                         </div>
 
-                        <div className={styles.Item} style={{background: CustomTheme.primary}}>
-                            <div style={{width: "100%"}}>
-                                {this.menuList()}
-                            </div>
-                            <Button style={{...this.buttonSecondaryStyle}} >Add</Button>
-                        </div>
-
                     </div>
+
+                    <div>
+                        <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_Save_onClicked()} >Save</Button>
+                    </div>
+
                 </div>
             );
 
