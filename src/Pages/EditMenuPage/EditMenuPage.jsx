@@ -16,7 +16,7 @@ export default class EditMenuPage extends React.Component {
             DialogOpen: false,
             DialogType: "",
             DialogInputClasstifyName: "",
-            menuList: null,
+            menuList: [],
             breakfast: {},
             lunch: {},
             dinner: {},
@@ -66,9 +66,8 @@ export default class EditMenuPage extends React.Component {
     }
 
     //Action
-    btn_ClasstifityEdit_onClicked(){
+    btn_ClasstifityAdd_onClicked(){
         this.setState({ DialogOpen: true, DialogType: "classtify" });
-
     }
 
     //compoment
@@ -85,7 +84,7 @@ export default class EditMenuPage extends React.Component {
                 return (
                     <div>
                         <Button style={this.buttonSecondaryStyle} onClick={() => {
-                            this.setState({ menuList: this.state.breakfast[index] });
+                            this.setState({ menuList: this.state.breakfast[result[index]] });
                         }} >{item}</Button>
                         <div style={{ height: "10px" }}></div>
                     </div>
@@ -147,6 +146,23 @@ export default class EditMenuPage extends React.Component {
         }
     }
 
+    menuList(){
+        if (this.state.menuList.length !== 0) {
+            return this.state.menuList.map((item, index) => {
+                return (
+                    <div>
+                        <Button style={this.buttonSecondaryStyle} onClick={() => {
+                            
+                        }} >{item.name}</Button>
+                        <div style={{ height: "10px" }}></div>
+                    </div>
+                )
+            });
+        } else {
+            return <div className={styles.text}>No Menu</div>
+        }
+    }
+
 
     render() {
 
@@ -165,6 +181,7 @@ export default class EditMenuPage extends React.Component {
                         dinner: data.menu.dinner,
                         CheckMenu: true,
                     })
+                    console.log(data.menu.breakfast);
                 }
             })
             
@@ -215,11 +232,11 @@ export default class EditMenuPage extends React.Component {
                     <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
 
                         <div className={styles.Item} style={{background: CustomTheme.primary}}>
-                            <Button style={this.state.time === "breakfast"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "breakfast"} onClick={() => { this.setState({ time: "breakfast" })}} >breakfast</Button>
+                            <Button style={this.state.time === "breakfast"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "breakfast"} onClick={() => { this.setState({ time: "breakfast", menuList: [] })}} >breakfast</Button>
                             <div style={{height: "10px"}} />
-                            <Button style={this.state.time === "lunch"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "lunch"} onClick={() => this.setState({ time: "lunch" })} >lunch</Button>
+                            <Button style={this.state.time === "lunch"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "lunch"} onClick={() => this.setState({ time: "lunch", menuList: [] })} >lunch</Button>
                             <div style={{height: "10px"}} />
-                            <Button style={this.state.time === "dinner"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "dinner"} onClick={() => this.setState({ time: "dinner" })} >dinner</Button>
+                            <Button style={this.state.time === "dinner"? this.buttonDisabledStyle : this.buttonSecondaryStyle} disabled={this.state.time === "dinner"} onClick={() => this.setState({ time: "dinner", menuList: [] })} >dinner</Button>
                         </div>
 
                         <div className={styles.Item} style={{background: CustomTheme.primary}}>
@@ -228,11 +245,14 @@ export default class EditMenuPage extends React.Component {
                                 {this.state.time === "lunch"? this.lunchClassify() : null}
                                 {this.state.time === "dinner"? this.dinnerClassify() : null}
                             </div>
-                            <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.btn_ClasstifityEdit_onClicked()} >Edit</Button>
+                            <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.btn_ClasstifityAdd_onClicked()} >Add</Button>
                         </div>
 
-                        <div className={styles.menu}>
-
+                        <div className={styles.Item} style={{background: CustomTheme.primary}}>
+                            <div style={{width: "100%"}}>
+                                {this.menuList()}
+                            </div>
+                            <Button style={{...this.buttonSecondaryStyle}} >Add</Button>
                         </div>
 
                     </div>
