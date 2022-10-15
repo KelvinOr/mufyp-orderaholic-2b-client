@@ -60,4 +60,4 @@ async function updateMenu(menuData){
     return await updateDoc(RestaurantRef, {menu: menuData});
 }
 
-export { getRestaurantData, newRestaurantData, createMenu, getMenu };
+export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu };

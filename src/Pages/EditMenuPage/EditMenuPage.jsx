@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./EditMenuPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import { getMenu } from "../../Functions/FireStoreController";
+import { getMenu, updateMenu } from "../../Functions/FireStoreController";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 
 
@@ -68,6 +68,10 @@ export default class EditMenuPage extends React.Component {
     //Action
     btn_ClasstifityAdd_onClicked(){
         this.setState({ DialogOpen: true, DialogType: "classtify" });
+    }
+
+    btn_SaveMenu_onClicked(){
+        updateMenu(this.menuForm.menu);
     }
 
     //compoment
