@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./MenuManagementPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import EditMenuPage from "../EditMenuPage/EditMenuPage";
+import ViewMenuPage from "../ViewMenuPage/ViewMenuPage";
 
 export default class MenuManagementPage extends React.Component {
 
@@ -57,7 +58,7 @@ export default class MenuManagementPage extends React.Component {
             //View Menu Page
             return (
                 <div className={styles.container}>
-                    View
+                    <ViewMenuPage />
                 </div>
             );
         }
