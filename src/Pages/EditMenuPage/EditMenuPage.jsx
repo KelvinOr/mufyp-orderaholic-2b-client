@@ -14,7 +14,8 @@ import { Button,
          CardContent, 
          Typography,
          CardActions, 
-         IconButton} from "@mui/material";
+         IconButton,
+         DialogContentText} from "@mui/material";
 
 
 export default class EditMenuPage extends React.Component {
@@ -26,7 +27,8 @@ export default class EditMenuPage extends React.Component {
             time: "breakfast",
             DialogOpen: false,
             DialogType: "",
-            DialogInputClasstifyName: "",
+            DialogInputName: "",
+            DialogInputPrice: "",
             breakfast: [],
             lunch: [],
             dinner: [],
@@ -34,16 +36,9 @@ export default class EditMenuPage extends React.Component {
 
         //Form
         this.menuForm = {
-            menu: {
-                breakfast: [],
-                lunch: [],
-                dinner: [],
-            }
-        }
-
-        this.DialogForm = {
-            title: "",
-            content: "",
+            breakfast: [],
+            lunch: [],
+            dinner: [],
         }
 
         //Style
@@ -78,6 +73,15 @@ export default class EditMenuPage extends React.Component {
             width: "100%",
         }
 
+        this.textFileStyle = {
+            '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+            '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
+            '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
+            '& .MuiInputBase-input': { color: 'white' },
+            '& .MuiInputLabel-root': { color: 'white' },
+            '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
+            '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
+        }
     }
 
     //Action
@@ -86,7 +90,10 @@ export default class EditMenuPage extends React.Component {
     }
 
     btn_SaveMenu_onClicked(){
-        updateMenu(this.menuForm.menu);
+        this.menuForm.breakfast = this.state.breakfast;
+        this.menuForm.lunch = this.state.lunch;
+        this.menuForm.dinner = this.state.dinner;
+        updateMenu(this.menuForm);
     }
 
     //compoment
@@ -228,33 +235,47 @@ export default class EditMenuPage extends React.Component {
             return (
                 <div className={styles.mainContainer}>
 
-                    <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary }}}>
+                    <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
+
                         <DialogTitle>
-                            <div className={styles.text}>{this.DialogForm.title}</div>
+                            <div className={styles.text}>Add Item</div>
                         </DialogTitle>
-                        {this.state.DialogType === "classtify" ? <DialogContent>
+
+                        <DialogContent>
+
+                            <DialogContentText>
+                                <div className={styles.text}>Item Name:</div>   
+                            </DialogContentText> 
+
                             <TextField fullWidth
                                 variant="standard"
-                                value={this.state.DialogInputClasstifyName}
+                                value={this.state.DialogInputName}
                                 onChange={(e) => {
-                                    this.setState({ DialogInputClasstifyName: e.target.value });
+                                    this.setState({ DialogInputName: e.target.value });
                                 }}
-                                sx={{
-                                '& .MuiInput-underline:before': { borderBottomColor: 'white' },
-                                '& .MuiInput-underline:after': { borderBottomColor: CustomTheme.secondary },
-                                '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: CustomTheme.secondary },
-                                '& .MuiInputBase-input': { color: 'white' },
-                                '& .MuiInputLabel-root': { color: 'white' },
-                                '& .MuiInputLabel-root.Mui-focused': { color: CustomTheme.secondary },
-                                '& .MuiInputLabel-root.Mui-disabled': { color: 'white' }, 
-                            }} />
-                        </DialogContent> : null}
+                                sx={this.textFileStyle} />
+
+                            <DialogContentText>
+                                <div className={styles.text}>Item Price:</div>
+                            </DialogContentText>
+
+                            <TextField fullWidth
+                                variant="standard"
+                                value={this.state.DialogInputPrice}
+                                onChange={(e) => {
+                                    this.setState({ DialogInputPrice: e.target.value });
+                                }}
+                                type="number"
+                                sx={this.textFileStyle} />
+
+                        </DialogContent>
+
                         <DialogActions>
                             {this.state.DialogType === "classtify" ? <Button style={this.buttonSecondaryStyle} onClick={() => {
                                 this.setState({ DialogOpen: false, });
                                 switch (this.state.time) {
                                     case "breakfast":
-                                        this.setState({ breakfast: [...this.state.breakfast, this.state.DialogInputClasstifyName] });
+                                        this.setState({ breakfast: [...this.state.breakfast, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
                                         break;
 
                                     default: 
@@ -263,6 +284,7 @@ export default class EditMenuPage extends React.Component {
                             } }>Add</Button> : null}
                             <Button style={this.buttonSecondaryStyle} onClick={() => { this.setState({ DialogOpen: false }) }}>Cancel</Button>
                         </DialogActions>
+
                     </Dialog>
 
                     <h1 style={{color: "#ffffff"}}>Edit Menu</h1>
@@ -279,8 +301,8 @@ export default class EditMenuPage extends React.Component {
                         <div className={styles.Item} style={{background: CustomTheme.primary}}>
                             <div style={{width: "100%"}}>
                                 {this.state.time === "breakfast"? this.breakfastClassify() : null}
-                                {/* {this.state.time === "lunch"? this.lunchClassify() : null}
-                                {this.state.time === "dinner"? this.dinnerClassify() : null} */}
+                                {this.state.time === "lunch"? this.lunchClassify() : null}
+                                {this.state.time === "dinner"? this.dinnerClassify() : null}
                             </div>
                             <Button style={{...this.buttonSecondaryStyle}} onClick={() => this.btn_ClasstifityAdd_onClicked()} >Add</Button>
                         </div>
@@ -288,7 +310,7 @@ export default class EditMenuPage extends React.Component {
                     </div>
                     <div style={{height: "10px"}} />
                     <div>
-                        <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_Save_onClicked()} >Save</Button>
+                        <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_SaveMenu_onClicked()} >Save</Button>
                     </div>
 
                 </div>

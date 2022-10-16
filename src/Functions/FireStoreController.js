@@ -56,6 +56,7 @@ async function getMenu(){
 }
 
 async function updateMenu(menuData){
+    console.log(menuData);
     const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
     return await updateDoc(RestaurantRef, {menu: menuData});
 }
