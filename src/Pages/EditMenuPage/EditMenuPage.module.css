@@ -15,16 +15,28 @@
     font-size: 18px;
 }
 
+.cardText{
+    color: white;
+    font-family: Tahoma;
+}
+
 .wapper{
-    width: 50%;
-    height: fit-content;
-    max-height: 60%;
+    width: 70%;
+    max-height: 90%;
     padding: 50px;
-    
+
+    overflow: scroll;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-gap: 25px;
 
+}
+
+.wapper::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .Item{
@@ -37,3 +49,4 @@
     flex-direction: column;
     
 }
+

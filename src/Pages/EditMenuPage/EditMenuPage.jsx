@@ -3,7 +3,18 @@ import styles from "./EditMenuPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { getMenu, updateMenu } from "../../Functions/FireStoreController";
-import { Button, Chip, createTheme, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextField, ThemeProvider } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Button,
+         Dialog, 
+         DialogActions, 
+         DialogContent, 
+         DialogTitle, 
+         Card, 
+         TextField, 
+         CardContent, 
+         Typography,
+         CardActions, 
+         IconButton} from "@mui/material";
 
 
 export default class EditMenuPage extends React.Component {
@@ -16,17 +27,17 @@ export default class EditMenuPage extends React.Component {
             DialogOpen: false,
             DialogType: "",
             DialogInputClasstifyName: "",
-            breakfast: {},
-            lunch: {},
-            dinner: {},
+            breakfast: [],
+            lunch: [],
+            dinner: [],
         }
 
         //Form
         this.menuForm = {
             menu: {
-                breakfast: {},
-                lunch: {},
-                dinner: {},
+                breakfast: [],
+                lunch: [],
+                dinner: [],
             }
         }
 
@@ -67,25 +78,6 @@ export default class EditMenuPage extends React.Component {
             width: "100%",
         }
 
-        // this.chipCoustomColor = createTheme({
-        //     components: {
-        //         MuiChip: {
-        //             styleOverrides: {
-        //                 colorPrimary: {
-        //                     backgroundColor: CustomTheme.secondary,
-        //                     color: "#ffffff",
-        //                 },
-        //             }
-        //         }
-        //     }
-        // });
-
-        // this.chipCustomStyle = {
-        //     width: "100%",
-        //     height: "40px",
-        //     fontSize: "17px",
-        // }
-
     }
 
     //Action
@@ -100,41 +92,29 @@ export default class EditMenuPage extends React.Component {
     //compoment
     breakfastClassify(){            
 
-       console.log(this.state.breakfast);
-
         if (this.state.breakfast.length !== 0) {
 
-            // return result.map((item, index) => {
-            //     return (
-            //         <div>
-            //             <ThemeProvider theme={this.chipCoustomColor}>
-            //                 <Chip 
-            //                     label={item}
-            //                     style={this.chipCustomStyle}
-            //                     onClick={() => {
-            //                         this.setState({ menuList: this.state.breakfast[index] });
-            //                     }} 
-            //                     color="primary" />
-            //             </ThemeProvider>
-                        
-            //             <div style={{ height: "10px" }}></div>
-            //         </div>
-            //     );    
-            // });
             return this.state.breakfast.map((item, index) => {
                 
                 return (
                     <div>
-                        <Paper variant='none' style={this.PaperStyle}>
-                            <div style={{
-                                position: "absolute",
-                                left: "5px",
-                                top: "5px",
-
-                            }}>
-                                {item.name}
-                            </div>
-                        </Paper>
+                        <Card variant='none' style={this.PaperStyle}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    <div className={styles.cardText}>{item.name}</div>
+                                </Typography>
+                                <Typography variant={{fontSize: 14}}>
+                                    <div className={styles.cardText}>price: {item.price}</div>
+                                </Typography>
+                                <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <IconButton onClick={() => {
+                                        var temp = this.state.breakfast;
+                                        temp.splice(index, 1);
+                                        this.setState({ breakfast: temp });
+                                    }}><DeleteIcon style={{color: "white"}}/></IconButton>
+                                </CardActions>
+                            </CardContent>
+                        </Card>
                         <div style={{ height: "10px" }}/>
                     </div>
                 );
@@ -144,56 +124,81 @@ export default class EditMenuPage extends React.Component {
         } else {
             return <div className={styles.text}>No Menu</div>
         }
+
     }
 
     lunchClassify(){
         
-        var result = [];
-        for(let x in this.state.lunch){
-            result.push(x);
-        }
+        if (this.state.lunch.length !== 0) {
 
-        if (result.length !== 0) {
-
-            return result.map((item, index) => {
+            return this.state.lunch.map((item, index) => {
+                
                 return (
                     <div>
-                        <Button style={this.buttonSecondaryStyle} onClick={() => {
-                            this.setState({ menuList: this.state.lunch[index] });
-                        }} >{item}</Button>
-                        <div style={{ height: "10px" }}></div>
+                        <Card variant='none' style={this.PaperStyle}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    <div className={styles.cardText}>{item.name}</div>
+                                </Typography>
+                                <Typography variant={{fontSize: 14}}>
+                                    <div className={styles.cardText}>price: {item.price}</div>
+                                </Typography>
+                                <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <IconButton onClick={() => {
+                                        var temp = this.state.lunch;
+                                        temp.splice(index, 1);
+                                        this.setState({ lunch: temp });
+                                    }}><DeleteIcon style={{color: "white"}}/></IconButton>
+                                </CardActions>
+                            </CardContent>
+                        </Card>
+                        <div style={{ height: "10px" }}/>
                     </div>
-                )
+                );
+
             });
 
         } else {
             return <div className={styles.text}>No Menu</div>
         }
+        
     }
 
     dinnerClassify(){
 
-        var result = [];
-        for(let x in this.state.dinner){
-            result.push(x);
-        }
+        if (this.state.dinner.length !== 0) {
 
-        if (result.length !== 0) {
-
-            return result.map((item, index) => {
+            return this.state.dinner.map((item, index) => {
+                
                 return (
                     <div>
-                        <Button style={this.buttonSecondaryStyle} onClick={() => {
-                            this.setState({ menuList: this.state.dinner[index] });
-                        }} >{item}</Button>
-                        <div style={{ height: "10px" }}></div>
+                        <Card variant='none' style={this.PaperStyle}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    <div className={styles.cardText}>{item.name}</div>
+                                </Typography>
+                                <Typography variant={{fontSize: 14}}>
+                                    <div className={styles.cardText}>price: {item.price}</div>
+                                </Typography>
+                                <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <IconButton onClick={() => {
+                                        var temp = this.state.dinner;
+                                        temp.splice(index, 1);
+                                        this.setState({ dinner: temp });
+                                    }}><DeleteIcon style={{color: "white"}}/></IconButton>
+                                </CardActions>
+                            </CardContent>
+                        </Card>
+                        <div style={{ height: "10px" }}/>
                     </div>
-                )
+                );
+
             });
 
         } else {
             return <div className={styles.text}>No Menu</div>
         }
+
     }
 
     render() {
@@ -249,7 +254,7 @@ export default class EditMenuPage extends React.Component {
                                 this.setState({ DialogOpen: false, });
                                 switch (this.state.time) {
                                     case "breakfast":
-                                        this.setState({ breakfast: { ...this.state.breakfast, [this.state.DialogInputClasstifyName]: {} } });
+                                        this.setState({ breakfast: [...this.state.breakfast, this.state.DialogInputClasstifyName] });
                                         break;
 
                                     default: 
@@ -281,7 +286,7 @@ export default class EditMenuPage extends React.Component {
                         </div>
 
                     </div>
-
+                    <div style={{height: "10px"}} />
                     <div>
                         <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_Save_onClicked()} >Save</Button>
                     </div>
