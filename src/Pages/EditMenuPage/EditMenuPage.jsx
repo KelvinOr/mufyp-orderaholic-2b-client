@@ -220,12 +220,11 @@ export default class EditMenuPage extends React.Component {
                     })
                 } else {
                     this.setState({
-                        breakfast: data.menu.breakfast,
-                        lunch: data.menu.lunch,
-                        dinner: data.menu.dinner,
+                        breakfast: data.menu.breakfast === undefined ? [] : data.menu.breakfast,
+                        lunch: data.menu.lunch === undefined? [] : data.menu.lunch,
+                        dinner: data.menu.dinner === undefined? [] : data.menu.dinner,
                         CheckMenu: true,
                     })
-                    console.log(data.menu.breakfast);
                 }
             })
             
