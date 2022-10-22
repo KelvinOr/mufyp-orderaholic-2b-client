@@ -9,7 +9,6 @@ function App() {
   return (
     console.log("Powered by jinkela-core 2.8.9."),
     <div className="App">
-        {/* <RouterProvider router={router} /> */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SelectLoginPage />} />
