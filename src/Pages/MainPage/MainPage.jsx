@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MainPage.module.css";
 import { isLogin, Signout, GetUserInfo } from "../../Functions/FirebaseAuth";
-import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreController";
+import { getRestaurantData } from "../../Functions/FireStoreController";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
