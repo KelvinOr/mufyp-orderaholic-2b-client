@@ -6,6 +6,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
 import MenuManagementPage from "../MenuManagementPage/MenuManagementPage";
+import OrderManagementPage from "../NewOrderPage/OrderManagementPage";
 
 
 export default class MainPage extends React.Component {
@@ -46,9 +47,7 @@ export default class MainPage extends React.Component {
                 case "Menu Management":
                     return <MenuManagementPage />;
                 case "Order Management":
-                    console.log("Order Management");
-                    return;
-                
+                    return <OrderManagementPage />;
                 default:
                     return;   
             }
