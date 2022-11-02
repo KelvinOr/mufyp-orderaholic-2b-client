@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './OrderManagementPage.module.css';
+import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
 
 export default class OrderManagementPage extends React.Component {
@@ -8,6 +9,28 @@ export default class OrderManagementPage extends React.Component {
         super(props);
         this.state = {
             OrderList: true,
+        }
+
+        //Style
+        this.buttonSecondaryColor = {
+            background: CustomTheme.secondary,
+            color: "#ffffff",
+            height: "40px",
+            width: "100px",
+        }
+
+        this.navButtonStyle = {
+            ...this.buttonSecondaryColor,
+            width: "46.5%",
+            position: "absolute",
+        }
+
+        this.navButtonDisabledStyle = {
+            background: CustomTheme.disabled,
+            color: "#ffffff",
+            height: "40px",
+            width: "46.5%",
+            position: "absolute",
         }
     }
 
