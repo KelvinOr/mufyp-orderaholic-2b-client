@@ -1,9 +1,7 @@
-import { Button } from "@mui/material";
 import React from "react";
 import styles from "./MenuManagementPage.module.css";
 import { CustomTheme } from "../../Config/Color";
 import EditMenuPage from "../EditMenuPage/EditMenuPage";
-import ViewMenuPage from "../ViewMenuPage/ViewMenuPage";
 
 export default class MenuManagementPage extends React.Component {
 
@@ -43,26 +41,26 @@ export default class MenuManagementPage extends React.Component {
     //Function
 
     //Component
-    EditorView(){
+    // EditorView(){
 
-        if (this.state.isEdit){
+    //     if (this.state.isEdit){
             
-            //Edit Menu Page
-            return (
-                <div className={styles.container}>
-                    <EditMenuPage />
-                </div>
-            );
-        } else {
+    //         //Edit Menu Page
+    //         return (
+    //             <div className={styles.container}>
+    //                 <EditMenuPage />
+    //             </div>
+    //         );
+    //     } else {
 
-            //View Menu Page
-            return (
-                <div className={styles.container}>
-                    <ViewMenuPage />
-                </div>
-            );
-        }
-    }
+    //         //View Menu Page
+    //         return (
+    //             <div className={styles.container}>
+    //                 <ViewMenuPage />
+    //             </div>
+    //         );
+    //     }
+    // }
 
     render() {
         return (

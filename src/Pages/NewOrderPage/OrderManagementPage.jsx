@@ -2,6 +2,7 @@ import React from "react";
 import styles from './OrderManagementPage.module.css';
 import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
+import OrderListPage from "../OrderListPage/OrderListPage";
 
 export default class OrderManagementPage extends React.Component {
 
@@ -40,7 +41,7 @@ export default class OrderManagementPage extends React.Component {
             //Edit Menu Page
             return (
                 <div className={styles.container}>
-                    
+                    <OrderListPage />
                 </div>
             );
         } else {
