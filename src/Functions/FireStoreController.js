@@ -6,7 +6,6 @@ import { getFirestore,
          setDoc,
          updateDoc, } from "firebase/firestore";
 
-
 const db = getFirestore(app);
 
 /*
@@ -55,10 +54,16 @@ async function getMenu(){
     }
 }
 
+/*
+Update menu data by id
+@param {object} menuData
+@returns {object} update result
+*/
 async function updateMenu(menuData){
     console.log(menuData);
     const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
     return await updateDoc(RestaurantRef, {menu: menuData});
 }
+
 
 export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu };

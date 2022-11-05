@@ -307,7 +307,7 @@ export default class EditMenuPage extends React.Component {
                         </div>
 
                     </div>
-                    <div style={{height: "10px"}} />
+                    <div style={{height: "20px"}} />
                     <div>
                         <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_SaveMenu_onClicked()} >Save</Button>
                     </div>
