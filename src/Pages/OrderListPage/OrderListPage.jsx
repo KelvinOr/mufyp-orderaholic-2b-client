@@ -78,56 +78,33 @@ export default class OrderListPage extends React.Component {
 
     OrderListItem(){
 
-        var value = ["test", "test1"]
-
         if (this.state.OrderList.length === 0){
             return (
                 <div className={styles.text} style={{color: CustomTheme.text}}>No Order</div>
             );
         } 
-        // else {
+        else {
        
-        //     Object.keys(this.state.OrderList).map((item) => {
-        //         return (
-        //             <div>
-        //                 <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
-        //                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
-        //                         <CardContent>
-        //                             <Typography>
-        //                                 Order ID: {this.state.OrderList[item].OrderDiscription}
-        //                             </Typography>
-        //                         </CardContent>
-        //                     </Box>
-        //                     <QRCode
-        //                         value={this.state.OrderList[item].OrderID}
-        //                         size={128}
-        //                     />  
-        //                 </Card>
-        //             </div>
-        //         )
-        //     });
-        // }
-
-        value.map((item) => {
-            return (
-                <div>
-                    <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
-                        <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                            <CardContent>
-                                <Typography>
-                                    Order ID: {item}
-                                </Typography>
-                            </CardContent>
-                        </Box>
-                        <QRCode
-                            value={value}
-                            size={128}
-                        />  
-                    </Card>
-                </div>
-            )
-        });
-
+            return Object.keys(this.state.OrderList).map((item) => {
+                return (
+                    <div>
+                        <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
+                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                <CardContent>
+                                    <Typography>
+                                        Order ID: {this.state.OrderList[item].OrderDiscription}
+                                    </Typography>
+                                </CardContent>
+                            </Box>
+                            <QRCode
+                                value={this.state.OrderList[item].OrderID}
+                                size={128}
+                            />  
+                        </Card>
+                    </div>
+                )
+            });
+        }
         
     }
     
