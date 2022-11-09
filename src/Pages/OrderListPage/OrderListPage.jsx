@@ -92,7 +92,7 @@ export default class OrderListPage extends React.Component {
                             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                 <CardContent>
                                     <Typography>
-                                        Order ID: {this.state.OrderList[item].OrderDiscription}
+                                        <div className={styles.text}>Order ID: {this.state.OrderList[item].OrderDiscription}</div>
                                     </Typography>
                                 </CardContent>
                             </Box>
