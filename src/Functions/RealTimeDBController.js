@@ -19,6 +19,7 @@ async function InsertOrder(orderData){
     orderData["restaurantID"] = GetUserInfo().uid;
     console.log(GetUserInfo().uid);
     orderData["Detail"] = {};
+    orderData["OrderID"] = OrderRefKey;
 
     console.log(orderData);
     //using database
@@ -39,4 +40,4 @@ async function MonitorNewOrder(){
     });
 }
 
-export { InsertOrder, GetOrder };
+export { InsertOrder, GetOrder, MonitorNewOrder };

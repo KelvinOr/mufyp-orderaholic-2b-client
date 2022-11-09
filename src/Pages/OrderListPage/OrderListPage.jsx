@@ -88,25 +88,46 @@ export default class OrderListPage extends React.Component {
             );
         }
 
-        this.state.OrderList.map((item) => {
+        // this.state.OrderList.map((item) => {
+        //     return (
+        //         <div>
+        //             <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
+        //                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
+        //                     <CardContent>
+        //                         <Typography>
+        //                             Order ID: {item}
+        //                         </Typography>
+        //                     </CardContent>
+        //                 </Box>
+        //                 <QRCode
+        //                     value={value}
+        //                     size={128}
+        //                 />  
+        //             </Card>
+        //         </div>
+        //     )
+        // });
+
+        Object.keys(this.state.OrderList).map((item) => {
             return (
                 <div>
                     <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
                             <CardContent>
                                 <Typography>
-                                    Order ID: {item}
+                                    Order ID: {item.toString()}
                                 </Typography>
                             </CardContent>
                         </Box>
                         <QRCode
-                            value={value}
+                            value={item.toString()}
                             size={128}
                         />  
                     </Card>
                 </div>
             )
-        });
+        })
+        
     }
     
     render() {
@@ -114,9 +135,9 @@ export default class OrderListPage extends React.Component {
         GetOrder().then((data) => {
             if (data.exists()){
                 console.log(data.val());
-                // this.setState({
-                //     OrderList: Object.valus(data.val()),
-                // });
+                this.setState({
+                    OrderList: data.val(),
+                });
             } else {
                 console.log("No data available");
             }
