@@ -78,55 +78,56 @@ export default class OrderListPage extends React.Component {
 
     OrderListItem(){
 
-        var value = JSON.stringify({
-            test: 'test',
-        });
+        var value = ["test", "test1"]
 
         if (this.state.OrderList.length === 0){
             return (
                 <div className={styles.text} style={{color: CustomTheme.text}}>No Order</div>
             );
-        }
+        } 
+        // else {
+       
+        //     Object.keys(this.state.OrderList).map((item) => {
+        //         return (
+        //             <div>
+        //                 <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
+        //                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
+        //                         <CardContent>
+        //                             <Typography>
+        //                                 Order ID: {this.state.OrderList[item].OrderDiscription}
+        //                             </Typography>
+        //                         </CardContent>
+        //                     </Box>
+        //                     <QRCode
+        //                         value={this.state.OrderList[item].OrderID}
+        //                         size={128}
+        //                     />  
+        //                 </Card>
+        //             </div>
+        //         )
+        //     });
+        // }
 
-        // this.state.OrderList.map((item) => {
-        //     return (
-        //         <div>
-        //             <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
-        //                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
-        //                     <CardContent>
-        //                         <Typography>
-        //                             Order ID: {item}
-        //                         </Typography>
-        //                     </CardContent>
-        //                 </Box>
-        //                 <QRCode
-        //                     value={value}
-        //                     size={128}
-        //                 />  
-        //             </Card>
-        //         </div>
-        //     )
-        // });
-
-        Object.keys(this.state.OrderList).map((item) => {
+        value.map((item) => {
             return (
                 <div>
                     <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
                             <CardContent>
                                 <Typography>
-                                    Order ID: {item.toString()}
+                                    Order ID: {item}
                                 </Typography>
                             </CardContent>
                         </Box>
                         <QRCode
-                            value={item.toString()}
+                            value={value}
                             size={128}
                         />  
                     </Card>
                 </div>
             )
-        })
+        });
+
         
     }
     
@@ -134,7 +135,6 @@ export default class OrderListPage extends React.Component {
 
         GetOrder().then((data) => {
             if (data.exists()){
-                console.log(data.val());
                 this.setState({
                     OrderList: data.val(),
                 });
