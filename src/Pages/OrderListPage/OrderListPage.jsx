@@ -12,10 +12,13 @@ import {
     DialogTitle,
     Typography,
     TextField,
+    CardActions,
+    IconButton
 } from "@mui/material";
 import { Box } from "@mui/system";
 import QRCode from "react-qr-code";
-import { InsertOrder, GetOrder } from "../../Functions/RealTimeDBController"
+import { InsertOrder, GetOrder, DelectOrder } from "../../Functions/RealTimeDBController"
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default class OrderListPage extends React.Component {
 
@@ -100,6 +103,11 @@ export default class OrderListPage extends React.Component {
                                 value={this.state.OrderList[item].OrderID}
                                 size={128}
                             />  
+                            <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
+                                <IconButton onClick={() => {
+                                    DelectOrder(item);
+                                }}><DeleteIcon style={{color: "white"}}/></IconButton>
+                            </CardActions>
                         </Card>
                     </div>
                 )
