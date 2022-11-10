@@ -6,8 +6,7 @@ import {
     ref, 
     update,
     onValue,
-    get,
-    remove, } from "firebase/database";
+    get, } from "firebase/database";
 
 const db = getDatabase(app);
 
@@ -41,9 +40,9 @@ async function MonitorNewOrder(){
     });
 }
 
-async function DelectOrder(OrderID){
+async function DeleteOrder(OrderID){
     const OrderRef = ref(db, "orders/" + GetUserInfo().uid);
-    return await remove(OrderRef.child(OrderID));
+    return await update(OrderRef, {[OrderID]: null});
 }
 
-export { InsertOrder, GetOrder, MonitorNewOrder, DelectOrder };
+export { InsertOrder, GetOrder, MonitorNewOrder, DeleteOrder };

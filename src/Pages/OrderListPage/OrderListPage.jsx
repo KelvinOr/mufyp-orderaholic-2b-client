@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import QRCode from "react-qr-code";
-import { InsertOrder, GetOrder, DelectOrder } from "../../Functions/RealTimeDBController"
+import { InsertOrder, GetOrder, DeleteOrder } from "../../Functions/RealTimeDBController"
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default class OrderListPage extends React.Component {
@@ -27,8 +27,10 @@ export default class OrderListPage extends React.Component {
         this.state = {
             isLoading: true,
             OrderList: [],
-            DialogOpen: false,
+            DialogNewOrderOpen: false,
             NewOrderDiscription: "",
+            DislogOrderIsFinishOpen: false,
+            DialogOrderHandlingID: "",
         };
 
         //Style
@@ -61,7 +63,7 @@ export default class OrderListPage extends React.Component {
 
     btn_newOrder_onClick(){
         this.setState({
-            DialogOpen: true,
+            DialogNewOrderOpen: true,
         });
     }
 
@@ -74,8 +76,15 @@ export default class OrderListPage extends React.Component {
         })
 
         this.setState({
-            DialogOpen: false,
+            DialogNewOrderOpen: false,
             NewOrderDiscription: "",
+        });
+    }
+
+    btn_Dialog_OrderIsFinish_onClick(OrderID){
+        this.setState({
+            DislogOrderIsFinishOpen: true,
+            DialogOrderHandlingID: OrderID,
         });
     }
 
@@ -98,19 +107,20 @@ export default class OrderListPage extends React.Component {
                     <div>
                         <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
                             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <CardContent>
+                                <CardContent style={{paddingBottom: "0px"}}>
                                     <Typography>
                                         <div className={styles.text}>Order ID: {this.state.OrderList[item].OrderDiscription}</div>
                                     </Typography>
+                                    <QRCode
+                                        value={JSON.stringify(qrcodeValue)}
+                                        size={128}
+                                    />  
                                 </CardContent>
                             </Box>
-                            <QRCode
-                                value={JSON.stringify(qrcodeValue)}
-                                size={128}
-                            />  
+                           
                             <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
                                 <IconButton onClick={() => {
-                                    DelectOrder(item);
+                                    this.btn_Dialog_OrderIsFinish_onClick(item);
                                 }}><DeleteIcon style={{color: "white"}}/></IconButton>
                             </CardActions>
                         </Card>
@@ -136,7 +146,7 @@ export default class OrderListPage extends React.Component {
 
         return (
             <div className={styles.mainContainer}>
-                <Dialog open={this.state.DialogOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
+                <Dialog open={this.state.DialogNewOrderOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
 
                     <DialogTitle>
                         <div className={styles.text} style={{fontSize: "24px"}}><b>New Order</b></div>
@@ -162,7 +172,7 @@ export default class OrderListPage extends React.Component {
                         <Button 
                              style={this.buttonSecondaryStyle}
                             onClick={() => {
-                                this.setState({ DialogOpen: false, NewOrderDiscription: "" });
+                                this.setState({ DialogNewOrderOpen: false, NewOrderDiscription: "" });
                             }}>
                                 Cancel
                         </Button>
@@ -176,6 +186,30 @@ export default class OrderListPage extends React.Component {
 
                 </Dialog>
 
+                <Dialog open={this.state.DislogOrderIsFinishOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
+                    <DialogTitle>
+                        <div className={styles.text} style={{fontSize: "24px"}}><b>Comfirm to finish</b></div>
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button
+                            style={this.buttonSecondaryStyle}
+                            onClick={() => {
+                                this.setState({ DislogOrderIsFinishOpen: false });
+                            }}>
+                                Cancel
+                        </Button>
+                        <Button
+                            style={this.buttonSecondaryStyle}
+                            onClick={() => {
+                                DeleteOrder(this.state.DialogOrderHandlingID);
+                                this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "" });
+                            }}>
+                                Finish
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <h1 style={{color: "#ffffff"}}>Order List</h1>
                 <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
                     {this.OrderListItem()}
                 </div>
