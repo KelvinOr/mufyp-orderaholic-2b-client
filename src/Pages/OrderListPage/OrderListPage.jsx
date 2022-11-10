@@ -89,6 +89,11 @@ export default class OrderListPage extends React.Component {
         else {
        
             return Object.keys(this.state.OrderList).map((item) => {
+
+                var qrcodeValue = {
+                    OrderID: item,
+                    RestaurantID: this.state.OrderList[item].restaurantID,
+                }
                 return (
                     <div>
                         <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}>
@@ -100,7 +105,7 @@ export default class OrderListPage extends React.Component {
                                 </CardContent>
                             </Box>
                             <QRCode
-                                value={this.state.OrderList[item].OrderID}
+                                value={JSON.stringify(qrcodeValue)}
                                 size={128}
                             />  
                             <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
