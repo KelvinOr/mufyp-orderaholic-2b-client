@@ -109,7 +109,8 @@ export default class OrderListPage extends React.Component {
                             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                 <CardContent style={{paddingBottom: "0px"}}>
                                     <Typography>
-                                        <div className={styles.text}>Order ID: {this.state.OrderList[item].OrderDiscription}</div>
+                                        <div className={styles.text}>Order ID: {this.state.OrderList[item].OrderID}</div>
+                                        <div className={styles.text}>Order Discription: {this.state.OrderList[item].OrderDiscription}</div>
                                     </Typography>
                                     <QRCode
                                         value={JSON.stringify(qrcodeValue)}
