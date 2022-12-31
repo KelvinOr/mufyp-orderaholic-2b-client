@@ -81,13 +81,14 @@ export default class CurrentOrderPage extends React.Component {
 
     render(){
 
-        
+
+        //lock
         if (this.state.isFirstget === true){
             this.getItem();
             this.setState({isFirstget: false});
         }
         
-
+        //run program
         while(true){
             setTimeout(this.getItem, 5000);
             return (
