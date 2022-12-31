@@ -7,6 +7,7 @@ import {
     CardContent,
     Typography,
     Box,
+    CardActions,
 } from "@mui/material";
 
 export default class CurrentOrderPage extends React.Component {
@@ -33,6 +34,7 @@ export default class CurrentOrderPage extends React.Component {
                     for (var orderitem in value.val()[orderlist]["Item"]){
                         if(value.val()[orderlist]["Item"][orderitem]["state"].toString() === "Prepare"){
                             item.push(value.val()[orderlist]["Item"][orderitem]);
+                            item[orderitem]["OrderDiscription"] = value.val()[orderlist]["OrderDiscription"]
                         }
                     }
                 }
@@ -54,13 +56,18 @@ export default class CurrentOrderPage extends React.Component {
             return Object.keys(this.state.OrderList).map((item) => {
                 return (
                     <div>
-                        <Card> 
+                        <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}> 
                             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                 <CardContent style={{paddingBottom: "0px"}}>
                                     <Typography>
-                                        <div className={styles.text}>Order ID: {this.state.OrderList[item].OrderDiscription}</div>
+                                        <div className={styles.text}>Order Discription: {this.state.OrderList[item].OrderDiscription}</div>
+                                        <div className={styles.text}>Item Name: {this.state.OrderList[item].name}</div>
+                                        <div className={styles.text}>Item Quantity: {this.state.OrderList[item].time}</div>
                                     </Typography>
                                 </CardContent>
+                                <CardActions>
+                                    
+                                </CardActions>
                             </Box>
                         </Card>
                     </div> 
