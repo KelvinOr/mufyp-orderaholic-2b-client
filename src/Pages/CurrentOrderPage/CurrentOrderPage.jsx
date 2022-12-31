@@ -15,7 +15,7 @@ export default class CurrentOrderPage extends React.Component {
         super(props);
         this.state = { 
             OrderList: [],
-            
+            isFirstget: true,
         }
 
         //Style
@@ -44,6 +44,8 @@ export default class CurrentOrderPage extends React.Component {
         //时間排序
         item.reverse(function(a,b){return b['time'] - a['time'] });
         this.setState({OrderList: item});
+        console.log(this.state.OrderList);
+
 
     }
 
@@ -66,7 +68,7 @@ export default class CurrentOrderPage extends React.Component {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    
+
                                 </CardActions>
                             </Box>
                         </Card>
@@ -79,16 +81,24 @@ export default class CurrentOrderPage extends React.Component {
 
     render(){
 
-        this.getItem();
         
-        return (
-            <div className={styles.mainContainer}>
-                <h1 style={{color: "#ffffff"}}>Order waiting to handling</h1>
-                <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
-                    {this.orderCard()}
+        if (this.state.isFirstget === true){
+            this.getItem();
+            this.setState({isFirstget: false});
+        }
+        
 
+        while(true){
+            setTimeout(this.getItem, 5000);
+            return (
+                <div className={styles.mainContainer}>
+                    <h1 style={{color: "#ffffff"}}>Order waiting to handling</h1>
+                    <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
+                        {this.orderCard()}
+    
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
