@@ -3,6 +3,7 @@ import styles from './OrderManagementPage.module.css';
 import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
 import OrderListPage from "../OrderListPage/OrderListPage";
+import CurentOrderPage from "../CurrentOrderPage/CurrentOrderPage";
 
 export default class OrderManagementPage extends React.Component {
 
@@ -38,7 +39,7 @@ export default class OrderManagementPage extends React.Component {
     OrderView(){
         if (this.state.OrderList){
             
-            //Edit Menu Page
+            //Edit Order Page
             return (
                 <div className={styles.container}>
                     <OrderListPage />
@@ -46,10 +47,10 @@ export default class OrderManagementPage extends React.Component {
             );
         } else {
 
-            //View Menu Page
+            //View Order Page
             return (
                 <div className={styles.container}>
-                    
+                    <CurentOrderPage/>
                 </div>
             );
         }

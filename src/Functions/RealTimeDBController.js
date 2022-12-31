@@ -45,4 +45,5 @@ async function DeleteOrder(OrderID){
     return await update(OrderRef, {[OrderID]: null});
 }
 
+
 export { InsertOrder, GetOrder, MonitorNewOrder, DeleteOrder };
