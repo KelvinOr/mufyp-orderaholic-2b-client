@@ -45,5 +45,18 @@ async function DeleteOrder(OrderID){
     return await update(OrderRef, {[OrderID]: null});
 }
 
+async function UpdateOrder(Orderdata, OrderID){
+    const OrderRef = ref(db, "orders/" + GetUserInfo().uid);
+    var ordertemp = {};
+    await GetOrder().then((snapshot) => {
+        const data = snapshot.val();
+        ordertemp = data[OrderID];
+    });
+    ordertemp["Item"] = Orderdata
 
-export { InsertOrder, GetOrder, MonitorNewOrder, DeleteOrder };
+    return await update(OrderRef, {[OrderID]: ordertemp});
+    
+    
+}
+
+export { InsertOrder, GetOrder, MonitorNewOrder, DeleteOrder, UpdateOrder };

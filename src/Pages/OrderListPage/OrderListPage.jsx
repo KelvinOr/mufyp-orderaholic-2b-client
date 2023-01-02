@@ -31,6 +31,7 @@ export default class OrderListPage extends React.Component {
             NewOrderDiscription: "",
             DislogOrderIsFinishOpen: false,
             DialogOrderHandlingID: "",
+            isFirstget: true,
         };
 
         //Style
@@ -78,6 +79,7 @@ export default class OrderListPage extends React.Component {
         this.setState({
             DialogNewOrderOpen: false,
             NewOrderDiscription: "",
+            isFirstget: true,
         });
     }
 
@@ -134,15 +136,21 @@ export default class OrderListPage extends React.Component {
     
     render() {
 
-        GetOrder().then((data) => {
-            if (data.exists()){
-                this.setState({
-                    OrderList: data.val(),
-                });
-            } else {
-                console.log("No data available");
-            }
-        });
+        if (this.state.isFirstget){ 
+            GetOrder().then((data) => {
+                if (data.exists()){
+                    this.setState({
+                        OrderList: data.val(),
+                        isFirstget: false,
+                    });
+                    console.log(data.val());
+                } else {
+                    console.log("No data available");
+                }
+            });
+
+        }
+        
 
 
         return (

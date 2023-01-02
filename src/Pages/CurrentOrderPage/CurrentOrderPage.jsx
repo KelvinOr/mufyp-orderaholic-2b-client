@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./CurrentOrderPage.module.css";
 import { CustomTheme } from "../../Config/Color";
-import { GetOrder } from "../../Functions/RealTimeDBController"
+import { GetOrder, UpdateOrder } from "../../Functions/RealTimeDBController"
 import {
     Card,
     CardContent,
     Typography,
     Box,
     CardActions,
+    Button,
 } from "@mui/material";
 
 export default class CurrentOrderPage extends React.Component {
@@ -23,6 +24,17 @@ export default class CurrentOrderPage extends React.Component {
             background: CustomTheme.primary,
             width: "100%",
         }
+
+        this.buttonBase ={
+            color: "#ffffff",
+            width: "100%",
+            height: "40px",
+        }
+
+        this.buttonSecondaryStyle = {
+            ...this.buttonBase,
+            background: CustomTheme.secondary,
+        }
     }
 
     getItem = async () => {
@@ -34,7 +46,8 @@ export default class CurrentOrderPage extends React.Component {
                     for (var orderitem in value.val()[orderlist]["Item"]){
                         if(value.val()[orderlist]["Item"][orderitem]["state"].toString() === "Prepare"){
                             item.push(value.val()[orderlist]["Item"][orderitem]);
-                            item[orderitem]["OrderDiscription"] = value.val()[orderlist]["OrderDiscription"]
+                            item[orderitem]["OrderDiscription"] = value.val()[orderlist]["OrderDiscription"];
+                            item[orderitem]["OrderID"] = value.val()[orderlist]["OrderID"];
                         }
                     }
                 }
@@ -47,6 +60,35 @@ export default class CurrentOrderPage extends React.Component {
         console.log(this.state.OrderList);
 
 
+    }
+
+    btn_FinishOrder_onClick = async (item, orderID) => {
+        console.log("Debug: orderID" + orderID);
+        console.log("Debug: item" + item);
+        //set state array 
+        var temp = this.state.OrderList;
+        temp[item]["state"] = "Finish";
+        this.setState({OrderList: temp});
+        
+        //set update temp
+        var updateData = [];
+        for(var i in this.state.OrderList){
+            if (this.state.OrderList[i]["OrderID"].toString() === orderID){
+                updateData.push({
+                    "name": this.state.OrderList[i]["name"],
+                    "price": this.state.OrderList[i]["price"],
+                    "time": this.state.OrderList[i]["time"],
+                    "state": this.state.OrderList[i]["state"],
+                });
+            }
+        };
+        
+        //update
+        console.log("Debug: updateData" + updateData);
+        var result = await UpdateOrder(updateData, orderID).then((result) => {
+            return result;
+        });
+        console.log("Debug: result" + result);
     }
 
     orderCard() {
@@ -68,7 +110,10 @@ export default class CurrentOrderPage extends React.Component {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-
+                                    <Button 
+                                        style={this.buttonSecondaryStyle}
+                                        onClick={() => this.btn_FinishOrder_onClick(item, this.state.OrderList[item].OrderID)}
+                                    >Finish Order</Button>
                                 </CardActions>
                             </Box>
                         </Card>
