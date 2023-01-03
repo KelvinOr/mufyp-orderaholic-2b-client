@@ -19,6 +19,7 @@ import { Box } from "@mui/system";
 import QRCode from "react-qr-code";
 import { InsertOrder, GetOrder, DeleteOrder } from "../../Functions/RealTimeDBController"
 import DeleteIcon from '@mui/icons-material/Delete';
+import { async } from "@firebase/util";
 
 export default class OrderListPage extends React.Component {
 
@@ -134,100 +135,106 @@ export default class OrderListPage extends React.Component {
         
     }
     
+    getOrder = async () => {
+        GetOrder().then((data) => {
+            if (data.exists()){
+                this.setState({
+                    OrderList: data.val(),
+                    isFirstget: false,
+                });
+                console.log(data.val());
+            } else {
+                console.log("No data available");
+            }
+        });
+    }
+    
     render() {
 
-        if (this.state.isFirstget){ 
-            GetOrder().then((data) => {
-                if (data.exists()){
-                    this.setState({
-                        OrderList: data.val(),
-                        isFirstget: false,
-                    });
-                    console.log(data.val());
-                } else {
-                    console.log("No data available");
-                }
-            });
-
+        if (this.state.isFirstget === true){ 
+            this.getOrder();
         }
         
 
-
-        return (
-            <div className={styles.mainContainer}>
-                <Dialog open={this.state.DialogNewOrderOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
-
-                    <DialogTitle>
-                        <div className={styles.text} style={{fontSize: "24px"}}><b>New Order</b></div>
-                    </DialogTitle>
-
-                    <DialogContent>
-
-                        <DialogContentText>
-                            <div className={styles.text}>Order Discriptioin:</div>
-                        </DialogContentText> 
-
-                        <TextField fullWidth
-                                variant="standard"
-                                value={this.state.NewOrderDiscription}
-                                onChange={(e) => {
-                                    this.setState({ NewOrderDiscription: e.target.value });
-                                }}
-                                sx={this.textFileStyle} />
-
-                    </DialogContent>
-
-                    <DialogActions>
-                        <Button 
-                             style={this.buttonSecondaryStyle}
-                            onClick={() => {
-                                this.setState({ DialogNewOrderOpen: false, NewOrderDiscription: "" });
-                            }}>
-                                Cancel
-                        </Button>
-
-                        <Button 
-                            style={this.buttonSecondaryStyle}
-                            onClick={() => this.btn_Dialog_NewOrder_onClick()}>
-                                Create
-                        </Button>
-                    </DialogActions>
-
-                </Dialog>
-
-                <Dialog open={this.state.DislogOrderIsFinishOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
-                    <DialogTitle>
-                        <div className={styles.text} style={{fontSize: "24px"}}><b>Comfirm to finish</b></div>
-                    </DialogTitle>
-                    <DialogActions>
-                        <Button
-                            style={this.buttonSecondaryStyle}
-                            onClick={() => {
-                                this.setState({ DislogOrderIsFinishOpen: false });
-                            }}>
-                                Cancel
-                        </Button>
-                        <Button
-                            style={this.buttonSecondaryStyle}
-                            onClick={() => {
-                                DeleteOrder(this.state.DialogOrderHandlingID);
-                                this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "" });
-                            }}>
-                                Finish
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-                <h1 style={{color: "#ffffff"}}>Order List</h1>
-                <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
-                    {this.OrderListItem()}
+        while(true){
+            setTimeout(this.getOrder, 5000);
+            return (
+                <div className={styles.mainContainer}>
+                    <Dialog open={this.state.DialogNewOrderOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
+    
+                        <DialogTitle>
+                            <div className={styles.text} style={{fontSize: "24px"}}><b>New Order</b></div>
+                        </DialogTitle>
+    
+                        <DialogContent>
+    
+                            <DialogContentText>
+                                <div className={styles.text}>Order Discriptioin:</div>
+                            </DialogContentText> 
+    
+                            <TextField fullWidth
+                                    variant="standard"
+                                    value={this.state.NewOrderDiscription}
+                                    onChange={(e) => {
+                                        this.setState({ NewOrderDiscription: e.target.value });
+                                    }}
+                                    sx={this.textFileStyle} />
+    
+                        </DialogContent>
+    
+                        <DialogActions>
+                            <Button 
+                                 style={this.buttonSecondaryStyle}
+                                onClick={() => {
+                                    this.setState({ DialogNewOrderOpen: false, NewOrderDiscription: "" });
+                                }}>
+                                    Cancel
+                            </Button>
+    
+                            <Button 
+                                style={this.buttonSecondaryStyle}
+                                onClick={() => this.btn_Dialog_NewOrder_onClick()}>
+                                    Create
+                            </Button>
+                        </DialogActions>
+    
+                    </Dialog>
+    
+                    <Dialog open={this.state.DislogOrderIsFinishOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
+                        <DialogTitle>
+                            <div className={styles.text} style={{fontSize: "24px"}}><b>Comfirm to finish</b></div>
+                        </DialogTitle>
+                        <DialogActions>
+                            <Button
+                                style={this.buttonSecondaryStyle}
+                                onClick={() => {
+                                    this.setState({ DislogOrderIsFinishOpen: false });
+                                }}>
+                                    Cancel
+                            </Button>
+                            <Button
+                                style={this.buttonSecondaryStyle}
+                                onClick={() => {
+                                    DeleteOrder(this.state.DialogOrderHandlingID);
+                                    this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "" });
+                                    
+                                }}>
+                                    Finish
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+    
+                    <h1 style={{color: "#ffffff"}}>Order List</h1>
+                    <div className={styles.wapper} style={{background: CustomTheme.secondary, borderRadius: "25px"}}>
+                        {this.OrderListItem()}
+                    </div>
+                    <div style={{height: "20px"}} />
+                    <div>
+                        <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_newOrder_onClick()} >New Order</Button>
+                    </div>
+    
                 </div>
-                <div style={{height: "20px"}} />
-                <div>
-                    <Button style={{...this.buttonSecondaryStyle, width: "100%"}} onClick={() => this.btn_newOrder_onClick()} >New Order</Button>
-                </div>
-
-            </div>
-        );
+            );
+        }
     }
-    }
+}

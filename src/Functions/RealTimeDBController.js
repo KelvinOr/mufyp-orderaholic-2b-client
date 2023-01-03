@@ -1,5 +1,6 @@
 import app from '../Config/FirebaseConfig';
 import { GetUserInfo } from './FirebaseAuth';
+import { addOrderHistory } from './FireStoreController';
 import { 
     getDatabase,
     push,
@@ -32,16 +33,14 @@ async function GetOrder(){
 
 }
 
-async function MonitorNewOrder(){
-    const OrderRef = ref(db, "orders/" + GetUserInfo().uid);
-    onValue(OrderRef, (snapshot) => {
-        const data = snapshot.val();
-        console.log(data);
-    });
-}
 
-async function DeleteOrder(OrderID){
+async function DeleteOrder(OrderID){ 
+    console.log(OrderID);
     const OrderRef = ref(db, "orders/" + GetUserInfo().uid);
+    await get(OrderRef).then((snapshot) => {
+        const data = snapshot.val();
+        addOrderHistory(data[OrderID]);
+    });
     return await update(OrderRef, {[OrderID]: null});
 }
 
@@ -59,4 +58,4 @@ async function UpdateOrder(Orderdata, OrderID){
     
 }
 
-export { InsertOrder, GetOrder, MonitorNewOrder, DeleteOrder, UpdateOrder };
+export { InsertOrder, GetOrder, DeleteOrder, UpdateOrder };

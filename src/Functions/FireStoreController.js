@@ -66,4 +66,43 @@ async function updateMenu(menuData){
 }
 
 
-export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu };
+async function addOrderHistory(orderData){
+    const RestaurantRef = doc(db, "history", GetUserInfo().uid);
+    const date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    var result = await checkOrderHistoryListIsCreated();
+
+    //console.log(result);
+    if(result == null){
+        await setDoc(RestaurantRef, {[`${day}-${month}-${year}`]: [orderData]});
+    } else {
+        var pushdate = result;
+        if (result[`${day}-${month}-${year}`] === undefined){
+            pushdate[`${day}-${month}-${year}`] = [orderData];
+        } else {
+            pushdate[`${day}-${month}-${year}`].push(orderData);
+        }
+    
+        return await updateDoc(RestaurantRef, pushdate);
+    }
+
+
+    //return await updateDoc(RestaurantRef, {[`${day}-${month}-${year}`]: orderData});
+}
+
+async function checkOrderHistoryListIsCreated(restaurantData){
+    
+    const RestaurantRef = doc(db, "history", GetUserInfo().uid);
+    const docSnap = await getDoc(RestaurantRef);
+    
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
+
+export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu, addOrderHistory };
