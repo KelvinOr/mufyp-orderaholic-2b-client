@@ -17,6 +17,7 @@ export default class CurrentOrderPage extends React.Component {
         this.state = { 
             OrderList: [],
             isFirstget: true,
+            forceUpdate: false,
         }
 
         //Style
@@ -44,11 +45,9 @@ export default class CurrentOrderPage extends React.Component {
             for (var orderlist in value.val()){
                 if(value.val()[orderlist]["Item"] !== undefined){
                     for (var orderitem in value.val()[orderlist]["Item"]){
-                        if(value.val()[orderlist]["Item"][orderitem]["state"].toString() === "Prepare"){
-                            item.push(value.val()[orderlist]["Item"][orderitem]);
-                            item[orderitem]["OrderDiscription"] = value.val()[orderlist]["OrderDiscription"];
-                            item[orderitem]["OrderID"] = value.val()[orderlist]["OrderID"];
-                        }
+                        item.push(value.val()[orderlist]["Item"][orderitem]);
+                        item[orderitem]["OrderDiscription"] = value.val()[orderlist]["OrderDiscription"];
+                        item[orderitem]["OrderID"] = value.val()[orderlist]["OrderID"];
                     }
                 }
             }
@@ -89,6 +88,7 @@ export default class CurrentOrderPage extends React.Component {
             return result;
         });
         console.log("Debug: result" + result);
+        this.setState({forceUpdate: true});
     }
 
     orderCard() {
@@ -98,27 +98,29 @@ export default class CurrentOrderPage extends React.Component {
             );
         } else {
             return Object.keys(this.state.OrderList).map((item) => {
-                return (
-                    <div>
-                        <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}> 
-                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <CardContent style={{paddingBottom: "0px"}}>
-                                    <Typography>
-                                        <div className={styles.text}>Order Discription: {this.state.OrderList[item].OrderDiscription}</div>
-                                        <div className={styles.text}>Item Name: {this.state.OrderList[item].name}</div>
-                                        <div className={styles.text}>Item Quantity: {this.state.OrderList[item].time}</div>
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button 
-                                        style={this.buttonSecondaryStyle}
-                                        onClick={() => this.btn_FinishOrder_onClick(item, this.state.OrderList[item].OrderID)}
-                                    >Finish Order</Button>
-                                </CardActions>
-                            </Box>
-                        </Card>
-                    </div> 
-                );
+                if (this.state.OrderList[item]["state"] !== "Finish"){
+                    return (
+                        <div>
+                            <Card sx={{dispaly: 'flex', flexDirection: 'row'}} variant='none' style={this.PaperStyle}> 
+                                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                    <CardContent style={{paddingBottom: "0px"}}>
+                                        <Typography>
+                                            <div className={styles.text}>Order Discription: {this.state.OrderList[item].OrderDiscription}</div>
+                                            <div className={styles.text}>Item Name: {this.state.OrderList[item].name}</div>
+                                            <div className={styles.text}>Item Quantity: {this.state.OrderList[item].time}</div>
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button 
+                                            style={this.buttonSecondaryStyle}
+                                            onClick={() => this.btn_FinishOrder_onClick(item, this.state.OrderList[item].OrderID)}
+                                        >Finish Order</Button>
+                                    </CardActions>
+                                </Box>
+                            </Card>
+                        </div> 
+                    );
+                }
             });
         }
     }
@@ -136,6 +138,10 @@ export default class CurrentOrderPage extends React.Component {
         //run program
         while(true){
             setTimeout(this.getItem, 5000);
+            if(this.state.forceUpdate){
+                this.getItem()
+                this.setState({forceUpdate: false});
+            }
             return (
                 <div className={styles.mainContainer}>
                     <h1 style={{color: "#ffffff"}}>Order waiting to handling</h1>
