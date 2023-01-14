@@ -20,6 +20,7 @@ import QRCode from "react-qr-code";
 import { InsertOrder, GetOrder, DeleteOrder } from "../../Functions/RealTimeDBController"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { async } from "@firebase/util";
+import { addOrderHistoryToUserRecord } from "../../Functions/FireStoreController";
 
 export default class OrderListPage extends React.Component {
 
@@ -33,6 +34,7 @@ export default class OrderListPage extends React.Component {
             DislogOrderIsFinishOpen: false,
             DialogOrderHandlingID: "",
             isFirstget: true,
+            forceUpdate: false,
         };
 
         //Style
@@ -76,6 +78,7 @@ export default class OrderListPage extends React.Component {
         InsertOrder({
             OrderDiscription: this.state.NewOrderDiscription,
         })
+
 
         this.setState({
             DialogNewOrderOpen: false,
@@ -157,7 +160,12 @@ export default class OrderListPage extends React.Component {
         
 
         while(true){
-            setTimeout(this.getOrder, 5000);
+            if(this.state.forceUpdate){
+                this.getOrder();
+                this.setState({ forceUpdate: false });
+            }
+
+            setTimeout(this.getOrder(), 5000);
             return (
                 <div className={styles.mainContainer}>
                     <Dialog open={this.state.DialogNewOrderOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
@@ -215,8 +223,12 @@ export default class OrderListPage extends React.Component {
                             <Button
                                 style={this.buttonSecondaryStyle}
                                 onClick={() => {
+                                    if(this.state.OrderList[this.state.DialogOrderHandlingID]["CID"] !== undefined){
+                                        var CID = this.state.OrderList[this.state.DialogOrderHandlingID]["CID"];
+                                        addOrderHistoryToUserRecord(this.state.OrderList[this.state.DialogOrderHandlingID], CID);
+                                    }
                                     DeleteOrder(this.state.DialogOrderHandlingID);
-                                    this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "" });
+                                    this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "", forceUpdate: true });
                                     
                                 }}>
                                     Finish

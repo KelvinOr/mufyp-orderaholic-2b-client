@@ -93,7 +93,7 @@ async function addOrderHistory(orderData){
     //return await updateDoc(RestaurantRef, {[`${day}-${month}-${year}`]: orderData});
 }
 
-async function checkOrderHistoryListIsCreated(restaurantData){
+async function checkOrderHistoryListIsCreated(){
     
     const RestaurantRef = doc(db, "history", GetUserInfo().uid);
     const docSnap = await getDoc(RestaurantRef);
@@ -105,4 +105,41 @@ async function checkOrderHistoryListIsCreated(restaurantData){
     }
 }
 
-export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu, addOrderHistory };
+async function addOrderHistoryToUserRecord(OrderData, CID){
+
+    const HistoryRef = doc(db, "history_custom", CID);
+    const date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    var result = await checkOrderHistoryToUserRecord(CID);
+
+    //console.log(result);
+    if(result == null){
+        await setDoc(HistoryRef, {[`${day}-${month}-${year}`]: [OrderData]});
+    }
+    else {
+        var pushdate = result;
+        if (result[`${day}-${month}-${year}`] === undefined){
+            pushdate[`${day}-${month}-${year}`] = [OrderData];
+        } else {
+            pushdate[`${day}-${month}-${year}`].push(OrderData);
+        }
+    
+        return await updateDoc(HistoryRef, pushdate);
+    }
+}
+
+async function checkOrderHistoryToUserRecord(CID){
+    const HistoryRef = doc(db, "history_custom", CID);
+    const docSnap = await getDoc(HistoryRef);
+    
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
+
+export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu, addOrderHistory, addOrderHistoryToUserRecord };
