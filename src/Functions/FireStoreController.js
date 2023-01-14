@@ -67,7 +67,7 @@ async function updateMenu(menuData){
 
 
 async function addOrderHistory(orderData){
-    const RestaurantRef = doc(db, "history", GetUserInfo().uid);
+    const RestaurantRef = doc(db, "history_business", GetUserInfo().uid);
     const date = new Date();
     var day = date.getDate();
     var month = date.getMonth() + 1;
@@ -95,7 +95,7 @@ async function addOrderHistory(orderData){
 
 async function checkOrderHistoryListIsCreated(){
     
-    const RestaurantRef = doc(db, "history", GetUserInfo().uid);
+    const RestaurantRef = doc(db, "history_business", GetUserInfo().uid);
     const docSnap = await getDoc(RestaurantRef);
     
     if (docSnap.exists()) {

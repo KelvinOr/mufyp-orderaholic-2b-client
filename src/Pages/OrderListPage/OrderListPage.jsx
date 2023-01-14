@@ -139,17 +139,21 @@ export default class OrderListPage extends React.Component {
     }
     
     getOrder = async () => {
-        GetOrder().then((data) => {
+        var item = []
+
+        await GetOrder().then((data) => {
             if (data.exists()){
-                this.setState({
-                    OrderList: data.val(),
-                    isFirstget: false,
-                });
-                console.log(data.val());
+                item = data.val();
             } else {
                 console.log("No data available");
             }
         });
+
+        this.setState({
+            OrderList: item,
+            isFirstget: false,
+        });
+
     }
     
     render() {
@@ -160,12 +164,12 @@ export default class OrderListPage extends React.Component {
         
 
         while(true){
+            setTimeout(this.getOrder, 5000);
             if(this.state.forceUpdate){
                 this.getOrder();
                 this.setState({ forceUpdate: false });
             }
 
-            setTimeout(this.getOrder(), 5000);
             return (
                 <div className={styles.mainContainer}>
                     <Dialog open={this.state.DialogNewOrderOpen} PaperProps={{ style: { backgroundColor: CustomTheme.primary, width: "50%" }}}>
@@ -228,7 +232,7 @@ export default class OrderListPage extends React.Component {
                                         addOrderHistoryToUserRecord(this.state.OrderList[this.state.DialogOrderHandlingID], CID);
                                     }
                                     DeleteOrder(this.state.DialogOrderHandlingID);
-                                    this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "", forceUpdate: true });
+                                    this.setState({ DislogOrderIsFinishOpen: false, DialogOrderHandlingID: "",  forceUpdate: true});
                                     
                                 }}>
                                     Finish

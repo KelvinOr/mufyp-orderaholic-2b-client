@@ -56,9 +56,6 @@ export default class CurrentOrderPage extends React.Component {
         //时間排序
         item.reverse(function(a,b){return b['time'] - a['time'] });
         this.setState({OrderList: item});
-        console.log(this.state.OrderList);
-
-
     }
 
     btn_FinishOrder_onClick = async (item, orderID) => {
