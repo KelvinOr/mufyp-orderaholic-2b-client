@@ -1,6 +1,6 @@
 import app from '../Config/FirebaseConfig';
 import { GetUserInfo } from './FirebaseAuth';
-import { addOrderHistory } from './FireStoreController';
+import { addOrderHistory, getRestaurantData } from './FireStoreController';
 import { 
     getDatabase,
     push,
@@ -15,12 +15,23 @@ async function InsertOrder(orderData){
 
     const OrderRef = ref(db, "orders/" + GetUserInfo().uid);
     const OrderRefKey = push(ref(db, "orders/" + GetUserInfo().uid)).key;
+    var restaurantData = null;
+    console.log(GetUserInfo().uid);
+
+
 
     orderData["orderTime"] = new Date();
     orderData["restaurantID"] = GetUserInfo().uid;
+
+    restaurantData = await getRestaurantData(GetUserInfo().uid.toString());
+
     console.log(GetUserInfo().uid);
     orderData["Detail"] = {};
     orderData["OrderID"] = OrderRefKey;
+
+    console.log(restaurantData.data());
+    orderData["restaurantName"] = restaurantData.data().Name;
+    orderData["restaurantType"] = restaurantData.data().Type;
 
     console.log(orderData);
     //using database

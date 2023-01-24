@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./CurrentOrderPage.module.css";
 import { CustomTheme } from "../../Config/Color";
+import { getRestaurantData } from "../../Functions/FireStoreController";
+import { GetUserInfo } from "../../Functions/FirebaseAuth";
 import { GetOrder, UpdateOrder } from "../../Functions/RealTimeDBController"
 import {
     Card,
@@ -65,6 +67,7 @@ export default class CurrentOrderPage extends React.Component {
         var temp = this.state.OrderList;
         temp[item]["state"] = "Finish";
         this.setState({OrderList: temp});
+
         
         //set update temp
         var updateData = [];
