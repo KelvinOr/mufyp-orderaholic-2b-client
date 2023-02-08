@@ -62,7 +62,7 @@ async function UpdateOrder(Orderdata, OrderID){
         const data = snapshot.val();
         ordertemp = data[OrderID];
     });
-    ordertemp["Item"] = Orderdata
+    ordertemp["Item"] = Orderdata;
 
     return await update(OrderRef, {[OrderID]: ordertemp});
     
