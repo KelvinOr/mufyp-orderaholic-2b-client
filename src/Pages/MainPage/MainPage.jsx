@@ -7,6 +7,7 @@ import { CustomTheme } from "../../Config/Color";
 import { Button } from "@mui/material";
 import MenuManagementPage from "../MenuManagementPage/MenuManagementPage";
 import OrderManagementPage from "../NewOrderPage/OrderManagementPage";
+import ResturantInfoPage from "../ResturantInfoPage/ResturantInfoPage";
 
 
 export default class MainPage extends React.Component {
@@ -15,7 +16,7 @@ export default class MainPage extends React.Component {
         super(props);
         this.state = {
             isLoading: true,
-            Page: "Menu Management",
+            Page: "Resturant Info",
         }
 
         //Form
@@ -44,6 +45,8 @@ export default class MainPage extends React.Component {
     switchPage(){
             
             switch(this.state.Page) {
+                case "Resturant Info":
+                    return <ResturantInfoPage />;
                 case "Menu Management":
                     return <MenuManagementPage />;
                 case "Order Management":
@@ -95,6 +98,10 @@ export default class MainPage extends React.Component {
 
                     <div className={styles.logo}>Orderaholic</div>
                     <div className={styles.navBar}>
+                        <Button style={ this.state.Page === "Resturant Info"? this.buttonDisabledColor : this.buttonPrimaryColor } onClick={() => {this.setState({Page: "Resturant Info"})}} disabled={this.state.Page === "Home"}>
+                            Resturant Info
+                        </Button>
+                        <div className={styles.navBarSpace}></div>
                         <Button style={ this.state.Page === "Menu Management"? this.buttonDisabledColor : this.buttonPrimaryColor } onClick={() => {this.setState({Page: "Menu Management"})}} disabled={this.state.Page === "Menu Management"}>
                             Menu Management
                         </Button>
