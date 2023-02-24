@@ -67,15 +67,15 @@ export default class MainPage extends React.Component {
             var interval = setInterval(() => {
                 counter--;
                 if(isLogin() === true){
-                if(GetUserInfo() !== null) {
-                    getRestaurantData(GetUserInfo().uid).then((result) => {
-                    if(result.exists()) {
-                        this.setState({isLoading: false});
-                    } else{
-                        window.location.href = "/create-info";
+                    if(GetUserInfo() !== null) {
+                        getRestaurantData(GetUserInfo().uid).then((result) => {
+                        if(result.exists()) {
+                            this.setState({isLoading: false});
+                        } else{
+                            window.location.href = "/create-info";
+                        }
+                        });
                     }
-                    });
-                }
                     clearInterval(interval);
                 }
                 if (counter === 0) {
