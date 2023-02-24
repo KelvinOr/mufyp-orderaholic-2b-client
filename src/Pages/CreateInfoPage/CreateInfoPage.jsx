@@ -158,6 +158,8 @@ export default class CreateInfoPage extends React.Component {
         DialogOpen: true, 
         DialogType: "ImageUpload",
         ImageIndex: null,
+        ImagePreView: "",
+        ImageTitle: "",
       });
     }
 

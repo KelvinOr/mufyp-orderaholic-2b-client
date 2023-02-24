@@ -106,9 +106,11 @@ export default class ResturantInfoPage extends React.Component{
         this.DialogForm.Content = "Please select the image you want to upload.";
         
         this.setState({
-          DialogOpen: true, 
-          DialogType: "ImageUpload",
-          ImageIndex: null,
+            DialogOpen: true, 
+            DialogType: "ImageUpload",
+            ImageIndex: null,
+            ImagePreView: "",
+            ImageTitle: "",
         });
     }
 
