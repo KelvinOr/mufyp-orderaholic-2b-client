@@ -12,5 +12,15 @@
     "not opera <= 94",
     "not safari <= 16.2",
     "not samsung <= 19"
-  ]
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "scrollbar-width"
+        ]
+      }
+    ]
+  }
 }
