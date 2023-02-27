@@ -276,7 +276,12 @@ export default class EditMenuPage extends React.Component {
                                     case "breakfast":
                                         this.setState({ breakfast: [...this.state.breakfast, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
                                         break;
-
+                                    case "lunch":
+                                        this.setState({ lunch: [...this.state.lunch, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
+                                        break;
+                                    case "dinner":
+                                        this.setState({ dinner: [...this.state.dinner, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
+                                        break;
                                     default: 
                                         break;
                                 }
