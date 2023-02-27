@@ -30,6 +30,16 @@ async function newRestaurantData(restaurantData){
 }
 
 /*
+Update restaurant data by id
+@param {object} restaurantData
+@returns {object} update result
+*/
+async function updateRestaurantData(restaurantData){
+    const RestaurantRef = doc(db, "restaurants", GetUserInfo().uid);
+    return await updateDoc(RestaurantRef, restaurantData);
+}
+
+/*
 Add new menu data by id
 @param {object} menuData
 @returns {object} update result
@@ -142,4 +152,4 @@ async function checkOrderHistoryToUserRecord(CID){
     }
 }
 
-export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu, addOrderHistory, addOrderHistoryToUserRecord };
+export { getRestaurantData, newRestaurantData, createMenu, getMenu, updateMenu, addOrderHistory, addOrderHistoryToUserRecord, updateRestaurantData };

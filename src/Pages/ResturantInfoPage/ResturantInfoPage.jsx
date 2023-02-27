@@ -2,7 +2,7 @@ import styles from './ResturantInfoPage.module.css';
 import { CustomTheme } from '../../Config/Color';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import React from 'react';
-import { getRestaurantData } from '../../Functions/FireStoreController';
+import { getRestaurantData, updateRestaurantData } from '../../Functions/FireStoreController';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { GetUserInfo } from '../../Functions/FirebaseAuth';
 import { 
@@ -118,6 +118,22 @@ export default class ResturantInfoPage extends React.Component{
         const file = event.target.files[0];
         FileToBase64(file).then((result) => {
           this.setState({ImagePreView: result});
+        });
+    }
+
+    btn_saveUpdate_onClick(event){
+        updateRestaurantData(this.CreateInfoForm).then(() => {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "success",
+                NotificationMessage: "Update Success",
+            });
+        }).catch((error) => {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: error,
+            });
         });
     }
 
@@ -311,6 +327,12 @@ export default class ResturantInfoPage extends React.Component{
                         </div>
                     </div>
 
+                </div>
+
+                <div style={{height: "10%", width:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <Button variant="contained" style={this.buttonSecoundryColor} onClick={() => this.btn_saveUpdate_onClick()}>
+                        Update
+                    </Button>
                 </div>
 
                 
