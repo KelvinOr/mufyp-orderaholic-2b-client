@@ -5,6 +5,7 @@ import React from 'react';
 import { getRestaurantData, updateRestaurantData } from '../../Functions/FireStoreController';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { GetUserInfo } from '../../Functions/FirebaseAuth';
+import GetCoordinate from '../../Functions/GetCoordinate';
 import { 
     Button,
     Chip,
@@ -45,6 +46,10 @@ export default class ResturantInfoPage extends React.Component{
             ContectNumber: "",
             Location: "",
             Discription: "",
+            Coordinate: {
+                lat: 0,
+                lng: 0,
+            },
             menu: {
               breakfast: [],
               lunch: [],
@@ -135,6 +140,16 @@ export default class ResturantInfoPage extends React.Component{
                 NotificationMessage: error,
             });
         });
+    }
+
+    async btn_GetLocation_onClick(event) {
+        try {
+            const result = await GetCoordinate(this.CreateInfoForm.Location);
+            this.CreateInfoForm.Coordinate = result;
+            console.log(this.CreateInfoForm.Location);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async init(){
@@ -313,6 +328,15 @@ export default class ResturantInfoPage extends React.Component{
                         <Paper style={this.InputSecoundryColor}>
                             <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}} defaultValue={this.CreateInfoForm.Location}/>
                         </Paper>
+                        <div style={{height: "10px"}} />
+                        
+                        {/* <div style={{
+                            color: "#ffffff",
+                            size: "20px",
+                        }}>Coordinate : <Text value={this.CreateInfoForm.Coordinate.lat} /></div> */}
+                        
+                        <div style={{height: "10px"}} />
+                        <Button variant="contained" style={this.buttonSecoundryColor} onClick={() => this.btn_GetLocation_onClick()}>Get Location</Button>
                         </div>
                     </div>
 
