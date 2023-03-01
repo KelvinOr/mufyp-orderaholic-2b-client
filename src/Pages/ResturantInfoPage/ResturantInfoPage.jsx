@@ -37,25 +37,25 @@ export default class ResturantInfoPage extends React.Component{
             ImagePreView: "",
             ImageTitle: "",
             ImageIndex: null,
+            CreateInfoForm: {
+                Image: [],
+                Name: "",
+                Type: "Chinese Restaurant",
+                ContectNumber: "",
+                Location: "",
+                Discription: "",
+                Coordinate: {
+                    lat: 0,
+                    lng: 0,
+                },
+                menu: {
+                  breakfast: [],
+                  lunch: [],
+                  dinner: [],
+                },
+            },
         }
 
-        this.CreateInfoForm = {
-            Image: [],
-            Name: "",
-            Type: "Chinese Restaurant",
-            ContectNumber: "",
-            Location: "",
-            Discription: "",
-            Coordinate: {
-                lat: 0,
-                lng: 0,
-            },
-            menu: {
-              breakfast: [],
-              lunch: [],
-              dinner: [],
-            },
-        };
 
         this.DialogForm = {
             Title: "",
@@ -88,17 +88,17 @@ export default class ResturantInfoPage extends React.Component{
     }
 
     btn_DeleteImage_onClick(e, value) {
-        this.CreateInfoForm.Image.splice(value, 1);
+        this.state.CreateInfoForm.Image.splice(value, 1);
         console.log(this.CreateInfoForm.Image);
     }
 
     btn_ChipImage_onClick(e, value) {
-        this.setState({ImagePreView: this.CreateInfoForm.Image[value].source, ImageTitle: this.CreateInfoForm.Image[value].name, DialogOpen: true, DialogType: "ImageUpload", ImageIndex: value});
+        this.setState({ImagePreView: this.state.CreateInfoForm.Image[value].source, ImageTitle: this.state.CreateInfoForm.Image[value].name, DialogOpen: true, DialogType: "ImageUpload", ImageIndex: value});
     }
 
     btn_showUploadDialog_onClick() {
 
-        if(this.CreateInfoForm.Image.length >= 5) {
+        if(this.state.CreateInfoForm.Image.length >= 5) {
           this.setState({
             NotificationIsShowed: true,
             NotificationType: "error",
@@ -127,7 +127,7 @@ export default class ResturantInfoPage extends React.Component{
     }
 
     btn_saveUpdate_onClick(event){
-        updateRestaurantData(this.CreateInfoForm).then(() => {
+        updateRestaurantData(this.state.CreateInfoForm).then(() => {
             this.setState({
                 NotificationIsShowed: true,
                 NotificationType: "success",
@@ -144,9 +144,9 @@ export default class ResturantInfoPage extends React.Component{
 
     async btn_GetLocation_onClick(event) {
         try {
-            const result = await GetCoordinate(this.CreateInfoForm.Location);
-            this.CreateInfoForm.Coordinate = result;
-            console.log(this.CreateInfoForm.Location);
+            const result = await GetCoordinate(this.state.CreateInfoForm.Location);
+            this.setState({CreateInfoForm: {...this.state.CreateInfoForm, Coordinate: result}});
+            console.log(this.state.CreateInfoForm.Location);
         } catch (error) {
             console.log(error);
         }
@@ -157,8 +157,17 @@ export default class ResturantInfoPage extends React.Component{
         if(GetUserInfo() !== null) {
             getRestaurantData(GetUserInfo().uid).then((result) => {
                 if(result.exists()) {
-                    this.CreateInfoForm = result.data();
-                    this.setState({isLoading: false});
+
+                    this.setState({isLoading: false, CreateInfoForm: {
+                        Image: result.data().Image? result.data().Image : this.state.CreateInfoForm.Image,
+                        Name: result.data().Name? result.data().Name : this.state.CreateInfoForm.Name,
+                        Type: result.data().Type? result.data().Type : this.state.CreateInfoForm.Type,
+                        ContectNumber: result.data().ContectNumber? result.data().ContectNumber : this.state.CreateInfoForm.ContectNumber,
+                        Location: result.data().Location? result.data().Location : this.state.CreateInfoForm.Location,
+                        Discription: result.data().Discription? result.data().Discription : this.state.CreateInfoForm.Discription,
+                        Coordinate: result.data().Coordinate? result.data().Coordinate : this.state.CreateInfoForm.Coordinate,
+                        menu: result.data().menu? result.data().menu : this.state.CreateInfoForm.menu,
+                    }});
                     console.log(this.CreateInfoForm);
                 } 
             });
@@ -256,11 +265,11 @@ export default class ResturantInfoPage extends React.Component{
                             <div style={{height: "20px"}} />
                             <div className={styles.text} style={{ width: "100%" }} >This image is using to show the restaurant.</div>
                             <div style={{height: "5px"}} />
-                            <div className={styles.text} >There already have {this.CreateInfoForm.Image.length}/5 image.</div>
+                            <div className={styles.text} >There already have {this.state.CreateInfoForm.Image.length}/5 image.</div>
                             <div style={{height: "20px"}} />
                             {
                             //TODO: Clip Display
-                            this.CreateInfoForm.Image.map((item, index) => {
+                            this.state.CreateInfoForm.Image.map((item, index) => {
                                 return(
                                 <div>
                                     <Chip label={item.name} sx={{ bgcolor: CustomTheme.secondary, color: "white" }} onDelete={(e) => this.btn_DeleteImage_onClick(e, index)} onClick={(e) => this.btn_ChipImage_onClick(e, index)}/>
@@ -285,7 +294,7 @@ export default class ResturantInfoPage extends React.Component{
                             Restaurant Name:
                             </div>
                             <Paper style={{...this.InputSecoundryColor, width: "70%"}} >
-                                <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Name = event.target.value}} defaultValue={this.CreateInfoForm.Name}/>
+                                <InputBase size='large' placeholder="Input Resturant Name" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.setState({ CreateInfoForm: {...this.state.CreateInfoForm, Name: event.target.value} })}} defaultValue={this.state.CreateInfoForm.Name}/>
                             </Paper>
                             <div style={{height: "20px"}} />
                             <div className={styles.text} >
@@ -293,7 +302,7 @@ export default class ResturantInfoPage extends React.Component{
                             </div>
 
                             <Paper style={{...this.InputSecoundryColor, width: "68%", padding: "5px"}}>
-                                <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.secondary }} disableUnderline value={this.CreateInfoForm.Type} onChange={(e) => { this.CreateInfoForm.Type = e.target.value; } } sx={{'& option': { color: 'black' },}}>
+                                <NativeSelect style={{width: "100%", color: "#ffffff", backgroundColor: CustomTheme.secondary }} disableUnderline value={this.state.CreateInfoForm.Type} onChange={(e) => { this.setState({ CreateInfoForm: {...this.state.CreateInfoForm, Type: e.target.value} }) } } sx={{'& option': { color: 'black' },}}>
                                     <option value="Chinese Restaurant">Chinese Restaurant</option>
                                     <option value="Western Restaurant">Western Restaurant</option>
                                     <option value="Asian restaurant">Asian Restaurant</option>
@@ -319,21 +328,21 @@ export default class ResturantInfoPage extends React.Component{
                             Contect Number:
                         </div>
                         <Paper style={this.InputSecoundryColor}>
-                            <InputBase size='large' placeholder="Input Contect Number" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} type="number" onChange={(event) => {this.CreateInfoForm.ContectNumber = event.target.value}} defaultValue={this.CreateInfoForm.ContectNumber}/>
+                            <InputBase size='large' placeholder="Input Contect Number" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} type="number" onChange={(event) => { this.setState({ CreateInfoForm: {...this.state.CreateInfoForm, ContectNumber: event.target.value} }) }} defaultValue={this.state.CreateInfoForm.ContectNumber}/>
                         </Paper>
                         <div style={{height: "20px"}} />
                         <div className={styles.text}>
                             Restaurant Location:
                         </div>
                         <Paper style={this.InputSecoundryColor}>
-                            <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}} defaultValue={this.CreateInfoForm.Location}/>
+                            <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => { this.setState({ CreateInfoForm: {...this.state.CreateInfoForm, Location: event.target.value} }) }} defaultValue={this.state.CreateInfoForm.Location}/>
                         </Paper>
                         <div style={{height: "10px"}} />
-                        
-                        {/* <div style={{
-                            color: "#ffffff",
-                            size: "20px",
-                        }}>Coordinate : <Text value={this.CreateInfoForm.Coordinate.lat} /></div> */}
+      
+                        <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{color: "#ffffff", fontSize: "20px"}}> </div>
+                                <div style={{color: "#ffffff", fontSize: "20px"}}>Coordinate : {this.state.CreateInfoForm.Coordinate.lat}, {this.state.CreateInfoForm.Coordinate.lng}</div>
+                        </div>
                         
                         <div style={{height: "10px"}} />
                         <Button variant="contained" style={this.buttonSecoundryColor} onClick={() => this.btn_GetLocation_onClick()}>Get Location</Button>
@@ -346,7 +355,7 @@ export default class ResturantInfoPage extends React.Component{
                             Discription:
                         </div>
                         <Paper style={{...this.InputSecoundryColor, height: "100%"}}>
-                            <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} rows={6} multiline fullWidth onChange={(event) => {this.CreateInfoForm.Discription = event.target.value}} defaultValue={this.CreateInfoForm.Discription}/>
+                            <InputBase size='large' placeholder="Input Restaurant Discription" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} rows={6} multiline fullWidth onChange={(event) => {this.setState({ CreateInfoForm: {...this.state.CreateInfoForm, Discription: event.target.value} })}} defaultValue={this.state.CreateInfoForm.Discription}/>
                         </Paper>
                         </div>
                     </div>
