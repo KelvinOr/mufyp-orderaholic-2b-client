@@ -88,6 +88,15 @@ export default class ResturantInfoPage extends React.Component{
     }
 
     btn_DeleteImage_onClick(e, value) {
+        if (this.state.CreateInfoForm.Image.length === 1) {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "The restaurant must have at least one image.",
+            });
+            return;
+        }
+
         this.state.CreateInfoForm.Image.splice(value, 1);
         console.log(this.CreateInfoForm.Image);
     }
@@ -127,6 +136,63 @@ export default class ResturantInfoPage extends React.Component{
     }
 
     btn_saveUpdate_onClick(event){
+
+        if (this.state.CreateInfoForm.Name === "") {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the name of the restaurant.",
+            });
+            return;
+        }
+
+        if (this.state.CreateInfoForm.ContectNumber === "") {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the contect number of the restaurant.",
+            });
+            return;
+        }
+
+        if (this.state.CreateInfoForm.Location === "") {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the location of the restaurant.",
+            });
+            return;
+        }
+
+        try{
+            const result = GetCoordinate(this.state.CreateInfoForm.Location);
+        } catch (error) {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the valid location of the restaurant.",
+            });
+            return;
+        }
+
+        if (this.state.CreateInfoForm.Discription === "") {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the discription of the restaurant.",
+            });
+            return;
+        }
+
+        if (this.state.CreateInfoForm.Image.length === 0) {
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please upload the image of the restaurant.",
+            });
+            return;
+        }    
+
         updateRestaurantData(this.state.CreateInfoForm).then(() => {
             this.setState({
                 NotificationIsShowed: true,
@@ -148,7 +214,11 @@ export default class ResturantInfoPage extends React.Component{
             this.setState({CreateInfoForm: {...this.state.CreateInfoForm, Coordinate: result}});
             console.log(this.state.CreateInfoForm.Location);
         } catch (error) {
-            console.log(error);
+            this.setState({
+                NotificationIsShowed: true,
+                NotificationType: "error",
+                NotificationMessage: "Please enter the correct address.",
+            });
         }
     }
 

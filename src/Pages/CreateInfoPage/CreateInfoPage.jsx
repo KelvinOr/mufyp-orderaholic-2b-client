@@ -6,6 +6,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileToBase64 from "../../Functions/FileToBase64";
 import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreController";
 import { isLogin, Signout, GetUserInfo } from "../../Functions/FirebaseAuth";
+import GetCoordinate from '../../Functions/GetCoordinate';
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { Button,
          InputBase,
@@ -36,6 +37,10 @@ export default class CreateInfoPage extends React.Component {
           ImagePreView: "",
           ImageTitle: "",
           ImageIndex: null,
+          Coordinate: {
+            lat: 0,
+            lng: 0,
+          },
         };
 
         //Form
@@ -46,6 +51,10 @@ export default class CreateInfoPage extends React.Component {
           ContectNumber: "",
           Location: "",
           Discription: "",
+          Coordinate: {
+            lat: 0,
+            lng: 0,
+          },
           menu: {
             breakfast: [],
             lunch: [],
@@ -123,6 +132,35 @@ export default class CreateInfoPage extends React.Component {
         return;
       }
 
+      try{
+        const result = GetCoordinate(this.CreateInfoForm.Location);
+      } catch (error) {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please enter the valid location of the restaurant.",
+        });
+        return;
+      }
+
+      if (this.CreateInfoForm.Discription === "") {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please enter the discription of the restaurant.",
+        });
+        return;
+      }
+
+      if (this.CreateInfoForm.Image.length === 0) {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "Please upload the image of the restaurant.",
+        });
+        return;
+      }
+
       newRestaurantData(this.CreateInfoForm).then((result) => {
         console.log(result);
         this.DialogForm.Title = "success";
@@ -164,6 +202,15 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_DeleteImage_onClick(e, value) {
+      if (this.CreateInfoForm.Image.length === 1) {
+        this.setState({
+          NotificationIsShowed: true,
+          NotificationType: "error",
+          NotificationMessage: "The restaurant must have at least one image.",
+        });
+        return;
+      }
+
       this.CreateInfoForm.Image.splice(value, 1);
       console.log(this.CreateInfoForm.Image);
     }
@@ -177,6 +224,21 @@ export default class CreateInfoPage extends React.Component {
         this.CreateInfoForm.Image[this.state.ImageIndex] = {name: this.state.ImageTitle, source: this.state.ImagePreView};
       } 
       this.setState({DialogOpen: false, ImagePreView: "", ImageTitle: "", ImageIndex: null});
+    }
+
+    async btn_GetLocation_onClick(event) {
+      try {
+          const result = await GetCoordinate(this.CreateInfoForm.Location);
+          this.setState({Coordinate: result});
+          this.CreateInfoForm.Coordinate = result;
+          console.log(this.state.Coordinate);
+      } catch (error) {
+          this.setState({
+            NotificationIsShowed: true,
+            NotificationType: "error",
+            NotificationMessage: "Please enter the correct address.",
+          });
+      }
     }
 
   render() {
@@ -355,6 +417,20 @@ export default class CreateInfoPage extends React.Component {
                   <Paper style={this.InputPrimaryColor}>
                     <InputBase size='large' placeholder="Input Restaurant Location" sx={{p: '5px'}} style={{ color: "#ffffff" , width: "100%"}} onChange={(event) => {this.CreateInfoForm.Location = event.target.value}}/>
                   </Paper>
+
+                  <div style={{height: "10px"}} />
+
+                  <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                          <div style={{color: "#ffffff", fontSize: "20px"}}> </div>
+                          <div style={{color: "#ffffff", fontSize: "20px"}}>Coordinate : {this.state.Coordinate.lat}, {this.state.Coordinate.lng}</div>
+                  </div>
+
+                  <div style={{height: "10px"}} />
+                  {/*width fit contect*/}
+                  <Button variant="contained" style={{
+                    ...this.buttonPrimaryColor,
+                    width: "fit-content",
+                  }} onClick={() => this.btn_GetLocation_onClick()}>Get Location</Button>
                 </div>
               </div>
 
