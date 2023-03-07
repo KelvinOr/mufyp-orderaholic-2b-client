@@ -53,6 +53,7 @@ export default class ResturantInfoPage extends React.Component{
                   lunch: [],
                   dinner: [],
                 },
+                rid: "",
             },
         }
 
@@ -136,6 +137,8 @@ export default class ResturantInfoPage extends React.Component{
     }
 
     btn_saveUpdate_onClick(event){
+
+        this.setState({CreateInfoForm: {...this.state.CreateInfoForm, rid: GetUserInfo().uid}});
 
         if (this.state.CreateInfoForm.Name === "") {
             this.setState({

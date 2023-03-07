@@ -41,6 +41,7 @@ export default class CreateInfoPage extends React.Component {
             lat: 0,
             lng: 0,
           },
+          rid: "",
         };
 
         //Form
@@ -104,6 +105,8 @@ export default class CreateInfoPage extends React.Component {
     }
 
     btn_CreateInfo_onClick() {
+
+      this.CreateInfoForm.rid = GetUserInfo().uid;
 
       if (this.CreateInfoForm.Name === "") {
         this.setState({
