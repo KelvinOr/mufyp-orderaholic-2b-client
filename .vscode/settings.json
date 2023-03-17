@@ -5,5 +5,7 @@
         "yaml": false,
         "plaintext": false,
         "markdown": false
-    }
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "aiXcoder.showTrayIcon": true
 }
