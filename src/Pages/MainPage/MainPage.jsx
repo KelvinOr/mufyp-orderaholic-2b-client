@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import MenuManagementPage from "../MenuManagementPage/MenuManagementPage";
 import OrderManagementPage from "../NewOrderPage/OrderManagementPage";
 import ResturantInfoPage from "../ResturantInfoPage/ResturantInfoPage";
+import RedirectPath from '../../Config/RedirectPath';
 
 
 export default class MainPage extends React.Component {
@@ -72,7 +73,7 @@ export default class MainPage extends React.Component {
                         if(result.exists()) {
                             this.setState({isLoading: false});
                         } else{
-                            window.location.href = "/create-info";
+                            window.location.href = RedirectPath().createInfo;
                         }
                         });
                     }

@@ -8,6 +8,7 @@ import { newRestaurantData, getRestaurantData } from "../../Functions/FireStoreC
 import { isLogin, Signout, GetUserInfo } from "../../Functions/FirebaseAuth";
 import GetCoordinate from '../../Functions/GetCoordinate';
 import LoadingPage from "../LoadingPage/LoadingPage";
+import RedirectPath from '../../Config/RedirectPath';
 import { Button,
          InputBase,
          Paper, 
@@ -261,7 +262,7 @@ export default class CreateInfoPage extends React.Component {
         if(GetUserInfo() !== null) {
             getRestaurantData(GetUserInfo().uid).then((result) => {
             if(result.exists()) { 
-              window.location.href = "/disboard";
+              window.location.href = RedirectPath().disboard;
             } else{
               this.setState({isLoading: false});
             }
@@ -335,7 +336,7 @@ export default class CreateInfoPage extends React.Component {
               {
                 this.state.ImageIndex !== null ? <Button onClick={() => this.btn_OkToUpdateImage_onClick()} style={this.buttonSecoundryColor}>Update</Button> : null
               }
-              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = "/disboard" } }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
+              <Button onClick={() => { this.setState({ DialogOpen: false }); if(this.state.DialogType === "success"){ window.location.href = RedirectPath().disboard } }} style={this.buttonSecoundryColor}>{this.state.DialogType === "message" ? "OK" : "Cancel"}</Button>
             </DialogActions>
           </Dialog>
 

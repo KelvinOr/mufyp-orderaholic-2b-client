@@ -4,6 +4,7 @@ import styles from './SelectLoginPage.module.css';
 import { CustomTheme } from '../../Config/Color';
 import { CreateUserWithEmailAndPassword, SignInWithEmail, SendResetPasswordEmail } from '../../Functions/FirebaseAuth';
 import { getRestaurantData } from '../../Functions/FireStoreController';
+import RedirectPath from '../../Config/RedirectPath';
 import { Button, 
         InputBase, 
         Paper, 
@@ -78,7 +79,7 @@ export default class SelectLoginPage extends React.Component {
     btn_SignUp_onClick() {
         if(this.JoinUsForm.JoinUsPassword === this.JoinUsForm.JoinUsConfirmPassword){
             CreateUserWithEmailAndPassword(this.JoinUsForm.JoinUsEmail, this.JoinUsForm.JoinUsPassword).then((userCredential) => {
-                window.location.href = "/create-info";
+                window.location.href = RedirectPath().createInfo;
             }).catch((error) => {
                 console.log("Sign up Error:" + error.code);
                 switch(error.code){
@@ -232,9 +233,9 @@ export default class SelectLoginPage extends React.Component {
         console.log("isFirstLogin is called");
         await getRestaurantData(restaurantId).then((data) => {
             if(data.exists()){
-                window.location.href = "/disboard";
+                window.location.href = RedirectPath().disboard;
             } else {
-                window.location.href = "create-info";
+                window.location.href = RedirectPath().createInfo;
             }
         }).catch((error) => {
             console.log(error);
