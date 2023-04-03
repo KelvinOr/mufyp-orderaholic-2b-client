@@ -8,8 +8,10 @@ export default function RedirectPaht(){
     } else {
         return {
             home: "/",
-            createInfo: "/#/createInfo",
-            disboard: "/#/disboard",
+            //createInfo: "/#/createInfo",
+            createInfo: "/createInfo",
+            //disboard: "/#/disboard",
+            disboard: "/disboard",
         }
     }
 }
