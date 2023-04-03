@@ -4,6 +4,7 @@ import { CustomTheme } from "../../Config/Color";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { getMenu, updateMenu } from "../../Functions/FireStoreController";
 import DeleteIcon from '@mui/icons-material/Delete';
+import FileToBase64 from "../../Functions/FileToBase64";
 import { Button,
          Dialog, 
          DialogActions, 
@@ -29,6 +30,7 @@ export default class EditMenuPage extends React.Component {
             DialogType: "",
             DialogInputName: "",
             DialogInputPrice: "",
+            DialogInputImage: "",
             breakfast: [],
             lunch: [],
             dinner: [],
@@ -111,7 +113,10 @@ export default class EditMenuPage extends React.Component {
                                     <div className={styles.cardText}>{item.name}</div>
                                 </Typography>
                                 <Typography variant={{fontSize: 14}}>
-                                    <div className={styles.cardText}>price: {item.price}</div>
+                                    <div className={styles.cardText}>price: {item.price}</div><br/>
+                                    {
+                                        item.image !== undefined ? <a className={styles.cardText} href={item.image}>image</a>: <div/>
+                                    }
                                 </Typography>
                                 <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
                                     <IconButton onClick={() => {
@@ -148,7 +153,10 @@ export default class EditMenuPage extends React.Component {
                                     <div className={styles.cardText}>{item.name}</div>
                                 </Typography>
                                 <Typography variant={{fontSize: 14}}>
-                                    <div className={styles.cardText}>price: {item.price}</div>
+                                    <div className={styles.cardText}>price: {item.price}</div><br/>
+                                    {
+                                        item.image !== undefined ? <a className={styles.cardText} href={item.image}>image</a>: <div/>
+                                    }
                                 </Typography>
                                 <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
                                     <IconButton onClick={() => {
@@ -185,7 +193,10 @@ export default class EditMenuPage extends React.Component {
                                     <div className={styles.cardText}>{item.name}</div>
                                 </Typography>
                                 <Typography variant={{fontSize: 14}}>
-                                    <div className={styles.cardText}>price: {item.price}</div>
+                                    <div className={styles.cardText}>price: {item.price}</div><br/>
+                                    {
+                                        item.image !== undefined ? <a className={styles.cardText} href={item.image}>image</a>: <div/>
+                                    }
                                 </Typography>
                                 <CardActions style={{display: "flex", justifyContent: "flex-end"}}>
                                     <IconButton onClick={() => {
@@ -205,8 +216,14 @@ export default class EditMenuPage extends React.Component {
         } else {
             return <div className={styles.text}>No Menu</div>
         }
-
     }
+
+    btn_UploadImage_onClick(event) {
+        const file = event.target.files[0];
+        FileToBase64(file).then((result) => {
+          this.setState({ DialogInputImage: result });
+        });
+      }
 
     render() {
 
@@ -266,21 +283,37 @@ export default class EditMenuPage extends React.Component {
                                 }}
                                 type="number"
                                 sx={this.textFileStyle} />
+                            
+                            <DialogContentText>
+                                <div className={styles.text}>Item Image:</div>
+                            </DialogContentText>
+                            <input type="file" accept="image/jpeg" onChange={(event) => { this.btn_UploadImage_onClick(event) }} />
 
                         </DialogContent>
 
                         <DialogActions>
                             {this.state.DialogType === "classtify" ? <Button style={this.buttonSecondaryStyle} onClick={() => {
                                 this.setState({ DialogOpen: false, });
+                                var update = {
+                                    name : this.state.DialogInputName,
+                                    price : this.state.DialogInputPrice,
+                                }
+
+                                if (this.state.DialogInputImage !== "") {
+                                    update.image = this.state.DialogInputImage;
+                                } else {
+                                    update.image = undefined;
+                                }
+
                                 switch (this.state.time) {
                                     case "breakfast":
-                                        this.setState({ breakfast: [...this.state.breakfast, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
+                                        this.setState({ breakfast: [...this.state.breakfast, update] });
                                         break;
                                     case "lunch":
-                                        this.setState({ lunch: [...this.state.lunch, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
+                                        this.setState({ lunch: [...this.state.lunch, update] });
                                         break;
                                     case "dinner":
-                                        this.setState({ dinner: [...this.state.dinner, {name: this.state.DialogInputName, price: this.state.DialogInputPrice}] });
+                                        this.setState({ dinner: [...this.state.dinner, update] });
                                         break;
                                     default: 
                                         break;
